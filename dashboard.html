@@ -2,10 +2,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TokTok</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#6d28d9">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
@@ -16,550 +19,964 @@
             --secondary-dark: #047857;
             --accent: #f59e0b;
             --accent-dark: #d97706;
+            --safe-area-inset-top: env(safe-area-inset-top);
+            --safe-area-inset-bottom: env(safe-area-inset-bottom);
         }
         
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc;
             color: #1e293b;
+            padding-top: var(--safe-area-inset-top);
+            padding-bottom: var(--safe-area-inset-bottom);
+            -webkit-tap-highlight-color: transparent;
         }
         
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+        /* Estilo de aplicación móvil */
+        @media (max-width: 768px) {
+            body {
+                background-color: white;
+                max-width: 100vw;
+                overflow-x: hidden;
+            }
+            
+            main {
+                padding-left: 0;
+                padding-right: 0;
+            }
+            
+            .mobile-app-container {
+                max-width: 100%;
+                margin: 0 auto;
+                position: relative;
+                height: 100vh;
+                height: calc(var(--vh, 1vh) * 100);
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .mobile-content {
+                flex: 1;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 60px; /* Espacio para la barra de navegación */
+            }
+            
+            .mobile-bottom-nav {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 60px;
+                background: white;
+                border-top: 1px solid #e2e8f0;
+                display: flex;
+                z-index: 50;
+                padding-bottom: var(--safe-area-inset-bottom);
+            }
+            
+            .nav-item {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                color: #64748b;
+                font-size: 10px;
+                text-decoration: none;
+                transition: all 0.2s;
+            }
+            
+            .nav-item i {
+                font-size: 20px;
+                margin-bottom: 4px;
+            }
+            
+            .nav-item.active {
+                color: var(--primary);
+            }
+            
+            .mobile-header {
+                position: sticky;
+                top: 0;
+                z-index: 40;
+                background: white;
+                padding: 12px 16px;
+                border-bottom: 1px solid #f1f5f9;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding-top: calc(12px + var(--safe-area-inset-top));
+            }
+            
+            .mobile-header-title {
+                font-size: 18px;
+                font-weight: 600;
+                color: #1e293b;
+            }
+            
+            .mobile-header-actions {
+                display: flex;
+                align-items: center;
+            }
+            
+            .mobile-card {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                margin: 16px;
+                overflow: hidden;
+            }
+            
+            .mobile-section-title {
+                font-size: 16px;
+                font-weight: 600;
+                color: #1e293b;
+                margin: 16px 16px 8px;
+            }
+            
+            .mobile-action-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                padding: 12px;
+                border-radius: 12px;
+                background: white;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                transition: all 0.2s;
+            }
+            
+            .mobile-action-btn i {
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                margin-bottom: 8px;
+                color: white;
+            }
+            
+            .mobile-action-btn span {
+                font-size: 12px;
+                font-weight: 500;
+                color: #334155;
+            }
+            
+            .mobile-transaction-item {
+                display: flex;
+                align-items: center;
+                padding: 12px 16px;
+                border-bottom: 1px solid #f1f5f9;
+            }
+            
+            .mobile-transaction-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 12px;
+                font-size: 18px;
+            }
+            
+            .mobile-transaction-details {
+                flex: 1;
+            }
+            
+            .mobile-transaction-title {
+                font-size: 14px;
+                font-weight: 500;
+                color: #1e293b;
+                margin-bottom: 2px;
+            }
+            
+            .mobile-transaction-date {
+                font-size: 12px;
+                color: #64748b;
+            }
+            
+            .mobile-transaction-amount {
+                font-size: 14px;
+                font-weight: 600;
+            }
+            
+            .mobile-tabs {
+                display: flex;
+                border-bottom: 1px solid #e2e8f0;
+                margin: 0 16px;
+            }
+            
+            .mobile-tab {
+                flex: 1;
+                text-align: center;
+                padding: 12px 0;
+                font-size: 14px;
+                font-weight: 500;
+                color: #64748b;
+                position: relative;
+            }
+            
+            .mobile-tab.active {
+                color: var(--primary);
+            }
+            
+            .mobile-tab.active::after {
+                content: '';
+                position: absolute;
+                bottom: -1px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 40%;
+                height: 2px;
+                background: var(--primary);
+                border-radius: 2px;
+            }
+            
+            .mobile-modal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 100;
+                display: flex;
+                align-items: flex-end;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s;
+            }
+            
+            .mobile-modal.active {
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .mobile-modal-content {
+                background: white;
+                width: 100%;
+                border-radius: 24px 24px 0 0;
+                padding: 24px;
+                transform: translateY(100%);
+                transition: all 0.3s;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+            
+            .mobile-modal.active .mobile-modal-content {
+                transform: translateY(0);
+            }
+            
+            .mobile-modal-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            
+            .mobile-modal-title {
+                font-size: 18px;
+                font-weight: 600;
+                color: #1e293b;
+            }
+            
+            .mobile-modal-close {
+                color: #64748b;
+                font-size: 20px;
+            }
+            
+            .mobile-input {
+                width: 100%;
+                padding: 14px 16px;
+                border: 1px solid #e2e8f0;
+                border-radius: 12px;
+                font-size: 16px;
+                margin-bottom: 16px;
+                background: #f8fafc;
+            }
+            
+            .mobile-input:focus {
+                border-color: var(--primary);
+                outline: none;
+                background: white;
+            }
+            
+            .mobile-btn {
+                width: 100%;
+                padding: 14px;
+                border-radius: 12px;
+                font-size: 16px;
+                font-weight: 500;
+                text-align: center;
+                margin-top: 8px;
+            }
+            
+            .mobile-btn-primary {
+                background: var(--primary);
+                color: white;
+            }
+            
+            .mobile-btn-secondary {
+                background: #f1f5f9;
+                color: #334155;
+            }
+            
+            .mobile-operator-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 12px;
+                border: 1px solid #e2e8f0;
+                border-radius: 12px;
+                margin-bottom: 8px;
+            }
+            
+            .mobile-operator-btn.selected {
+                border-color: var(--primary);
+                background: #f5f3ff;
+            }
+            
+            .mobile-avatar {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                background: #ede9fe;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
+                font-weight: 600;
+                color: var(--primary);
+                margin: 0 auto 16px;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .mobile-avatar img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            
+            .mobile-profile-item {
+                display: flex;
+                justify-content: space-between;
+                padding: 12px 0;
+                border-bottom: 1px solid #f1f5f9;
+            }
+            
+            .mobile-profile-label {
+                color: #64748b;
+                font-size: 14px;
+            }
+            
+            .mobile-profile-value {
+                color: #1e293b;
+                font-weight: 500;
+                font-size: 14px;
+            }
+            
+            .mobile-balance-card {
+                background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+                color: white;
+                border-radius: 16px;
+                padding: 20px;
+                margin: 16px;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .mobile-balance-label {
+                font-size: 14px;
+                color: rgba(255, 255, 255, 0.9);
+                margin-bottom: 4px;
+            }
+            
+            .mobile-balance-amount {
+                font-size: 28px;
+                font-weight: 700;
+                margin-bottom: 20px;
+            }
+            
+            .mobile-balance-footer {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .mobile-balance-wallet {
+                font-size: 12px;
+                color: rgba(255, 255, 255, 0.9);
+            }
+            
+            .mobile-balance-icon {
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.2);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .mobile-empty-state {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 40px 16px;
+                text-align: center;
+            }
+            
+            .mobile-empty-icon {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                background: #f1f5f9;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 16px;
+                color: #94a3b8;
+                font-size: 24px;
+            }
+            
+            .mobile-empty-text {
+                color: #64748b;
+                font-size: 14px;
+                margin-top: 8px;
+            }
+            
+            /* Ocultar elementos de desktop */
+            .desktop-only {
+                display: none !important;
+            }
         }
         
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            box-shadow: 0 4px 20px rgba(109, 40, 217, 0.3);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(109, 40, 217, 0.4);
-        }
-        
-        .btn-secondary {
-            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%);
-            box-shadow: 0 4px 20px rgba(5, 150, 105, 0.3);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .btn-secondary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.4);
-        }
-        
-        .action-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 16px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .action-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .action-card:hover::before {
-            opacity: 1;
-        }
-        
-        .action-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .action-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            transition: transform 0.3s;
-        }
-        
-        .action-card:hover .action-icon {
-            transform: scale(1.1);
-        }
-        
-        .card {
-            border-radius: 20px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.03);
-            transition: all 0.3s;
-            border: 1px solid rgba(226, 232, 240, 0.7);
-            background: white;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
-        }
-        
-        .tab-active {
-            position: relative;
-            color: var(--primary);
-            font-weight: 600;
-        }
-        
-        .tab-active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
-            border-radius: 3px 3px 0 0;
-        }
-        
-        .transaction-item {
-            transition: all 0.2s ease;
-            border-radius: 12px;
-        }
-        
-        .transaction-item:hover {
-            background-color: #f8fafc;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-        }
-        
-        .avatar {
-            width: 88px;
-            height: 88px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: 600;
-            color: var(--primary);
-            background-color: #ede9fe;
-            border: 4px solid white;
-            box-shadow: 0 8px 25px rgba(109, 40, 217, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .balance-card {
-            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
-            color: white;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .balance-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
-            transform: rotate(30deg);
-        }
-        
-        .modal-overlay {
-            background-color: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-        
-        .modal-content {
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.2);
-            transform: translateY(20px);
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.4, 1);
-        }
-        
-        .modal.active .modal-content {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        
-        .operator-btn {
-            transition: all 0.2s ease;
-            border-radius: 12px;
-            padding: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #e2e8f0;
-            background-color: white;
-        }
-        
-        .operator-btn.selected {
-            border-color: var(--secondary);
-            background-color: #d1fae5;
-            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .animate-fade-in {
-            animation: fadeIn 0.4s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
-        }
-        
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-        
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        
-        .input-field {
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-            padding: 14px 16px;
-            transition: all 0.2s;
-            background-color: #f8fafc;
-            font-size: 0.95rem;
-        }
-        
-        .input-field:focus {
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
-            outline: none;
-            background-color: white;
-        }
-        
-        .select-field {
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-            background-size: 1em;
-        }
-        
-        .loading-spinner {
-            width: 24px;
-            height: 24px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .status-badge {
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        
-        .status-success {
-            background-color: #d1fae5;
-            color: #059669;
-        }
-        
-        .status-pending {
-            background-color: #fef3c7;
-            color: #d97706;
+        /* Estilos para desktop (se mantienen igual) */
+        @media (min-width: 769px) {
+            .mobile-only {
+                display: none !important;
+            }
+            
+            /* Todos los estilos originales se mantienen aquí */
+            .glass-card {
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            }
+            
+            .btn-primary {
+                background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+                box-shadow: 0 4px 20px rgba(109, 40, 217, 0.3);
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(109, 40, 217, 0.4);
+            }
+            
+            .btn-secondary {
+                background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%);
+                box-shadow: 0 4px 20px rgba(5, 150, 105, 0.3);
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .btn-secondary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(5, 150, 105, 0.4);
+            }
+            
+            .action-card {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                border-radius: 16px;
+                overflow: hidden;
+                position: relative;
+            }
+            
+            .action-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
+            
+            .action-card:hover::before {
+                opacity: 1;
+            }
+            
+            .action-card:hover {
+                transform: translateY(-5px);
+            }
+            
+            .action-icon {
+                width: 48px;
+                height: 48px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.25rem;
+                transition: transform 0.3s;
+            }
+            
+            .action-card:hover .action-icon {
+                transform: scale(1.1);
+            }
+            
+            .card {
+                border-radius: 20px;
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.03);
+                transition: all 0.3s;
+                border: 1px solid rgba(226, 232, 240, 0.7);
+                background: white;
+            }
+            
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+            }
+            
+            .tab-active {
+                position: relative;
+                color: var(--primary);
+                font-weight: 600;
+            }
+            
+            .tab-active::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 40%;
+                height: 3px;
+                background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+                border-radius: 3px 3px 0 0;
+            }
+            
+            .transaction-item {
+                transition: all 0.2s ease;
+                border-radius: 12px;
+            }
+            
+            .transaction-item:hover {
+                background-color: #f8fafc;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            }
+            
+            .avatar {
+                width: 88px;
+                height: 88px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 2rem;
+                font-weight: 600;
+                color: var(--primary);
+                background-color: #ede9fe;
+                border: 4px solid white;
+                box-shadow: 0 8px 25px rgba(109, 40, 217, 0.1);
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .avatar img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            
+            .balance-card {
+                background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+                color: white;
+                border-radius: 20px;
+                overflow: hidden;
+                position: relative;
+            }
+            
+            .balance-card::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                right: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+                transform: rotate(30deg);
+            }
+            
+            .modal-overlay {
+                background-color: rgba(0, 0, 0, 0.6);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+            }
+            
+            .modal-content {
+                background: white;
+                border-radius: 24px;
+                box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.2);
+                transform: translateY(20px);
+                opacity: 0;
+                transition: all 0.4s cubic-bezier(0.2, 0.8, 0.4, 1);
+            }
+            
+            .modal.active .modal-content {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            .operator-btn {
+                transition: all 0.2s ease;
+                border-radius: 12px;
+                padding: 14px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid #e2e8f0;
+                background-color: white;
+            }
+            
+            .operator-btn.selected {
+                border-color: var(--secondary);
+                background-color: #d1fae5;
+                box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+            }
+            
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            
+            .animate-fade-in {
+                animation: fadeIn 0.4s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
+            }
+            
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            
+            .input-field {
+                border-radius: 12px;
+                border: 1px solid #e2e8f0;
+                padding: 14px 16px;
+                transition: all 0.2s;
+                background-color: #f8fafc;
+                font-size: 0.95rem;
+            }
+            
+            .input-field:focus {
+                border-color: var(--secondary);
+                box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+                outline: none;
+                background-color: white;
+            }
+            
+            .select-field {
+                appearance: none;
+                background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+                background-repeat: no-repeat;
+                background-position: right 1rem center;
+                background-size: 1em;
+            }
+            
+            .loading-spinner {
+                width: 24px;
+                height: 24px;
+                border: 3px solid rgba(255, 255, 255, 0.3);
+                border-radius: 50%;
+                border-top-color: white;
+                animation: spin 1s ease-in-out infinite;
+            }
+            
+            @keyframes spin {
+                to { transform: rotate(360deg); }
+            }
+            
+            .status-badge {
+                padding: 4px 10px;
+                border-radius: 12px;
+                font-size: 0.75rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+            
+            .status-success {
+                background-color: #d1fae5;
+                color: #059669;
+            }
+            
+            .status-pending {
+                background-color: #fef3c7;
+                color: #d97706;
+            }
         }
     </style>
 </head>
 <body class="min-h-screen bg-gray-50">
-    <!-- Header -->
-    <header class="bg-white shadow-sm py-5 px-6 sticky top-0 z-20">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <div class="bg-purple-100 p-2 rounded-xl">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                </div>
-                <h1 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">TokTok</h1>
+    <!-- Versión Mobile -->
+    <div class="mobile-only mobile-app-container">
+        <!-- Header -->
+        <div class="mobile-header">
+            <div class="mobile-header-title" id="mobile-header-title">Inicio</div>
+            <div class="mobile-header-actions">
+                <button id="mobile-logout-btn" class="text-purple-600">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
             </div>
-            <button id="logout-btn" class="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors">
-                <span class="font-medium">Cerrar sesión</span>
-                <i class="fas fa-sign-out-alt text-lg"></i>
-            </button>
         </div>
-    </header>
-    
-    <main class="container mx-auto px-4 py-8">
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <!-- Columna izquierda - Perfil y acciones -->
-            <div class="lg:col-span-1 space-y-8">
-                <!-- Tarjeta de perfil -->
-                <div class="card p-6">
-                    <div class="flex flex-col items-center">
-                        <div id="user-avatar" class="avatar mb-5">
-                            <span id="user-initials"></span>
-                        </div>
-                        <h2 id="user-name" class="text-xl font-semibold text-center text-gray-800"></h2>
-                        <p id="user-email" class="text-gray-500 text-sm mt-1 text-center"></p>
-                        
-                        <div class="mt-6 w-full space-y-3">
-                            <div class="flex justify-between items-center py-2.5 px-4 bg-gray-50 rounded-xl">
-                                <span class="text-gray-600 text-sm">Teléfono</span>
-                                <span id="profile-phone" class="font-medium text-gray-800"></span>
-                            </div>
-                            <div class="flex justify-between items-center py-2.5 px-4 bg-gray-50 rounded-xl">
-                                <span class="text-gray-600 text-sm">Miembro desde</span>
-                                <span id="profile-created-at" class="font-medium text-gray-800"></span>
-                            </div>
-                        </div>
-                        
-                        <button id="edit-profile-btn" class="mt-6 w-full py-3 px-4 rounded-xl transition duration-200 flex items-center justify-center space-x-2 text-purple-600 hover:text-purple-800 hover:bg-purple-50 border border-purple-100 font-medium">
-                            <i class="fas fa-user-edit"></i>
-                            <span>Editar perfil</span>
-                        </button>
-                    </div>
-                </div>
-                
+        
+        <!-- Contenido principal -->
+        <div class="mobile-content" id="mobile-content">
+            <!-- Vista de Inicio -->
+            <div id="mobile-home-view">
                 <!-- Tarjeta de balance -->
-                <div class="balance-card p-6 relative overflow-hidden">
-                    <div class="relative z-10">
-                        <p class="text-purple-100 text-sm mb-1">Balance disponible</p>
-                        <h2 id="balance" class="text-3xl font-bold text-white mb-6"></h2>
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <p class="text-purple-100 text-xs">TokTok Wallet</p>
-                                <p class="text-white text-sm font-medium">Cuenta principal</p>
-                            </div>
-                            <div class="bg-white bg-opacity-20 rounded-full p-2.5">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
+                <div class="mobile-balance-card">
+                    <div class="mobile-balance-label">Balance disponible</div>
+                    <div class="mobile-balance-amount" id="mobile-balance">Bs0.00</div>
+                    <div class="mobile-balance-footer">
+                        <div>
+                            <div class="mobile-balance-wallet">TokTok Wallet</div>
+                            <div class="mobile-balance-wallet">Cuenta principal</div>
+                        </div>
+                        <div class="mobile-balance-icon">
+                            <i class="fas fa-wallet"></i>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Acciones rápidas -->
-                <div class="space-y-4">
-                    <h3 class="text-lg font-semibold text-gray-800 px-2">Acciones rápidas</h3>
-                    
-                    <button id="send-money-btn" class="action-card btn-primary w-full p-5 flex items-center justify-between text-white">
-                        <div class="flex items-center space-x-4">
-                            <div class="action-icon bg-white bg-opacity-20">
-                                <i class="fas fa-paper-plane"></i>
-                            </div>
-                            <div class="text-left">
-                                <p class="text-sm font-medium">Enviar dinero</p>
-                                <p class="text-xs text-white text-opacity-80">Transferencias rápidas</p>
+                <div class="mobile-section-title">Acciones rápidas</div>
+                <div class="grid grid-cols-4 gap-3 mx-4 mb-4">
+                    <button id="mobile-send-money-btn" class="mobile-action-btn">
+                        <i class="fas fa-paper-plane" style="background: var(--primary);"></i>
+                        <span>Enviar</span>
+                    </button>
+                    <button id="mobile-recharge-btn" class="mobile-action-btn">
+                        <i class="fas fa-mobile-alt" style="background: var(--secondary);"></i>
+                        <span>Recargar</span>
+                    </button>
+              
+                    <button class="mobile-action-btn">
+                        <i class="fas fa-history" style="background: #64748b;"></i>
+                        <span>Historial</span>
+                    </button>
+                </div>
+                
+                <!-- Últimas transacciones -->
+                <div class="mobile-section-title">Últimas transacciones</div>
+                <div class="mobile-card">
+                    <div id="mobile-transactions-list">
+                        <div class="mobile-transaction-item">
+                            <div class="w-full text-center py-8">
+                                <i class="fas fa-spinner fa-spin text-gray-400"></i>
                             </div>
                         </div>
-                        <i class="fas fa-chevron-right text-white text-opacity-70"></i>
-                    </button>
-                    
-                    <button id="recharge-btn" class="action-card btn-secondary w-full p-5 flex items-center justify-between text-white">
-                        <div class="flex items-center space-x-4">
-                            <div class="action-icon bg-white bg-opacity-20">
-                                <i class="fas fa-mobile-alt"></i>
-                            </div>
-                            <div class="text-left">
-                                <p class="text-sm font-medium">Recarga móvil</p>
-                                <p class="text-xs text-white text-opacity-80">Tigo, Entel, Viva</p>
-                            </div>
-                        </div>
-                        <i class="fas fa-chevron-right text-white text-opacity-70"></i>
-                    </button>
+                    </div>
+                  
                 </div>
             </div>
             
-            <!-- Columna derecha - Contenido principal -->
-            <div class="lg:col-span-3 space-y-8">
-                <!-- Pestañas -->
-                <div class="card overflow-hidden">
-                    <div class="border-b border-gray-200 px-6">
-                        <nav class="flex -mb-px space-x-8">
-                            <button id="transactions-tab" class="tab-active py-5 px-1 text-center font-medium text-sm whitespace-nowrap">
-                                Transacciones
-                            </button>
-                            <button id="recharges-tab" class="py-5 px-1 text-center font-medium text-sm text-gray-500 hover:text-gray-700 whitespace-nowrap">
-                                Recargas
-                            </button>
-                        </nav>
-                    </div>
-                    
-                    <!-- Contenido de pestañas -->
-                    <div class="p-6">
-                        <!-- Transacciones -->
-                        <div id="transactions-content" class="tab-content">
-                            <div class="flex justify-between items-center mb-6">
-                                <h3 class="text-lg font-semibold text-gray-800">Historial de transacciones</h3>
-                                <div class="relative">
-                                    <select id="transactions-filter" class="input-field select-field pr-10 text-sm">
-                                        <option value="all">Todas</option>
-                                        <option value="deposit">Ingresos</option>
-                                        <option value="withdrawal">Retiros</option>
-                                        <option value="transfer">Transferencias</option>
-                                    </select>
+            <!-- Vista de Transacciones -->
+            <div id="mobile-transactions-view" class="hidden">
+                <div class="mobile-tabs">
+                    <div class="mobile-tab active" data-tab="transactions">Transacciones</div>
+                    <div class="mobile-tab" data-tab="recharges">Recargas</div>
+                </div>
+                
+                <div id="mobile-transactions-tab" class="tab-content">
+                    <div class="mobile-card mt-2">
+                        <div class="p-4 border-b border-gray-100 flex justify-between items-center">
+                            <div class="text-sm font-medium">Filtrar por:</div>
+                            <select id="mobile-transactions-filter" class="text-sm border-none bg-transparent text-purple-600 font-medium">
+                                <option value="all">Todas</option>
+                                <option value="deposit">Ingresos</option>
+                                <option value="withdrawal">Retiros</option>
+                                <option value="transfer">Transferencias</option>
+                            </select>
+                        </div>
+                        <div id="mobile-transactions-full-list">
+                            <div class="mobile-transaction-item">
+                                <div class="w-full text-center py-8">
+                                    <i class="fas fa-spinner fa-spin text-gray-400"></i>
                                 </div>
                             </div>
-                            
-                            <div class="overflow-x-auto scrollbar-hide">
-                                <table class="min-w-full divide-y divide-gray-200">
-                                    <thead class="bg-gray-50">
-                                        <tr>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
-                                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Monto</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="transactions-list" class="bg-white divide-y divide-gray-200">
-                                        <!-- Las transacciones se cargarán aquí dinámicamente -->
-                                        <tr>
-                                            <td colspan="4" class="px-6 py-8 text-center text-gray-400">
-                                                <i class="fas fa-spinner fa-spin fa-2x mb-2"></i>
-                                                <p>Cargando transacciones...</p>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="mobile-recharges-tab" class="tab-content hidden">
+                    <div class="mobile-card mt-2">
+                        <div class="p-4 border-b border-gray-100 flex justify-between items-center">
+                            <div class="text-sm font-medium">Historial de recargas</div>
+                            <button id="mobile-new-recharge-btn" class="text-sm text-purple-600 font-medium flex items-center">
+                                <i class="fas fa-plus mr-1"></i>
+                                <span>Nueva</span>
+                            </button>
+                        </div>
+                        <div id="mobile-recharges-full-list">
+                            <div class="mobile-transaction-item">
+                                <div class="w-full text-center py-8">
+                                    <i class="fas fa-spinner fa-spin text-gray-400"></i>
+                                </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vista de Perfil -->
+            <div id="mobile-profile-view" class="hidden">
+                <div class="mobile-card mt-4">
+                    <div class="p-6 flex flex-col items-center">
+                        <div id="mobile-user-avatar" class="mobile-avatar">
+                            <span id="mobile-user-initials"></span>
+                        </div>
+                        <h2 id="mobile-user-name" class="text-lg font-semibold text-center text-gray-800"></h2>
+                        <p id="mobile-user-email" class="text-gray-500 text-sm mt-1 text-center"></p>
                         
-                        <!-- Recargas -->
-                        <div id="recharges-content" class="tab-content hidden">
-                            <div class="flex justify-between items-center mb-6">
-                                <h3 class="text-lg font-semibold text-gray-800">Historial de recargas</h3>
-                                <button id="new-recharge-btn" class="bg-green-600 hover:bg-green-700 text-white py-2.5 px-4 rounded-lg text-sm flex items-center space-x-2 transition-colors font-medium">
-                                    <i class="fas fa-plus"></i>
-                                    <span>Nueva recarga</span>
-                                </button>
-                            </div>
-                            
-                            <div class="overflow-x-auto scrollbar-hide">
-                                <table class="min-w-full divide-y divide-gray-200">
-                                    <thead class="bg-gray-50">
-                                        <tr>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Operadora</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Número</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
-                                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Monto</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="recharges-list" class="bg-white divide-y divide-gray-200">
-                                        <!-- Las recargas se cargarán aquí dinámicamente -->
-                                        <tr>
-                                            <td colspan="4" class="px-6 py-8 text-center text-gray-400">
-                                                <i class="fas fa-spinner fa-spin fa-2x mb-2"></i>
-                                                <p>Cargando recargas...</p>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <button id="mobile-edit-profile-btn" class="mt-6 w-full py-3 px-4 rounded-xl transition duration-200 flex items-center justify-center space-x-2 text-purple-600 hover:text-purple-800 hover:bg-purple-50 border border-purple-100 font-medium">
+                            <i class="fas fa-user-edit"></i>
+                            <span>Editar perfil</span>
+                        </button>
+                    </div>
+                    
+                    <div class="p-4">
+                        <div class="mobile-profile-item">
+                            <span class="mobile-profile-label">Teléfono</span>
+                            <span id="mobile-profile-phone" class="mobile-profile-value"></span>
+                        </div>
+                        <div class="mobile-profile-item">
+                            <span class="mobile-profile-label">Miembro desde</span>
+                            <span id="mobile-profile-created-at" class="mobile-profile-value"></span>
                         </div>
                     </div>
                 </div>
+                
+                <div class="mobile-card mt-4 p-4">
+                    <button id="mobile-security-btn" class="w-full py-3 text-left flex items-center justify-between">
+                        <span class="font-medium">Seguridad</span>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </button>
+                    <button id="mobile-help-btn" class="w-full py-3 text-left flex items-center justify-between">
+                        <span class="font-medium">Ayuda</span>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </button>
+                    <button id="mobile-about-btn" class="w-full py-3 text-left flex items-center justify-between">
+                        <span class="font-medium">Acerca de</span>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </button>
+                </div>
             </div>
         </div>
-    </main>
-    
-    <!-- Modal para editar perfil -->
-    <div id="profile-modal" class="modal fixed inset-0 z-50 flex items-center justify-center opacity-0 invisible transition-all duration-300">
-        <div class="modal-overlay absolute inset-0"></div>
-        <div class="modal-content w-full max-w-md p-6">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold text-gray-800">Editar perfil</h3>
-                <button id="close-profile-modal" class="text-gray-400 hover:text-gray-500">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <div class="space-y-4">
-                <div class="flex justify-center">
-                    <div class="avatar-upload">
-                        <div id="avatar-preview" class="avatar mb-4"></div>
-                        <input type="file" id="avatar-input" accept="image/*" class="hidden">
-                        <button class="text-sm text-purple-600 hover:text-purple-700 font-medium">Cambiar foto de perfil</button>
+        
+        <!-- Barra de navegación inferior -->
+        <div class="mobile-bottom-nav">
+            <a href="#" class="nav-item active" data-view="home">
+                <i class="fas fa-home"></i>
+                <span>Inicio</span>
+            </a>
+            <a href="#" class="nav-item" data-view="transactions">
+                <i class="fas fa-exchange-alt"></i>
+                <span>Transacciones</span>
+            </a>
+            <a href="#" class="nav-item" data-view="profile">
+                <i class="fas fa-user"></i>
+                <span>Perfil</span>
+            </a>
+        </div>
+        
+        <!-- Modal para editar perfil (mobile) -->
+        <div id="mobile-profile-modal" class="mobile-modal">
+            <div class="mobile-modal-content">
+                <div class="mobile-modal-header">
+                    <div class="mobile-modal-title">Editar perfil</div>
+                    <button id="mobile-close-profile-modal" class="mobile-modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="flex justify-center mb-6">
+                    <div class="text-center">
+                        <div id="mobile-avatar-preview" class="mobile-avatar mx-auto mb-4"></div>
+                        <input type="file" id="mobile-avatar-input" accept="image/*" class="hidden">
+                        <button id="mobile-change-avatar-btn" class="text-sm text-purple-600 font-medium">
+                            Cambiar foto de perfil
+                        </button>
                     </div>
                 </div>
                 
-                <div>
-                    <label for="full-name" class="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
-                    <input type="text" id="full-name" class="input-field w-full">
+                <div class="mb-4">
+                    <label for="mobile-full-name" class="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
+                    <input type="text" id="mobile-full-name" class="mobile-input">
                 </div>
                 
-                <div class="pt-4 flex justify-end space-x-3">
-                    <button id="cancel-profile-edit" class="px-4 py-2.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-800 transition-colors font-medium">
-                        Cancelar
-                    </button>
-                    <button id="save-profile" class="px-4 py-2.5 rounded-lg bg-purple-600 hover:bg-purple-700 text-white transition-colors font-medium">
-                        Guardar cambios
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Modal para recargas -->
-    <div id="recharge-modal" class="modal fixed inset-0 z-50 flex items-center justify-center opacity-0 invisible transition-all duration-300">
-        <div class="modal-overlay absolute inset-0"></div>
-        <div class="modal-content w-full max-w-md p-6">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold text-gray-800">Nueva recarga</h3>
-                <button id="close-recharge-modal" class="text-gray-400 hover:text-gray-500">
-                    <i class="fas fa-times"></i>
+                <button id="mobile-save-profile" class="mobile-btn mobile-btn-primary">
+                    Guardar cambios
+                </button>
+                <button id="mobile-cancel-profile-edit" class="mobile-btn mobile-btn-secondary">
+                    Cancelar
                 </button>
             </div>
-            
-            <div class="space-y-4">
-                <div>
+        </div>
+        
+        <!-- Modal para recargas (mobile) -->
+        <div id="mobile-recharge-modal" class="mobile-modal">
+            <div class="mobile-modal-content">
+                <div class="mobile-modal-header">
+                    <div class="mobile-modal-title">Nueva recarga</div>
+                    <button id="mobile-close-recharge-modal" class="mobile-modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Operadora</label>
                     <div class="grid grid-cols-3 gap-2">
-                        <button data-operator="entel" class="operator-btn">
+                        <button data-operator="entel" class="mobile-operator-btn">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwMYAltGZqlRHMRnIPvq9ZascJRtdJw43R8Q&s" class="h-6 mr-2">
                             Entel
                         </button>
-                        <button data-operator="tigo" class="operator-btn">
+                        <button data-operator="tigo" class="mobile-operator-btn">
                             <img src="https://dplnews.com/wp-content/uploads/2020/06/dplnews_tigo_mc090620.jpg" class="h-6 mr-2">
                             Tigo
                         </button>
-                        <button data-operator="viva" class="operator-btn">
+                        <button data-operator="viva" class="mobile-operator-btn">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDjM0IP2cxcg231iXsqKa-q2eJH5uTbaQ0xA&s" class="h-6 mr-2">
                             Viva
                         </button>
                     </div>
                 </div>
                 
-                <div>
-                    <label for="phone-number" class="block text-sm font-medium text-gray-700 mb-1">Número de teléfono</label>
-                    <input type="tel" id="phone-number" class="input-field w-full" placeholder="Ej: 77712345">
+                <div class="mb-4">
+                    <label for="mobile-phone-number" class="block text-sm font-medium text-gray-700 mb-1">Número de teléfono</label>
+                    <input type="tel" id="mobile-phone-number" class="mobile-input" placeholder="Ej: 77712345">
                 </div>
                 
-                <div>
-                    <label for="recharge-amount" class="block text-sm font-medium text-gray-700 mb-1">Monto</label>
-                    <select id="recharge-amount" class="input-field select-field w-full">
+                <div class="mb-4">
+                    <label for="mobile-recharge-amount" class="block text-sm font-medium text-gray-700 mb-1">Monto</label>
+                    <select id="mobile-recharge-amount" class="mobile-input">
                         <option value="10">10 Bs</option>
                         <option value="20">20 Bs</option>
                         <option value="50">50 Bs</option>
@@ -568,58 +985,386 @@
                     </select>
                 </div>
                 
-                <div id="custom-amount-container" class="hidden">
-                    <label for="custom-amount" class="block text-sm font-medium text-gray-700 mb-1">Especificar monto</label>
-                    <input type="number" id="custom-amount" class="input-field w-full" min="1">
+                <div id="mobile-custom-amount-container" class="hidden">
+                    <label for="mobile-custom-amount" class="block text-sm font-medium text-gray-700 mb-1">Especificar monto</label>
+                    <input type="number" id="mobile-custom-amount" class="mobile-input" min="1">
                 </div>
                 
-                <div class="pt-4 flex justify-end space-x-3">
-                    <button id="cancel-recharge" class="px-4 py-2.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-800 transition-colors font-medium">
-                        Cancelar
-                    </button>
-                    <button id="confirm-recharge" class="px-4 py-2.5 rounded-lg bg-green-600 hover:bg-green-700 text-white transition-colors font-medium flex items-center justify-center min-w-32">
-                        <span id="confirm-recharge-text">Confirmar</span>
-                        <div id="confirm-recharge-spinner" class="loading-spinner ml-2 hidden"></div>
+                <button id="mobile-confirm-recharge" class="mobile-btn mobile-btn-primary flex items-center justify-center">
+                    <span id="mobile-confirm-recharge-text">Confirmar recarga</span>
+                    <div id="mobile-confirm-recharge-spinner" class="loading-spinner ml-2 hidden"></div>
+                </button>
+                <button id="mobile-cancel-recharge" class="mobile-btn mobile-btn-secondary">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+        
+        <!-- Modal para enviar dinero (mobile) -->
+        <div id="mobile-send-money-modal" class="mobile-modal">
+            <div class="mobile-modal-content">
+                <div class="mobile-modal-header">
+                    <div class="mobile-modal-title">Enviar dinero</div>
+                    <button id="mobile-close-send-modal" class="mobile-modal-close">
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
+                
+                <div class="mb-4">
+                    <label for="mobile-recipient-phone" class="block text-sm font-medium text-gray-700 mb-1">Teléfono del destinatario</label>
+                    <input type="tel" id="mobile-recipient-phone" class="mobile-input" placeholder="Ej: 77712345">
+                </div>
+                
+                <div class="mb-4">
+                    <label for="mobile-send-amount" class="block text-sm font-medium text-gray-700 mb-1">Monto</label>
+                    <input type="number" id="mobile-send-amount" class="mobile-input" min="1">
+                </div>
+                
+                <div class="mb-4">
+                    <label for="mobile-send-description" class="block text-sm font-medium text-gray-700 mb-1">Descripción (opcional)</label>
+                    <textarea id="mobile-send-description" rows="2" class="mobile-input"></textarea>
+                </div>
+                
+                <button id="mobile-confirm-send" class="mobile-btn mobile-btn-primary">
+                    Enviar dinero
+                </button>
+                <button id="mobile-cancel-send" class="mobile-btn mobile-btn-secondary">
+                    Cancelar
+                </button>
             </div>
         </div>
     </div>
     
-    <!-- Modal para enviar dinero -->
-    <div id="send-money-modal" class="modal fixed inset-0 z-50 flex items-center justify-center opacity-0 invisible transition-all duration-300">
-        <div class="modal-overlay absolute inset-0"></div>
-        <div class="modal-content w-full max-w-md p-6">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold text-gray-800">Enviar dinero</h3>
-                <button id="close-send-modal" class="text-gray-400 hover:text-gray-500">
-                    <i class="fas fa-times"></i>
+    <!-- Versión Desktop (se mantiene igual) -->
+    <div class="desktop-only">
+        <!-- Header -->
+        <header class="bg-white shadow-sm py-5 px-6 sticky top-0 z-20">
+            <div class="container mx-auto flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-purple-100 p-2 rounded-xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <h1 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">TokTok</h1>
+                </div>
+                <button id="logout-btn" class="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors">
+                    <span class="font-medium">Cerrar sesión</span>
+                    <i class="fas fa-sign-out-alt text-lg"></i>
                 </button>
             </div>
-            
-            <div class="space-y-4">
-                <div>
-                    <label for="recipient-phone" class="block text-sm font-medium text-gray-700 mb-1">Teléfono del destinatario</label>
-                    <input type="tel" id="recipient-phone" class="input-field w-full" placeholder="Ej: 77712345">
+        </header>
+        
+        <main class="container mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <!-- Columna izquierda - Perfil y acciones -->
+                <div class="lg:col-span-1 space-y-8">
+                    <!-- Tarjeta de perfil -->
+                    <div class="card p-6">
+                        <div class="flex flex-col items-center">
+                            <div id="user-avatar" class="avatar mb-5">
+                                <span id="user-initials"></span>
+                            </div>
+                            <h2 id="user-name" class="text-xl font-semibold text-center text-gray-800"></h2>
+                            <p id="user-email" class="text-gray-500 text-sm mt-1 text-center"></p>
+                            
+                            <div class="mt-6 w-full space-y-3">
+                                <div class="flex justify-between items-center py-2.5 px-4 bg-gray-50 rounded-xl">
+                                    <span class="text-gray-600 text-sm">Teléfono</span>
+                                    <span id="profile-phone" class="font-medium text-gray-800"></span>
+                                </div>
+                                <div class="flex justify-between items-center py-2.5 px-4 bg-gray-50 rounded-xl">
+                                    <span class="text-gray-600 text-sm">Miembro desde</span>
+                                    <span id="profile-created-at" class="font-medium text-gray-800"></span>
+                                </div>
+                            </div>
+                            
+                            <button id="edit-profile-btn" class="mt-6 w-full py-3 px-4 rounded-xl transition duration-200 flex items-center justify-center space-x-2 text-purple-600 hover:text-purple-800 hover:bg-purple-50 border border-purple-100 font-medium">
+                                <i class="fas fa-user-edit"></i>
+                                <span>Editar perfil</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Tarjeta de balance -->
+                    <div class="balance-card p-6 relative overflow-hidden">
+                        <div class="relative z-10">
+                            <p class="text-purple-100 text-sm mb-1">Balance disponible</p>
+                            <h2 id="balance" class="text-3xl font-bold text-white mb-6"></h2>
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="text-purple-100 text-xs">TokTok Wallet</p>
+                                    <p class="text-white text-sm font-medium">Cuenta principal</p>
+                                </div>
+                                <div class="bg-white bg-opacity-20 rounded-full p-2.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Acciones rápidas -->
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-semibold text-gray-800 px-2">Acciones rápidas</h3>
+                        
+                        <button id="send-money-btn" class="action-card btn-primary w-full p-5 flex items-center justify-between text-white">
+                            <div class="flex items-center space-x-4">
+                                <div class="action-icon bg-white bg-opacity-20">
+                                    <i class="fas fa-paper-plane"></i>
+                                </div>
+                                <div class="text-left">
+                                    <p class="text-sm font-medium">Enviar dinero</p>
+                                    <p class="text-xs text-white text-opacity-80">Transferencias rápidas</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-right text-white text-opacity-70"></i>
+                        </button>
+                        
+                        <button id="recharge-btn" class="action-card btn-secondary w-full p-5 flex items-center justify-between text-white">
+                            <div class="flex items-center space-x-4">
+                                <div class="action-icon bg-white bg-opacity-20">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <div class="text-left">
+                                    <p class="text-sm font-medium">Recarga móvil</p>
+                                    <p class="text-xs text-white text-opacity-80">Tigo, Entel, Viva</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-right text-white text-opacity-70"></i>
+                        </button>
+                    </div>
                 </div>
                 
-                <div>
-                    <label for="send-amount" class="block text-sm font-medium text-gray-700 mb-1">Monto</label>
-                    <input type="number" id="send-amount" class="input-field w-full" min="1">
+                <!-- Columna derecha - Contenido principal -->
+                <div class="lg:col-span-3 space-y-8">
+                    <!-- Pestañas -->
+                    <div class="card overflow-hidden">
+                        <div class="border-b border-gray-200 px-6">
+                            <nav class="flex -mb-px space-x-8">
+                                <button id="transactions-tab" class="tab-active py-5 px-1 text-center font-medium text-sm whitespace-nowrap">
+                                    Transacciones
+                                </button>
+                                <button id="recharges-tab" class="py-5 px-1 text-center font-medium text-sm text-gray-500 hover:text-gray-700 whitespace-nowrap">
+                                    Recargas
+                                </button>
+                            </nav>
+                        </div>
+                        
+                        <!-- Contenido de pestañas -->
+                        <div class="p-6">
+                            <!-- Transacciones -->
+                            <div id="transactions-content" class="tab-content">
+                                <div class="flex justify-between items-center mb-6">
+                                    <h3 class="text-lg font-semibold text-gray-800">Historial de transacciones</h3>
+                                    <div class="relative">
+                                        <select id="transactions-filter" class="input-field select-field pr-10 text-sm">
+                                            <option value="all">Todas</option>
+                                            <option value="deposit">Ingresos</option>
+                                            <option value="withdrawal">Retiros</option>
+                                            <option value="transfer">Transferencias</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="overflow-x-auto scrollbar-hide">
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo</th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Monto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="transactions-list" class="bg-white divide-y divide-gray-200">
+                                            <!-- Las transacciones se cargarán aquí dinámicamente -->
+                                            <tr>
+                                                <td colspan="4" class="px-6 py-8 text-center text-gray-400">
+                                                    <i class="fas fa-spinner fa-spin fa-2x mb-2"></i>
+                                                    <p>Cargando transacciones...</p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <!-- Recargas -->
+                            <div id="recharges-content" class="tab-content hidden">
+                                <div class="flex justify-between items-center mb-6">
+                                    <h3 class="text-lg font-semibold text-gray-800">Historial de recargas</h3>
+                                    <button id="new-recharge-btn" class="bg-green-600 hover:bg-green-700 text-white py-2.5 px-4 rounded-lg text-sm flex items-center space-x-2 transition-colors font-medium">
+                                        <i class="fas fa-plus"></i>
+                                        <span>Nueva recarga</span>
+                                    </button>
+                                </div>
+                                
+                                <div class="overflow-x-auto scrollbar-hide">
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Operadora</th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Número</th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Monto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="recharges-list" class="bg-white divide-y divide-gray-200">
+                                            <!-- Las recargas se cargarán aquí dinámicamente -->
+                                            <tr>
+                                                <td colspan="4" class="px-6 py-8 text-center text-gray-400">
+                                                    <i class="fas fa-spinner fa-spin fa-2x mb-2"></i>
+                                                    <p>Cargando recargas...</p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                <div>
-                    <label for="send-description" class="block text-sm font-medium text-gray-700 mb-1">Descripción (opcional)</label>
-                    <textarea id="send-description" rows="2" class="input-field w-full"></textarea>
-                </div>
-                
-                <div class="pt-4 flex justify-end space-x-3">
-                    <button id="cancel-send" class="px-4 py-2.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-800 transition-colors font-medium">
-                        Cancelar
+            </div>
+        </main>
+        
+        <!-- Modal para editar perfil -->
+        <div id="profile-modal" class="modal fixed inset-0 z-50 flex items-center justify-center opacity-0 invisible transition-all duration-300">
+            <div class="modal-overlay absolute inset-0"></div>
+            <div class="modal-content w-full max-w-md p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Editar perfil</h3>
+                    <button id="close-profile-modal" class="text-gray-400 hover:text-gray-500">
+                        <i class="fas fa-times"></i>
                     </button>
-                    <button id="confirm-send" class="px-4 py-2.5 rounded-lg bg-purple-600 hover:bg-purple-700 text-white transition-colors font-medium">
-                        Enviar dinero
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="flex justify-center">
+                        <div class="avatar-upload">
+                            <div id="avatar-preview" class="avatar mb-4"></div>
+                            <input type="file" id="avatar-input" accept="image/*" class="hidden">
+                            <button class="text-sm text-purple-600 hover:text-purple-700 font-medium">Cambiar foto de perfil</button>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="full-name" class="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
+                        <input type="text" id="full-name" class="input-field w-full">
+                    </div>
+                    
+                    <div class="pt-4 flex justify-end space-x-3">
+                        <button id="cancel-profile-edit" class="px-4 py-2.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-800 transition-colors font-medium">
+                            Cancelar
+                        </button>
+                        <button id="save-profile" class="px-4 py-2.5 rounded-lg bg-purple-600 hover:bg-purple-700 text-white transition-colors font-medium">
+                            Guardar cambios
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal para recargas -->
+        <div id="recharge-modal" class="modal fixed inset-0 z-50 flex items-center justify-center opacity-0 invisible transition-all duration-300">
+            <div class="modal-overlay absolute inset-0"></div>
+            <div class="modal-content w-full max-w-md p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Nueva recarga</h3>
+                    <button id="close-recharge-modal" class="text-gray-400 hover:text-gray-500">
+                        <i class="fas fa-times"></i>
                     </button>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Operadora</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button data-operator="entel" class="operator-btn">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwMYAltGZqlRHMRnIPvq9ZascJRtdJw43R8Q&s" class="h-6 mr-2">
+                                Entel
+                            </button>
+                            <button data-operator="tigo" class="operator-btn">
+                                <img src="https://dplnews.com/wp-content/uploads/2020/06/dplnews_tigo_mc090620.jpg" class="h-6 mr-2">
+                                Tigo
+                            </button>
+                            <button data-operator="viva" class="operator-btn">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDjM0IP2cxcg231iXsqKa-q2eJH5uTbaQ0xA&s" class="h-6 mr-2">
+                                Viva
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="phone-number" class="block text-sm font-medium text-gray-700 mb-1">Número de teléfono</label>
+                        <input type="tel" id="phone-number" class="input-field w-full" placeholder="Ej: 77712345">
+                    </div>
+                    
+                    <div>
+                        <label for="recharge-amount" class="block text-sm font-medium text-gray-700 mb-1">Monto</label>
+                        <select id="recharge-amount" class="input-field select-field w-full">
+                            <option value="10">10 Bs</option>
+                            <option value="20">20 Bs</option>
+                            <option value="50">50 Bs</option>
+                            <option value="100">100 Bs</option>
+                            <option value="custom">Otro monto</option>
+                        </select>
+                    </div>
+                    
+                    <div id="custom-amount-container" class="hidden">
+                        <label for="custom-amount" class="block text-sm font-medium text-gray-700 mb-1">Especificar monto</label>
+                        <input type="number" id="custom-amount" class="input-field w-full" min="1">
+                    </div>
+                    
+                    <div class="pt-4 flex justify-end space-x-3">
+                        <button id="cancel-recharge" class="px-4 py-2.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-800 transition-colors font-medium">
+                            Cancelar
+                        </button>
+                        <button id="confirm-recharge" class="px-4 py-2.5 rounded-lg bg-green-600 hover:bg-green-700 text-white transition-colors font-medium flex items-center justify-center min-w-32">
+                            <span id="confirm-recharge-text">Confirmar</span>
+                            <div id="confirm-recharge-spinner" class="loading-spinner ml-2 hidden"></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal para enviar dinero -->
+        <div id="send-money-modal" class="modal fixed inset-0 z-50 flex items-center justify-center opacity-0 invisible transition-all duration-300">
+            <div class="modal-overlay absolute inset-0"></div>
+            <div class="modal-content w-full max-w-md p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Enviar dinero</h3>
+                    <button id="close-send-modal" class="text-gray-400 hover:text-gray-500">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label for="recipient-phone" class="block text-sm font-medium text-gray-700 mb-1">Teléfono del destinatario</label>
+                        <input type="tel" id="recipient-phone" class="input-field w-full" placeholder="Ej: 77712345">
+                    </div>
+                    
+                    <div>
+                        <label for="send-amount" class="block text-sm font-medium text-gray-700 mb-1">Monto</label>
+                        <input type="number" id="send-amount" class="input-field w-full" min="1">
+                    </div>
+                    
+                    <div>
+                        <label for="send-description" class="block text-sm font-medium text-gray-700 mb-1">Descripción (opcional)</label>
+                        <textarea id="send-description" rows="2" class="input-field w-full"></textarea>
+                    </div>
+                    
+                    <div class="pt-4 flex justify-end space-x-3">
+                        <button id="cancel-send" class="px-4 py-2.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-800 transition-colors font-medium">
+                            Cancelar
+                        </button>
+                        <button id="confirm-send" class="px-4 py-2.5 rounded-lg bg-purple-600 hover:bg-purple-700 text-white transition-colors font-medium">
+                            Enviar dinero
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -711,6 +1456,18 @@
             const modal = document.getElementById(modalId);
             modal.classList.remove('active');
             modal.classList.add('opacity-0', 'invisible');
+        };
+        
+        const openMobileModal = (modalId) => {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+        
+        const closeMobileModal = (modalId) => {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
         };
         
         // Funciones para cargar datos
@@ -881,20 +1638,37 @@
         // Funciones para renderizar datos
         const renderTransactions = (transactions) => {
             const container = document.getElementById('transactions-list');
+            const mobileContainer = document.getElementById('mobile-transactions-list');
+            const mobileFullContainer = document.getElementById('mobile-transactions-full-list');
             
             if (transactions.length === 0) {
-                container.innerHTML = `
-                    <tr>
-                        <td colspan="4" class="px-6 py-8 text-center text-gray-400">
-                            <i class="fas fa-exchange-alt fa-2x mb-2"></i>
-                            <p>No hay transacciones recientes</p>
-                        </td>
-                    </tr>
+                const emptyState = `
+                    <div class="mobile-empty-state">
+                        <div class="mobile-empty-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800">No hay transacciones</h3>
+                        <p class="mobile-empty-text">No se encontraron transacciones recientes</p>
+                    </div>
                 `;
+                
+                if (container) {
+                    container.innerHTML = `
+                        <tr>
+                            <td colspan="4" class="px-6 py-8 text-center text-gray-400">
+                                <i class="fas fa-exchange-alt fa-2x mb-2"></i>
+                                <p>No hay transacciones recientes</p>
+                            </td>
+                        </tr>
+                    `;
+                }
+                
+                if (mobileContainer) mobileContainer.innerHTML = emptyState;
+                if (mobileFullContainer) mobileFullContainer.innerHTML = emptyState;
                 return;
             }
             
-            container.innerHTML = transactions.map(transaction => {
+            const desktopHtml = transactions.map(transaction => {
                 const isPositive = transaction.type === 'deposit';
                 const textColor = isPositive ? 'text-green-600' : 'text-red-600';
                 const sign = isPositive ? '+' : '-';
@@ -918,24 +1692,93 @@
                     </tr>
                 `;
             }).join('');
+            
+            const mobileHtml = transactions.slice(0, 3).map(transaction => {
+                const isPositive = transaction.type === 'deposit';
+                const iconColor = isPositive ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600';
+                const textColor = isPositive ? 'text-green-600' : 'text-red-600';
+                const sign = isPositive ? '+' : '-';
+                const typeNames = {
+                    'deposit': 'Ingreso',
+                    'withdrawal': 'Retiro',
+                    'transfer': 'Transferencia'
+                };
+                
+                return `
+                    <div class="mobile-transaction-item">
+                        <div class="mobile-transaction-icon ${iconColor}">
+                            <i class="fas ${isPositive ? 'fa-arrow-down' : 'fa-arrow-up'}"></i>
+                        </div>
+                        <div class="mobile-transaction-details">
+                            <div class="mobile-transaction-title">${typeNames[transaction.type] || transaction.type}</div>
+                            <div class="mobile-transaction-date">${formatDate(transaction.created_at)}</div>
+                        </div>
+                        <div class="mobile-transaction-amount ${textColor}">${sign}${transaction.amount.toFixed(2)}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            const mobileFullHtml = transactions.map(transaction => {
+                const isPositive = transaction.type === 'deposit';
+                const iconColor = isPositive ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600';
+                const textColor = isPositive ? 'text-green-600' : 'text-red-600';
+                const sign = isPositive ? '+' : '-';
+                const typeNames = {
+                    'deposit': 'Ingreso',
+                    'withdrawal': 'Retiro',
+                    'transfer': 'Transferencia'
+                };
+                
+                return `
+                    <div class="mobile-transaction-item">
+                        <div class="mobile-transaction-icon ${iconColor}">
+                            <i class="fas ${isPositive ? 'fa-arrow-down' : 'fa-arrow-up'}"></i>
+                        </div>
+                        <div class="mobile-transaction-details">
+                            <div class="mobile-transaction-title">${transaction.description || typeNames[transaction.type] || transaction.type}</div>
+                            <div class="mobile-transaction-date">${formatDate(transaction.created_at)}</div>
+                        </div>
+                        <div class="mobile-transaction-amount ${textColor}">${sign}${transaction.amount.toFixed(2)}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            if (container) container.innerHTML = desktopHtml;
+            if (mobileContainer) mobileContainer.innerHTML = mobileHtml;
+            if (mobileFullContainer) mobileFullContainer.innerHTML = mobileFullHtml;
         };
         
         const renderRecharges = (recharges) => {
             const container = document.getElementById('recharges-list');
+            const mobileContainer = document.getElementById('mobile-recharges-full-list');
             
             if (recharges.length === 0) {
-                container.innerHTML = `
-                    <tr>
-                        <td colspan="4" class="px-6 py-8 text-center text-gray-400">
-                            <i class="fas fa-mobile-alt fa-2x mb-2"></i>
-                            <p>No hay recargas recientes</p>
-                        </td>
-                    </tr>
+                const emptyState = `
+                    <div class="mobile-empty-state">
+                        <div class="mobile-empty-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800">No hay recargas</h3>
+                        <p class="mobile-empty-text">No se encontraron recargas recientes</p>
+                    </div>
                 `;
+                
+                if (container) {
+                    container.innerHTML = `
+                        <tr>
+                            <td colspan="4" class="px-6 py-8 text-center text-gray-400">
+                                <i class="fas fa-mobile-alt fa-2x mb-2"></i>
+                                <p>No hay recargas recientes</p>
+                            </td>
+                        </tr>
+                    `;
+                }
+                
+                if (mobileContainer) mobileContainer.innerHTML = emptyState;
                 return;
             }
             
-            container.innerHTML = recharges.map(recharge => {
+            const desktopHtml = recharges.map(recharge => {
                 const operatorName = recharge.operator.charAt(0).toUpperCase() + recharge.operator.slice(1);
                 const operatorLogos = {
                     'entel': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Entel_logo.svg/1200px-Entel_logo.svg.png',
@@ -957,6 +1800,31 @@
                     </tr>
                 `;
             }).join('');
+            
+            const mobileHtml = recharges.map(recharge => {
+                const operatorName = recharge.operator.charAt(0).toUpperCase() + recharge.operator.slice(1);
+                const operatorLogos = {
+                    'entel': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwMYAltGZqlRHMRnIPvq9ZascJRtdJw43R8Q&s',
+                    'tigo': 'https://dplnews.com/wp-content/uploads/2020/06/dplnews_tigo_mc090620.jpg',
+                    'viva': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDjM0IP2cxcg231iXsqKa-q2eJH5uTbaQ0xA&s'
+                };
+                
+                return `
+                    <div class="mobile-transaction-item">
+                        <div class="mobile-transaction-icon bg-blue-100 text-blue-600">
+                            <img src="${operatorLogos[recharge.operator]}" class="h-6">
+                        </div>
+                        <div class="mobile-transaction-details">
+                            <div class="mobile-transaction-title">Recarga ${operatorName}</div>
+                            <div class="mobile-transaction-date">${recharge.phone_number} • ${formatDate(recharge.created_at)}</div>
+                        </div>
+                        <div class="mobile-transaction-amount text-green-600">-${recharge.amount.toFixed(2)}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            if (container) container.innerHTML = desktopHtml;
+            if (mobileContainer) mobileContainer.innerHTML = mobileHtml;
         };
         
         const updateUI = async () => {
@@ -964,20 +1832,61 @@
             
             // Actualizar balance
             currentBalance = await calculateBalance(currentUser.id);
-            document.getElementById('balance').textContent = formatCurrency(currentBalance);
+            const balanceElements = document.querySelectorAll('#balance, #mobile-balance');
+            balanceElements.forEach(el => {
+                if (el) el.textContent = formatCurrency(currentBalance);
+            });
             
             // Cargar y renderizar transacciones
-            const filter = document.getElementById('transactions-filter').value;
-            const transactions = await loadTransactions(currentUser.id, filter);
+            const filter = document.getElementById('transactions-filter')?.value || 'all';
+            const mobileFilter = document.getElementById('mobile-transactions-filter')?.value || 'all';
+            const activeFilter = filter || mobileFilter;
+            
+            const transactions = await loadTransactions(currentUser.id, activeFilter);
             renderTransactions(transactions);
             
             // Cargar y renderizar recargas
             const recharges = await loadRecharges(currentUser.id);
             renderRecharges(recharges);
+            
+            // Actualizar perfil móvil
+            if (document.getElementById('mobile-user-name')) {
+                document.getElementById('mobile-user-name').textContent = userProfile?.full_name || currentUser.email.split('@')[0];
+                document.getElementById('mobile-user-email').textContent = currentUser.email;
+                document.getElementById('mobile-profile-phone').textContent = userProfile?.phone || 'No especificado';
+                
+                const createdAt = new Date(userProfile.created_at || currentUser.created_at);
+                document.getElementById('mobile-profile-created-at').textContent = createdAt.toLocaleDateString('es-ES', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                // Configurar avatar móvil
+                const mobileAvatarElement = document.getElementById('mobile-user-avatar');
+                const mobileInitialsElement = document.getElementById('mobile-user-initials');
+                
+                if (userProfile?.avatar_url) {
+                    mobileAvatarElement.innerHTML = `<img src="${userProfile.avatar_url}" alt="Avatar">`;
+                    mobileInitialsElement.textContent = '';
+                } else {
+                    const initials = getInitials(userProfile?.full_name || currentUser.email);
+                    mobileInitialsElement.textContent = initials;
+                }
+            }
         };
         
         // Event Listeners
         document.addEventListener('DOMContentLoaded', async () => {
+            // Ajustar altura para mobile (evitar problemas con la barra de navegación en iOS)
+            const setVh = () => {
+                const vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            };
+            
+            setVh();
+            window.addEventListener('resize', setVh);
+            
             // Verificar sesión
             const { data: { session }, error } = await supabase.auth.getSession();
             
@@ -998,62 +1907,123 @@
             }
             
             // Actualizar UI con datos del usuario
-            document.getElementById('user-name').textContent = userProfile?.full_name || currentUser.email.split('@')[0];
-            document.getElementById('user-email').textContent = currentUser.email;
-            document.getElementById('profile-phone').textContent = userProfile?.phone || 'No especificado';
+            const nameElements = document.querySelectorAll('#user-name, #mobile-user-name');
+            const emailElements = document.querySelectorAll('#user-email, #mobile-user-email');
+            const phoneElements = document.querySelectorAll('#profile-phone, #mobile-profile-phone');
+            const dateElements = document.querySelectorAll('#profile-created-at, #mobile-profile-created-at');
+            const avatarElements = document.querySelectorAll('#user-avatar, #mobile-user-avatar');
+            const initialsElements = document.querySelectorAll('#user-initials, #mobile-user-initials');
+            
+            nameElements.forEach(el => {
+                if (el) el.textContent = userProfile?.full_name || currentUser.email.split('@')[0];
+            });
+            
+            emailElements.forEach(el => {
+                if (el) el.textContent = currentUser.email;
+            });
+            
+            phoneElements.forEach(el => {
+                if (el) el.textContent = userProfile?.phone || 'No especificado';
+            });
             
             const createdAt = new Date(userProfile.created_at || currentUser.created_at);
-            document.getElementById('profile-created-at').textContent = createdAt.toLocaleDateString('es-ES', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
+            dateElements.forEach(el => {
+                if (el) el.textContent = createdAt.toLocaleDateString('es-ES', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
             });
             
             // Configurar avatar
-            const avatarElement = document.getElementById('user-avatar');
-            const initialsElement = document.getElementById('user-initials');
+            avatarElements.forEach((avatarElement, index) => {
+                if (avatarElement) {
+                    const initialsElement = initialsElements[index];
+                    if (userProfile?.avatar_url) {
+                        avatarElement.innerHTML = `<img src="${userProfile.avatar_url}" alt="Avatar">`;
+                        if (initialsElement) initialsElement.textContent = '';
+                    } else {
+                        const initials = getInitials(userProfile?.full_name || currentUser.email);
+                        if (initialsElement) initialsElement.textContent = initials;
+                    }
+                }
+            });
             
-            if (userProfile?.avatar_url) {
-                avatarElement.innerHTML = `<img src="${userProfile.avatar_url}" alt="Avatar">`;
-                initialsElement.textContent = '';
-            } else {
-                const initials = getInitials(userProfile?.full_name || currentUser.email);
-                initialsElement.textContent = initials;
-            }
+            // Navegación móvil
+            const navItems = document.querySelectorAll('.nav-item');
+            const views = ['home', 'transactions', 'profile'];
             
-            // Configurar pestañas
-            const tabs = {
-                'transactions-tab': 'transactions-content',
-                'recharges-tab': 'recharges-content'
-            };
-            
-            Object.entries(tabs).forEach(([tabId, contentId]) => {
-                document.getElementById(tabId).addEventListener('click', () => {
-                    // Desactivar todas las pestañas
-                    document.querySelectorAll('.tab-button').forEach(btn => {
-                        btn.classList.remove('tab-active', 'text-purple-600');
-                        btn.classList.add('text-gray-500');
+            navItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const view = item.dataset.view;
+                    
+                    // Actualizar navegación
+                    navItems.forEach(navItem => {
+                        navItem.classList.remove('active');
+                    });
+                    item.classList.add('active');
+                    
+                    // Actualizar vista
+                    views.forEach(v => {
+                        const element = document.getElementById(`mobile-${v}-view`);
+                        if (element) {
+                            element.classList.add('hidden');
+                        }
                     });
                     
-                    // Ocultar todo el contenido
+                    const viewElement = document.getElementById(`mobile-${view}-view`);
+                    if (viewElement) {
+                        viewElement.classList.remove('hidden');
+                    }
+                    
+                    // Actualizar título
+                    const titleMap = {
+                        'home': 'Inicio',
+                        'transactions': 'Transacciones',
+                        'profile': 'Perfil'
+                    };
+                    
+                    const titleElement = document.getElementById('mobile-header-title');
+                    if (titleElement) {
+                        titleElement.textContent = titleMap[view];
+                    }
+                });
+            });
+            
+            // Pestañas móviles
+            const mobileTabs = document.querySelectorAll('.mobile-tab');
+            mobileTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.dataset.tab;
+                    
+                    mobileTabs.forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    tab.classList.add('active');
+                    
                     document.querySelectorAll('.tab-content').forEach(content => {
                         content.classList.add('hidden');
                     });
                     
-                    // Activar la pestaña seleccionada
-                    document.getElementById(tabId).classList.add('tab-active', 'text-purple-600');
-                    document.getElementById(tabId).classList.remove('text-gray-500');
-                    
-                    // Mostrar el contenido correspondiente
-                    document.getElementById(contentId).classList.remove('hidden');
+                    const contentElement = document.getElementById(`mobile-${tabId}-tab`);
+                    if (contentElement) {
+                        contentElement.classList.remove('hidden');
+                    }
                 });
             });
             
             // Filtro de transacciones
-            document.getElementById('transactions-filter').addEventListener('change', updateUI);
+            const filterElements = document.querySelectorAll('#transactions-filter, #mobile-transactions-filter');
+            filterElements.forEach(filter => {
+                if (filter) {
+                    filter.addEventListener('change', updateUI);
+                }
+            });
             
             // Botones de logout
-            document.querySelectorAll('[id^="logout-btn"]').forEach(btn => {
+            const logoutButtons = document.querySelectorAll('#logout-btn, #mobile-logout-btn');
+            logoutButtons.forEach(btn => {
                 btn.addEventListener('click', async () => {
                     await supabase.auth.signOut();
                     window.location.href = 'index.html';
@@ -1061,265 +2031,422 @@
             });
             
             // Modal de perfil
-            document.getElementById('edit-profile-btn').addEventListener('click', () => {
-                document.getElementById('full-name').value = userProfile?.full_name || '';
-                
-                const avatarPreview = document.getElementById('avatar-preview');
-                if (userProfile?.avatar_url) {
-                    avatarPreview.innerHTML = `<img src="${userProfile.avatar_url}" alt="Avatar">`;
-                } else {
-                    avatarPreview.textContent = getInitials(userProfile?.full_name || currentUser.email);
-                }
-                
-                openModal('profile-modal');
+            const editProfileButtons = document.querySelectorAll('#edit-profile-btn, #mobile-edit-profile-btn');
+            editProfileButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const fullNameElements = document.querySelectorAll('#full-name, #mobile-full-name');
+                    fullNameElements.forEach(el => {
+                        if (el) el.value = userProfile?.full_name || '';
+                    });
+                    
+                    const avatarPreviewElements = document.querySelectorAll('#avatar-preview, #mobile-avatar-preview');
+                    avatarPreviewElements.forEach(avatarPreview => {
+                        if (avatarPreview) {
+                            if (userProfile?.avatar_url) {
+                                avatarPreview.innerHTML = `<img src="${userProfile.avatar_url}" alt="Avatar">`;
+                            } else {
+                                avatarPreview.textContent = getInitials(userProfile?.full_name || currentUser.email);
+                            }
+                        }
+                    });
+                    
+                    if (btn.id === 'mobile-edit-profile-btn') {
+                        openMobileModal('mobile-profile-modal');
+                    } else {
+                        openModal('profile-modal');
+                    }
+                });
             });
             
-            document.getElementById('close-profile-modal').addEventListener('click', () => closeModal('profile-modal'));
-            document.getElementById('cancel-profile-edit').addEventListener('click', () => closeModal('profile-modal'));
-            
-            document.getElementById('save-profile').addEventListener('click', async () => {
-                const fullName = document.getElementById('full-name').value;
-                
-                const updates = { full_name: fullName };
-                
-                const fileInput = document.getElementById('avatar-input');
-                if (fileInput.files.length > 0) {
-                    const publicUrl = await uploadAvatar(currentUser.id, fileInput.files[0]);
-                    if (publicUrl) updates.avatar_url = publicUrl;
-                }
-                
-                const updatedProfile = await updateUserProfile(currentUser.id, updates);
-                if (updatedProfile) {
-                    userProfile = updatedProfile;
-                    document.getElementById('user-name').textContent = userProfile.full_name;
-                    
-                    const avatarElement = document.getElementById('user-avatar');
-                    const initialsElement = document.getElementById('user-initials');
-                    
-                    if (userProfile.avatar_url) {
-                        avatarElement.innerHTML = `<img src="${userProfile.avatar_url}" alt="Avatar">`;
-                        initialsElement.textContent = '';
+            // Cerrar modales de perfil
+            const closeProfileButtons = document.querySelectorAll('#close-profile-modal, #mobile-close-profile-modal, #cancel-profile-edit, #mobile-cancel-profile-edit');
+            closeProfileButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (btn.id.includes('mobile')) {
+                        closeMobileModal('mobile-profile-modal');
                     } else {
-                        const initials = getInitials(userProfile.full_name);
-                        initialsElement.textContent = initials;
+                        closeModal('profile-modal');
+                    }
+                });
+            });
+            
+            // Cambiar avatar
+            const avatarInputs = document.querySelectorAll('#avatar-input, #mobile-avatar-input');
+            const changeAvatarButtons = document.querySelectorAll('#mobile-change-avatar-btn, #avatar-input + button');
+            
+            changeAvatarButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const inputId = btn.id === 'mobile-change-avatar-btn' ? 'mobile-avatar-input' : 'avatar-input';
+                    document.getElementById(inputId).click();
+                });
+            });
+            
+            avatarInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    const previewId = this.id === 'mobile-avatar-input' ? 'mobile-avatar-preview' : 'avatar-preview';
+                    const preview = document.getElementById(previewId);
+                    
+                    if (this.files && this.files[0]) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            preview.innerHTML = `<img src="${e.target.result}" alt="Avatar">`;
+                        };
+                        reader.readAsDataURL(this.files[0]);
+                    }
+                });
+            });
+            
+            // Guardar perfil
+            const saveProfileButtons = document.querySelectorAll('#save-profile, #mobile-save-profile');
+            saveProfileButtons.forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const fullName = document.getElementById(btn.id === 'mobile-save-profile' ? 'mobile-full-name' : 'full-name').value;
+                    
+                    const updates = { full_name: fullName };
+                    
+                    const fileInput = document.getElementById(btn.id === 'mobile-save-profile' ? 'mobile-avatar-input' : 'avatar-input');
+                    if (fileInput.files.length > 0) {
+                        const publicUrl = await uploadAvatar(currentUser.id, fileInput.files[0]);
+                        if (publicUrl) updates.avatar_url = publicUrl;
                     }
                     
-                    showToast('Perfil actualizado correctamente');
-                    closeModal('profile-modal');
-                } else {
-                    showToast('Error al actualizar el perfil', 'error');
-                }
+                    const updatedProfile = await updateUserProfile(currentUser.id, updates);
+                    if (updatedProfile) {
+                        userProfile = updatedProfile;
+                        
+                        // Actualizar nombre en todas las instancias
+                        const nameElements = document.querySelectorAll('#user-name, #mobile-user-name');
+                        nameElements.forEach(el => {
+                            if (el) el.textContent = userProfile.full_name;
+                        });
+                        
+                        // Actualizar avatar en todas las instancias
+                        const avatarElements = document.querySelectorAll('#user-avatar, #mobile-user-avatar, #mobile-avatar-preview, #avatar-preview');
+                        const initialsElements = document.querySelectorAll('#user-initials, #mobile-user-initials');
+                        
+                        avatarElements.forEach((avatarElement, index) => {
+                            if (avatarElement) {
+                                if (userProfile.avatar_url) {
+                                    avatarElement.innerHTML = `<img src="${userProfile.avatar_url}" alt="Avatar">`;
+                                    if (initialsElements[index]) initialsElements[index].textContent = '';
+                                } else {
+                                    const initials = getInitials(userProfile.full_name);
+                                    if (initialsElements[index]) initialsElements[index].textContent = initials;
+                                }
+                            }
+                        });
+                        
+                        showToast('Perfil actualizado correctamente');
+                        
+                        if (btn.id === 'mobile-save-profile') {
+                            closeMobileModal('mobile-profile-modal');
+                        } else {
+                            closeModal('profile-modal');
+                        }
+                    } else {
+                        showToast('Error al actualizar el perfil', 'error');
+                    }
+                });
             });
             
             // Modal de recargas
-            document.getElementById('recharge-btn').addEventListener('click', () => {
-                document.getElementById('phone-number').value = '';
-                document.getElementById('recharge-amount').value = '10';
-                document.getElementById('custom-amount-container').classList.add('hidden');
-                selectedOperator = null;
-                document.querySelectorAll('.operator-btn').forEach(btn => {
-                    btn.classList.remove('selected');
+            const rechargeButtons = document.querySelectorAll('#recharge-btn, #mobile-recharge-btn, #new-recharge-btn, #mobile-new-recharge-btn');
+            rechargeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const phoneNumberElements = document.querySelectorAll('#phone-number, #mobile-phone-number');
+                    const rechargeAmountElements = document.querySelectorAll('#recharge-amount, #mobile-recharge-amount');
+                    const customAmountContainers = document.querySelectorAll('#custom-amount-container, #mobile-custom-amount-container');
+                    
+                    phoneNumberElements.forEach(el => {
+                        if (el) el.value = '';
+                    });
+                    
+                    rechargeAmountElements.forEach(el => {
+                        if (el) el.value = '10';
+                    });
+                    
+                    customAmountContainers.forEach(el => {
+                        if (el) el.classList.add('hidden');
+                    });
+                    
+                    selectedOperator = null;
+                    const operatorButtons = document.querySelectorAll('.operator-btn, .mobile-operator-btn');
+                    operatorButtons.forEach(btn => {
+                        btn.classList.remove('selected');
+                    });
+                    
+                    if (btn.id.includes('mobile')) {
+                        openMobileModal('mobile-recharge-modal');
+                    } else {
+                        openModal('recharge-modal');
+                    }
                 });
-                openModal('recharge-modal');
             });
             
-            document.getElementById('close-recharge-modal').addEventListener('click', () => closeModal('recharge-modal'));
-            document.getElementById('cancel-recharge').addEventListener('click', () => closeModal('recharge-modal'));
+            // Cerrar modales de recarga
+            const closeRechargeButtons = document.querySelectorAll('#close-recharge-modal, #mobile-close-recharge-modal, #cancel-recharge, #mobile-cancel-recharge');
+            closeRechargeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (btn.id.includes('mobile')) {
+                        closeMobileModal('mobile-recharge-modal');
+                    } else {
+                        closeModal('recharge-modal');
+                    }
+                });
+            });
             
-            document.querySelectorAll('.operator-btn').forEach(btn => {
+            // Seleccionar operadora
+            const operatorButtons = document.querySelectorAll('.operator-btn, .mobile-operator-btn');
+            operatorButtons.forEach(btn => {
                 btn.addEventListener('click', () => {
                     selectedOperator = btn.dataset.operator;
-                    document.querySelectorAll('.operator-btn').forEach(b => {
+                    const allButtons = document.querySelectorAll(`.operator-btn, .mobile-operator-btn`);
+                    allButtons.forEach(b => {
                         b.classList.remove('selected');
                     });
                     btn.classList.add('selected');
                 });
             });
             
-            document.getElementById('recharge-amount').addEventListener('change', (e) => {
-                if (e.target.value === 'custom') {
-                    document.getElementById('custom-amount-container').classList.remove('hidden');
-                } else {
-                    document.getElementById('custom-amount-container').classList.add('hidden');
+            // Mostrar campo de monto personalizado
+            const rechargeAmountElements = document.querySelectorAll('#recharge-amount, #mobile-recharge-amount');
+            rechargeAmountElements.forEach(el => {
+                if (el) {
+                    el.addEventListener('change', (e) => {
+                        const containerId = el.id === 'mobile-recharge-amount' ? 'mobile-custom-amount-container' : 'custom-amount-container';
+                        const container = document.getElementById(containerId);
+                        if (e.target.value === 'custom') {
+                            container.classList.remove('hidden');
+                        } else {
+                            container.classList.add('hidden');
+                        }
+                    });
                 }
             });
             
-            document.getElementById('confirm-recharge').addEventListener('click', async () => {
-                const phoneNumber = document.getElementById('phone-number').value;
-                let amount = document.getElementById('recharge-amount').value;
-                
-                if (amount === 'custom') {
-                    amount = document.getElementById('custom-amount').value;
-                }
-                
-                if (!selectedOperator) {
-                    showToast('Selecciona una operadora', 'error');
-                    return;
-                }
-                
-                if (!phoneNumber || phoneNumber.length < 7) {
-                    showToast('Ingresa un número de teléfono válido', 'error');
-                    return;
-                }
-                
-                if (!amount || parseFloat(amount) <= 0) {
-                    showToast('Ingresa un monto válido', 'error');
-                    return;
-                }
-                
-                amount = parseFloat(amount);
-                
-                if (amount > currentBalance) {
-                    showToast('Saldo insuficiente', 'error');
-                    return;
-                }
-                
-                // Mostrar spinner de carga
-                const confirmBtn = document.getElementById('confirm-recharge');
-                const confirmText = document.getElementById('confirm-recharge-text');
-                const confirmSpinner = document.getElementById('confirm-recharge-spinner');
-                
-                confirmBtn.disabled = true;
-                confirmText.textContent = 'Procesando...';
-                confirmSpinner.classList.remove('hidden');
-                
-                try {
-                    // Crear transacción
-                    const transaction = await createTransaction(
-                        currentUser.id,
-                        amount,
-                        'withdrawal',
-                        `Recarga ${selectedOperator} a ${phoneNumber}`,
-                        { service: 'recharge' }
-                    );
+            // Confirmar recarga
+            const confirmRechargeButtons = document.querySelectorAll('#confirm-recharge, #mobile-confirm-recharge');
+            confirmRechargeButtons.forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const isMobile = btn.id === 'mobile-confirm-recharge';
                     
-                    if (!transaction) {
-                        throw new Error('Error al crear la transacción');
+                    const phoneNumber = document.getElementById(isMobile ? 'mobile-phone-number' : 'phone-number').value;
+                    let amount = document.getElementById(isMobile ? 'mobile-recharge-amount' : 'recharge-amount').value;
+                    
+                    if (amount === 'custom') {
+                        amount = document.getElementById(isMobile ? 'mobile-custom-amount' : 'custom-amount').value;
                     }
                     
-                    // Crear registro de recarga
-                    const recharge = await createRecharge(
-                        currentUser.id,
-                        phoneNumber,
-                        selectedOperator,
-                        amount,
-                        transaction.id
-                    );
-                    
-                    if (!recharge) {
-                        throw new Error('Error al registrar la recarga');
+                    if (!selectedOperator) {
+                        showToast('Selecciona una operadora', 'error');
+                        return;
                     }
                     
-                    // Enviar notificación a Telegram
-                    const telegramMessage = `
-<b>Nueva recarga solicitada</b>
+                    if (!phoneNumber || phoneNumber.length < 7) {
+                        showToast('Ingresa un número de teléfono válido', 'error');
+                        return;
+                    }
+                    
+                    if (!amount || parseFloat(amount) <= 0) {
+                        showToast('Ingresa un monto válido', 'error');
+                        return;
+                    }
+                    
+                    amount = parseFloat(amount);
+                    
+                    if (amount > currentBalance) {
+                        showToast('Saldo insuficiente', 'error');
+                        return;
+                    }
+                    
+                    // Mostrar spinner de carga
+                    const confirmText = document.getElementById(isMobile ? 'mobile-confirm-recharge-text' : 'confirm-recharge-text');
+                    const confirmSpinner = document.getElementById(isMobile ? 'mobile-confirm-recharge-spinner' : 'confirm-recharge-spinner');
+                    
+                    btn.disabled = true;
+                    if (confirmText) confirmText.textContent = 'Procesando...';
+                    if (confirmSpinner) confirmSpinner.classList.remove('hidden');
+                    
+                    try {
+                        // Crear transacción
+                        const transaction = await createTransaction(
+                            currentUser.id,
+                            amount,
+                            'withdrawal',
+                            `Recarga ${selectedOperator} a ${phoneNumber}`,
+                            { service: 'recharge' }
+                        );
                         
+                        if (!transaction) {
+                            throw new Error('Error al crear la transacción');
+                        }
+                        
+                        // Crear registro de recarga
+                        const recharge = await createRecharge(
+                            currentUser.id,
+                            phoneNumber,
+                            selectedOperator,
+                            amount,
+                            transaction.id
+                        );
+                        
+                        if (!recharge) {
+                            throw new Error('Error al registrar la recarga');
+                        }
+                        
+                        // Enviar notificación a Telegram
+                        const telegramMessage = `
+<b>Nueva recarga solicitada</b>
+                            
 📱 <b>Operadora:</b> ${selectedOperator.toUpperCase()}
 📞 <b>Número:</b> ${phoneNumber}
 💰 <b>Monto:</b> ${amount} Bs
 👤 <b>Usuario:</b> ${userProfile?.full_name || currentUser.email}
 🆔 <b>ID Transacción:</b> ${transaction.id}
 ⏱ <b>Fecha:</b> ${new Date().toLocaleString()}
-                    `;
-                    
-                    const telegramSent = await sendTelegramMessage(telegramMessage);
-                    
-                    if (!telegramSent) {
-                        console.warn('No se pudo enviar la notificación a Telegram');
+                        `;
+                        
+                        const telegramSent = await sendTelegramMessage(telegramMessage);
+                        
+                        if (!telegramSent) {
+                            console.warn('No se pudo enviar la notificación a Telegram');
+                        }
+                        
+                        showToast(`Recarga de ${amount} Bs a ${phoneNumber} exitosa`);
+                        
+                        if (isMobile) {
+                            closeMobileModal('mobile-recharge-modal');
+                        } else {
+                            closeModal('recharge-modal');
+                        }
+                        
+                        updateUI();
+                    } catch (error) {
+                        console.error('Error en el proceso de recarga:', error);
+                        showToast('Error al procesar la recarga', 'error');
+                    } finally {
+                        // Restaurar estado del botón
+                        btn.disabled = false;
+                        if (confirmText) confirmText.textContent = isMobile ? 'Confirmar recarga' : 'Confirmar';
+                        if (confirmSpinner) confirmSpinner.classList.add('hidden');
                     }
-                    
-                    showToast(`Recarga de ${amount} Bs a ${phoneNumber} exitosa`);
-                    closeModal('recharge-modal');
-                    updateUI();
-                } catch (error) {
-                    console.error('Error en el proceso de recarga:', error);
-                    showToast('Error al procesar la recarga', 'error');
-                } finally {
-                    // Restaurar estado del botón
-                    confirmBtn.disabled = false;
-                    confirmText.textContent = 'Confirmar';
-                    confirmSpinner.classList.add('hidden');
-                }
+                });
             });
             
             // Modal para enviar dinero
-            document.getElementById('send-money-btn').addEventListener('click', () => {
-                document.getElementById('recipient-phone').value = '';
-                document.getElementById('send-amount').value = '';
-                document.getElementById('send-description').value = '';
-                openModal('send-money-modal');
+            const sendMoneyButtons = document.querySelectorAll('#send-money-btn, #mobile-send-money-btn');
+            sendMoneyButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const recipientPhoneElements = document.querySelectorAll('#recipient-phone, #mobile-recipient-phone');
+                    const sendAmountElements = document.querySelectorAll('#send-amount, #mobile-send-amount');
+                    const sendDescriptionElements = document.querySelectorAll('#send-description, #mobile-send-description');
+                    
+                    recipientPhoneElements.forEach(el => {
+                        if (el) el.value = '';
+                    });
+                    
+                    sendAmountElements.forEach(el => {
+                        if (el) el.value = '';
+                    });
+                    
+                    sendDescriptionElements.forEach(el => {
+                        if (el) el.value = '';
+                    });
+                    
+                    if (btn.id === 'mobile-send-money-btn') {
+                        openMobileModal('mobile-send-money-modal');
+                    } else {
+                        openModal('send-money-modal');
+                    }
+                });
             });
             
-            document.getElementById('close-send-modal').addEventListener('click', () => closeModal('send-money-modal'));
-            document.getElementById('cancel-send').addEventListener('click', () => closeModal('send-money-modal'));
-            
-            document.getElementById('confirm-send').addEventListener('click', async () => {
-                const recipientPhone = document.getElementById('recipient-phone').value;
-                const amount = parseFloat(document.getElementById('send-amount').value);
-                const description = document.getElementById('send-description').value;
-                
-                if (!recipientPhone || recipientPhone.length < 7) {
-                    showToast('Ingresa un número de teléfono válido', 'error');
-                    return;
-                }
-                
-                if (!amount || amount <= 0) {
-                    showToast('Ingresa un monto válido', 'error');
-                    return;
-                }
-                
-                if (amount > currentBalance) {
-                    showToast('Saldo insuficiente', 'error');
-                    return;
-                }
-                
-                // Verificar si el destinatario existe por teléfono
-                const { data: recipientUser, error: recipientError } = await supabase
-                    .from('user_profiles')
-                    .select('id')
-                    .eq('phone', recipientPhone)
-                    .single();
-                
-                if (recipientError || !recipientUser) {
-                    showToast('El destinatario no está registrado', 'error');
-                    return;
-                }
-                
-                // Crear transacción de envío
-                const sendTransaction = await createTransaction(
-                    currentUser.id,
-                    amount,
-                    'transfer',
-                    description || `Transferencia a ${recipientPhone}`,
-                    { recipient: recipientPhone }
-                );
-                
-                if (!sendTransaction) {
-                    showToast('Error al procesar la transferencia', 'error');
-                    return;
-                }
-                
-                // Crear transacción de recepción para el destinatario
-                const receiveTransaction = await createTransaction(
-                    recipientUser.id,
-                    amount,
-                    'deposit',
-                    description || `Transferencia de ${currentUser.email}`,
-                    { sender: currentUser.email }
-                );
-                
-                if (receiveTransaction) {
-                    showToast(`Transferencia de ${amount} Bs enviada`);
-                    closeModal('send-money-modal');
-                    updateUI();
-                } else {
-                    showToast('Error al completar la transferencia', 'error');
-                }
+            // Cerrar modales de envío
+            const closeSendButtons = document.querySelectorAll('#close-send-modal, #mobile-close-send-modal, #cancel-send, #mobile-cancel-send');
+            closeSendButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (btn.id.includes('mobile')) {
+                        closeMobileModal('mobile-send-money-modal');
+                    } else {
+                        closeModal('send-money-modal');
+                    }
+                });
             });
             
-            // Botón de nueva recarga en la pestaña
-            document.getElementById('new-recharge-btn').addEventListener('click', () => {
-                document.getElementById('recharge-btn').click();
+            // Confirmar envío de dinero
+            const confirmSendButtons = document.querySelectorAll('#confirm-send, #mobile-confirm-send');
+            confirmSendButtons.forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const isMobile = btn.id === 'mobile-confirm-send';
+                    
+                    const recipientPhone = document.getElementById(isMobile ? 'mobile-recipient-phone' : 'recipient-phone').value;
+                    const amount = parseFloat(document.getElementById(isMobile ? 'mobile-send-amount' : 'send-amount').value);
+                    const description = document.getElementById(isMobile ? 'mobile-send-description' : 'send-description').value;
+                    
+                    if (!recipientPhone || recipientPhone.length < 7) {
+                        showToast('Ingresa un número de teléfono válido', 'error');
+                        return;
+                    }
+                    
+                    if (!amount || amount <= 0) {
+                        showToast('Ingresa un monto válido', 'error');
+                        return;
+                    }
+                    
+                    if (amount > currentBalance) {
+                        showToast('Saldo insuficiente', 'error');
+                        return;
+                    }
+                    
+                    // Verificar si el destinatario existe por teléfono
+                    const { data: recipientUser, error: recipientError } = await supabase
+                        .from('user_profiles')
+                        .select('id')
+                        .eq('phone', recipientPhone)
+                        .single();
+                    
+                    if (recipientError || !recipientUser) {
+                        showToast('El destinatario no está registrado', 'error');
+                        return;
+                    }
+                    
+                    // Crear transacción de envío
+                    const sendTransaction = await createTransaction(
+                        currentUser.id,
+                        amount,
+                        'transfer',
+                        description || `Transferencia a ${recipientPhone}`,
+                        { recipient: recipientPhone }
+                    );
+                    
+                    if (!sendTransaction) {
+                        showToast('Error al procesar la transferencia', 'error');
+                        return;
+                    }
+                    
+                    // Crear transacción de recepción para el destinatario
+                    const receiveTransaction = await createTransaction(
+                        recipientUser.id,
+                        amount,
+                        'deposit',
+                        description || `Transferencia de ${currentUser.email}`,
+                        { sender: currentUser.email }
+                    );
+                    
+                    if (receiveTransaction) {
+                        showToast(`Transferencia de ${amount} Bs enviada`);
+                        
+                        if (isMobile) {
+                            closeMobileModal('mobile-send-money-modal');
+                        } else {
+                            closeModal('send-money-modal');
+                        }
+                        
+                        updateUI();
+                    } else {
+                        showToast('Error al completar la transferencia', 'error');
+                    }
+                });
             });
             
             // Cargar datos iniciales
