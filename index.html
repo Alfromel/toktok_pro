@@ -6,6 +6,14 @@
     <title>TokTok - Billetera Digital</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0066FF">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="toktok" />
+    <link rel="manifest" href="/site.webmanifest" />
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -78,6 +86,7 @@
         .hidden {
             display: none;
         }
+        
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
@@ -206,6 +215,47 @@
             switchToSignup.addEventListener('click', showSignup);
             switchToLogin.addEventListener('click', showLogin);
         });
+        // Registra el Service Worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => console.log('SW registered'))
+            .catch(err => console.log('SW registration failed'));
+    });
+}
+
+// Botón de instalación
+let deferredPrompt;
+const installButton = document.createElement('button');
+installButton.textContent = 'Instalar TokTok';
+installButton.className = 'btn-primary fixed bottom-4 right-4 z-50 py-2 px-4 rounded-full shadow-lg animate-bounce';
+installButton.style.display = 'none';
+
+document.body.appendChild(installButton);
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installButton.style.display = 'block';
+    
+    installButton.addEventListener('click', () => {
+        installButton.style.display = 'none';
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(choiceResult => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted install');
+            } else {
+                console.log('User dismissed install');
+            }
+            deferredPrompt = null;
+        });
+    });
+});
+
+window.addEventListener('appinstalled', () => {
+    installButton.style.display = 'none';
+    deferredPrompt = null;
+});
     </script>
     <script src="js/auth.js"></script>
 </body>
