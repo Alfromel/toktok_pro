@@ -456,6 +456,50 @@
             .desktop-only {
                 display: none !important;
             }
+            
+            /* Nuevos estilos para el modal de recarga de saldo */
+            .qr-code-container {
+                display: flex;
+                justify-content: center;
+                margin: 20px 0;
+            }
+            
+            .qr-code {
+                width: 200px;
+                height: 200px;
+                border: 1px solid #e2e8f0;
+                border-radius: 12px;
+                padding: 10px;
+                background: white;
+            }
+            
+            .file-input-label {
+                display: block;
+                width: 100%;
+                padding: 12px;
+                border: 1px dashed #e2e8f0;
+                border-radius: 12px;
+                text-align: center;
+                cursor: pointer;
+                margin-bottom: 16px;
+                transition: all 0.2s;
+            }
+            
+            .file-input-label:hover {
+                border-color: var(--primary);
+                background: #f5f3ff;
+            }
+            
+            .file-input-label i {
+                margin-right: 8px;
+            }
+            
+            .file-name {
+                font-size: 12px;
+                color: #64748b;
+                margin-top: 8px;
+                word-break: break-all;
+            }
         }
         
         /* Estilos para desktop (se mantienen igual) */
@@ -731,6 +775,50 @@
                 background-color: #fef3c7;
                 color: #d97706;
             }
+            
+            /* Nuevos estilos para el modal de recarga de saldo (desktop) */
+            .qr-code-container-desktop {
+                display: flex;
+                justify-content: center;
+                margin: 20px 0;
+            }
+            
+            .qr-code-desktop {
+                width: 200px;
+                height: 200px;
+                border: 1px solid #e2e8f0;
+                border-radius: 12px;
+                padding: 10px;
+                background: white;
+            }
+            
+            .file-input-label-desktop {
+                display: block;
+                width: 100%;
+                padding: 12px;
+                border: 1px dashed #e2e8f0;
+                border-radius: 12px;
+                text-align: center;
+                cursor: pointer;
+                margin-bottom: 16px;
+                transition: all 0.2s;
+            }
+            
+            .file-input-label-desktop:hover {
+                border-color: var(--primary);
+                background: #f5f3ff;
+            }
+            
+            .file-input-label-desktop i {
+                margin-right: 8px;
+            }
+            
+            .file-name-desktop {
+                font-size: 12px;
+                color: #64748b;
+                margin-top: 8px;
+                word-break: break-all;
+            }
         }
     </style>
 </head>
@@ -754,7 +842,7 @@
                 <!-- Tarjeta de balance -->
                 <div class="mobile-balance-card">
                     <div class="mobile-balance-label">Balance disponible</div>
-                    <div class="mobile-balance-amount" id="mobile-balance">Bs0.00</div>
+                    <div class="mobile-balance-amount" id="mobile-balance">Bs</div>
                     <div class="mobile-balance-footer">
                         <div>
                             <div class="mobile-balance-wallet">TokTok Wallet</div>
@@ -764,6 +852,10 @@
                             <i class="fas fa-wallet"></i>
                         </div>
                     </div>
+                    <button id="mobile-recharge-balance-btn" class="mt-4 w-full py-2 px-4 rounded-lg bg-white text-purple-600 font-medium flex items-center justify-center">
+                        <i class="fas fa-plus-circle mr-2"></i>
+                        Recargar saldo
+                    </button>
                 </div>
                 
                 <!-- Acciones rápidas -->
@@ -962,7 +1054,7 @@
                             <img src="https://dplnews.com/wp-content/uploads/2020/06/dplnews_tigo_mc090620.jpg" class="h-6 mr-2">
                             Tigo
                         </button>
-                        <button data-operator="viva" class="mobile-operator-btn">
+                        <button id="mobile-viva-operator-btn" data-operator="viva" class="mobile-operator-btn">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDjM0IP2cxcg231iXsqKa-q2eJH5uTbaQ0xA&s" class="h-6 mr-2">
                             Viva
                         </button>
@@ -977,10 +1069,11 @@
                 <div class="mb-4">
                     <label for="mobile-recharge-amount" class="block text-sm font-medium text-gray-700 mb-1">Monto</label>
                     <select id="mobile-recharge-amount" class="mobile-input">
-                        <option value="10">10 Bs</option>
-                        <option value="20">20 Bs</option>
-                        <option value="50">50 Bs</option>
-                        <option value="100">100 Bs</option>
+                        <option value="12">12 Bs (20 crédito)</option>
+                        <option value="24">24 Bs (40 crédito)</option>
+                        <option value="36">36 Bs (60 crédito)</option>
+                        <option value="48">48 Bs (80 crédito)</option>
+                        <option value="60">60 Bs (100 crédito)</option>
                         <option value="custom">Otro monto</option>
                     </select>
                 </div>
@@ -990,11 +1083,82 @@
                     <input type="number" id="mobile-custom-amount" class="mobile-input" min="1">
                 </div>
                 
+                <!-- Detalles específicos para VIVA -->
+                <div id="mobile-viva-details" class="text-sm text-gray-500 mb-4 hidden">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    <span id="mobile-viva-details-text"></span>
+                </div>
+                
+                <!-- Detalles para otras operadoras -->
+                <div id="mobile-recharge-details" class="text-sm text-gray-500 mb-4 hidden">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    <span id="mobile-recharge-details-text"></span>
+                </div>
+                
                 <button id="mobile-confirm-recharge" class="mobile-btn mobile-btn-primary flex items-center justify-center">
                     <span id="mobile-confirm-recharge-text">Confirmar recarga</span>
                     <div id="mobile-confirm-recharge-spinner" class="loading-spinner ml-2 hidden"></div>
                 </button>
                 <button id="mobile-cancel-recharge" class="mobile-btn mobile-btn-secondary">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+        
+        <!-- Modal especial para recargas VIVA (mobile) -->
+        <div id="mobile-viva-recharge-modal" class="mobile-modal">
+            <div class="mobile-modal-content">
+                <div class="mobile-modal-header">
+                    <div class="mobile-modal-title">Recarga VIVA</div>
+                    <button id="mobile-close-viva-modal" class="mobile-modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="mobile-viva-phone-number" class="block text-sm font-medium text-gray-700 mb-1">Número de teléfono</label>
+                    <input type="tel" id="mobile-viva-phone-number" class="mobile-input" placeholder="Ej: 77712345">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Seleccione paquete</label>
+                    <div class="space-y-2">
+                        <button data-package="12" class="mobile-operator-btn w-full text-left flex items-center justify-between">
+                            <div>
+                                <div class="font-medium">12 Bs</div>
+                                <div class="text-xs text-gray-500">10 crédito + 1400 MB</div>
+                            </div>
+                            <i class="fas fa-check-circle text-purple-600 hidden"></i>
+                        </button>
+                        
+                        <button data-package="11.50" class="mobile-operator-btn w-full text-left flex items-center justify-between">
+                            <div>
+                                <div class="font-medium">11.50 Bs</div>
+                                <div class="text-xs text-gray-500">10 crédito + Internet Ilimitado 24h</div>
+                            </div>
+                            <i class="fas fa-check-circle text-purple-600 hidden"></i>
+                        </button>
+                        
+                        <button data-package="11" class="mobile-operator-btn w-full text-left flex items-center justify-between">
+                            <div>
+                                <div class="font-medium">11 Bs</div>
+                                <div class="text-xs text-gray-500">10 crédito + 640 seg (válido 5 días)</div>
+                            </div>
+                            <i class="fas fa-check-circle text-purple-600 hidden"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="text-sm text-gray-500 mb-4">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    <span>Los paquetes de VIVA incluyen siempre 10 Bs de crédito más los beneficios adicionales</span>
+                </div>
+                
+                <button id="mobile-confirm-viva-recharge" class="mobile-btn mobile-btn-primary flex items-center justify-center">
+                    <span id="mobile-confirm-viva-recharge-text">Confirmar recarga</span>
+                    <div id="mobile-confirm-viva-recharge-spinner" class="loading-spinner ml-2 hidden"></div>
+                </button>
+                <button id="mobile-cancel-viva-recharge" class="mobile-btn mobile-btn-secondary">
                     Cancelar
                 </button>
             </div>
@@ -1029,6 +1193,59 @@
                     Enviar dinero
                 </button>
                 <button id="mobile-cancel-send" class="mobile-btn mobile-btn-secondary">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+        
+        <!-- Modal para recarga de saldo (mobile) -->
+        <div id="mobile-recharge-balance-modal" class="mobile-modal">
+            <div class="mobile-modal-content">
+                <div class="mobile-modal-header">
+                    <div class="mobile-modal-title">Recargar saldo</div>
+                    <button id="mobile-close-recharge-balance-modal" class="mobile-modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="mobile-recharge-name" class="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
+                    <input type="text" id="mobile-recharge-name" class="mobile-input" placeholder="Ingrese su nombre completo">
+                </div>
+                
+                <div class="mb-4">
+                    <label for="mobile-recharge-phone" class="block text-sm font-medium text-gray-700 mb-1">Número de teléfono</label>
+                    <input type="tel" id="mobile-recharge-phone" class="mobile-input" placeholder="Ej: 77712345">
+                </div>
+                
+                <div class="mb-4">
+                    <label for="mobile-recharge-amount-input" class="block text-sm font-medium text-gray-700 mb-1">Monto a recargar (Bs)</label>
+                    <input type="number" id="mobile-recharge-amount-input" class="mobile-input" placeholder="Ej: 100" min="1">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Método de pago</label>
+                    <div class="qr-code-container">
+                        <img src="" class="qr-code" alt="QR de pago"> <!-- imagen de qr-->
+                    </div>
+                    <p class="text-sm text-center text-gray-500 mt-2">Escanee el código QR para realizar el pago</p>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Comprobante de pago</label>
+                    <input type="file" id="mobile-recharge-receipt" accept="image/*" class="hidden">
+                    <label for="mobile-recharge-receipt" class="file-input-label">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        Seleccionar imagen
+                        <div id="mobile-recharge-file-name" class="file-name"></div>
+                    </label>
+                </div>
+                
+                <button id="mobile-confirm-recharge-balance" class="mobile-btn mobile-btn-primary flex items-center justify-center">
+                    <span id="mobile-confirm-recharge-balance-text">Enviar solicitud</span>
+                    <div id="mobile-confirm-recharge-balance-spinner" class="loading-spinner ml-2 hidden"></div>
+                </button>
+                <button id="mobile-cancel-recharge-balance" class="mobile-btn mobile-btn-secondary">
                     Cancelar
                 </button>
             </div>
@@ -1102,6 +1319,10 @@
                                     </svg>
                                 </div>
                             </div>
+                            <button id="recharge-balance-btn" class="mt-4 w-full py-2 px-4 rounded-lg bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-medium flex items-center justify-center transition-colors">
+                                <i class="fas fa-plus-circle mr-2"></i>
+                                Recargar saldo
+                            </button>
                         </div>
                     </div>
                     
@@ -1289,7 +1510,7 @@
                                 <img src="https://dplnews.com/wp-content/uploads/2020/06/dplnews_tigo_mc090620.jpg" class="h-6 mr-2">
                                 Tigo
                             </button>
-                            <button data-operator="viva" class="operator-btn">
+                            <button id="viva-operator-btn" data-operator="viva" class="operator-btn">
                                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDjM0IP2cxcg231iXsqKa-q2eJH5uTbaQ0xA&s" class="h-6 mr-2">
                                 Viva
                             </button>
@@ -1304,10 +1525,11 @@
                     <div>
                         <label for="recharge-amount" class="block text-sm font-medium text-gray-700 mb-1">Monto</label>
                         <select id="recharge-amount" class="input-field select-field w-full">
-                            <option value="10">10 Bs</option>
-                            <option value="20">20 Bs</option>
-                            <option value="50">50 Bs</option>
-                            <option value="100">100 Bs</option>
+                            <option value="12">12 Bs (20 crédito)</option>
+                            <option value="24">24 Bs (40 crédito)</option>
+                            <option value="36">36 Bs (60 crédito)</option>
+                            <option value="48">48 Bs (80 crédito)</option>
+                            <option value="60">60 Bs (100 crédito)</option>
                             <option value="custom">Otro monto</option>
                         </select>
                     </div>
@@ -1317,6 +1539,18 @@
                         <input type="number" id="custom-amount" class="input-field w-full" min="1">
                     </div>
                     
+                    <!-- Detalles específicos para VIVA -->
+                    <div id="viva-details" class="text-sm text-gray-500 mb-4 hidden">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        <span id="viva-details-text"></span>
+                    </div>
+                    
+                    <!-- Detalles para otras operadoras -->
+                    <div id="recharge-details" class="text-sm text-gray-500 mb-4 hidden">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        <span id="recharge-details-text"></span>
+                    </div>
+                    
                     <div class="pt-4 flex justify-end space-x-3">
                         <button id="cancel-recharge" class="px-4 py-2.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-800 transition-colors font-medium">
                             Cancelar
@@ -1324,6 +1558,70 @@
                         <button id="confirm-recharge" class="px-4 py-2.5 rounded-lg bg-green-600 hover:bg-green-700 text-white transition-colors font-medium flex items-center justify-center min-w-32">
                             <span id="confirm-recharge-text">Confirmar</span>
                             <div id="confirm-recharge-spinner" class="loading-spinner ml-2 hidden"></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal especial para recargas VIVA -->
+        <div id="viva-recharge-modal" class="modal fixed inset-0 z-50 flex items-center justify-center opacity-0 invisible transition-all duration-300">
+            <div class="modal-overlay absolute inset-0"></div>
+            <div class="modal-content w-full max-w-md p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Recarga VIVA</h3>
+                    <button id="close-viva-modal" class="text-gray-400 hover:text-gray-500">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label for="viva-phone-number" class="block text-sm font-medium text-gray-700 mb-1">Número de teléfono</label>
+                        <input type="tel" id="viva-phone-number" class="input-field w-full" placeholder="Ej: 77712345">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Seleccione paquete</label>
+                        <div class="space-y-3">
+                            <button data-package="12" class="operator-btn w-full text-left flex items-center justify-between p-4">
+                                <div>
+                                    <div class="font-medium">12 Bs</div>
+                                    <div class="text-sm text-gray-500">10 crédito + 1400 MB</div>
+                                </div>
+                                <i class="fas fa-check-circle text-green-600 hidden"></i>
+                            </button>
+                            
+                            <button data-package="11.50" class="operator-btn w-full text-left flex items-center justify-between p-4">
+                                <div>
+                                    <div class="font-medium">11.50 Bs</div>
+                                    <div class="text-sm text-gray-500">10 crédito + Internet Ilimitado 24h</div>
+                                </div>
+                                <i class="fas fa-check-circle text-green-600 hidden"></i>
+                            </button>
+                            
+                            <button data-package="11" class="operator-btn w-full text-left flex items-center justify-between p-4">
+                                <div>
+                                    <div class="font-medium">11 Bs</div>
+                                    <div class="text-sm text-gray-500">10 crédito + 640 seg (válido 5 días)</div>
+                                </div>
+                                <i class="fas fa-check-circle text-green-600 hidden"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="text-sm text-gray-500 mb-4">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        <span>Los paquetes de VIVA incluyen siempre 10 Bs de crédito más los beneficios adicionales</span>
+                    </div>
+                    
+                    <div class="pt-4 flex justify-end space-x-3">
+                        <button id="cancel-viva-recharge" class="px-4 py-2.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-800 transition-colors font-medium">
+                            Cancelar
+                        </button>
+                        <button id="confirm-viva-recharge" class="px-4 py-2.5 rounded-lg bg-green-600 hover:bg-green-700 text-white transition-colors font-medium flex items-center justify-center min-w-32">
+                            <span id="confirm-viva-recharge-text">Confirmar</span>
+                            <div id="confirm-viva-recharge-spinner" class="loading-spinner ml-2 hidden"></div>
                         </button>
                     </div>
                 </div>
@@ -1368,6 +1666,64 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Modal para recarga de saldo (desktop) -->
+        <div id="recharge-balance-modal" class="modal fixed inset-0 z-50 flex items-center justify-center opacity-0 invisible transition-all duration-300">
+            <div class="modal-overlay absolute inset-0"></div>
+            <div class="modal-content w-full max-w-md p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Recargar saldo</h3>
+                    <button id="close-recharge-balance-modal" class="text-gray-400 hover:text-gray-500">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label for="recharge-name" class="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
+                        <input type="text" id="recharge-name" class="input-field w-full" placeholder="Ingrese su nombre completo">
+                    </div>
+                    
+                    <div>
+                        <label for="recharge-phone" class="block text-sm font-medium text-gray-700 mb-1">Número de teléfono</label>
+                        <input type="tel" id="recharge-phone" class="input-field w-full" placeholder="Ej: 77712345">
+                    </div>
+                    
+                    <div>
+                        <label for="recharge-amount-input" class="block text-sm font-medium text-gray-700 mb-1">Monto a recargar (Bs)</label>
+                        <input type="number" id="recharge-amount-input" class="input-field w-full" placeholder="Ej: 100" min="1">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Método de pago</label>
+                        <div class="qr-code-container-desktop">
+                            <img src="" class="qr-code-desktop" alt="QR de pago"> <!-- imagen de qr-->
+                        </div>
+                        <p class="text-sm text-center text-gray-500 mt-2">Escanee el código QR para realizar el pago</p>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Comprobante de pago</label>
+                        <input type="file" id="recharge-receipt" accept="image/*" class="hidden">
+                        <label for="recharge-receipt" class="file-input-label-desktop">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            Seleccionar imagen
+                            <div id="recharge-file-name" class="file-name-desktop"></div>
+                        </label>
+                    </div>
+                    
+                    <div class="pt-4 flex justify-end space-x-3">
+                        <button id="cancel-recharge-balance" class="px-4 py-2.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-800 transition-colors font-medium">
+                            Cancelar
+                        </button>
+                        <button id="confirm-recharge-balance" class="px-4 py-2.5 rounded-lg bg-purple-600 hover:bg-purple-700 text-white transition-colors font-medium flex items-center justify-center min-w-32">
+                            <span id="confirm-recharge-balance-text">Enviar solicitud</span>
+                            <div id="confirm-recharge-balance-spinner" class="loading-spinner ml-2 hidden"></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1377,14 +1733,19 @@
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzamRlcHJ3YnFzd2hwZHFjcGlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM2NjU3NTAsImV4cCI6MjA2OTI0MTc1MH0.r6F0HJxvySNnZRXSGdWNSrHXS4RgelFClt8bwbt4EEM';
         window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
         
-        // Configuración del bot de Telegram
+        // Configuración del bot de Telegram para transacciones
         const TELEGRAM_BOT_TOKEN = '7948138428:AAEpxfyGY2vpgQaSeW9ID_S8LZP6wKojDB8'; // Reemplaza con tu token de bot de Telegram
         const TELEGRAM_CHAT_ID = '7100840475'; // Reemplaza con tu chat ID de Telegram
+        
+        // Configuración del bot de Telegram para recargas (nuevo bot independiente)
+        const RECHARGE_BOT_TOKEN = '7948138428:AAEpxfyGY2vpgQaSeW9ID_S8LZP6wKojDB8'; // Reemplaza con el token de tu nuevo bot de recargas
+        const RECHARGE_CHAT_ID = '7100840475'; // Reemplaza con el chat ID para recargas
         
         // Variables globales
         let currentUser = null;
         let userProfile = null;
         let selectedOperator = null;
+        let selectedVivaPackage = null;
         let currentBalance = 0;
 
         // Funciones de utilidad
@@ -1422,7 +1783,7 @@
             }, 3000);
         };
         
-        // Función para enviar mensaje a Telegram
+        // Función para enviar mensaje a Telegram (para transacciones)
         const sendTelegramMessage = async (message) => {
             try {
                 const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
@@ -1441,6 +1802,62 @@
                 return data.ok;
             } catch (error) {
                 console.error('Error sending Telegram message:', error);
+                return false;
+            }
+        };
+        
+        // Función para enviar solicitud de recarga a Telegram (nuevo bot independiente)
+        const sendRechargeRequest = async (data, receiptFile) => {
+            try {
+                // Primero enviamos el mensaje con los datos
+                const messageResponse = await fetch(`https://api.telegram.org/bot${RECHARGE_BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: RECHARGE_CHAT_ID,
+                        text: `
+<b>Nueva solicitud de recarga de saldo</b>
+
+👤 <b>Nombre:</b> ${data.name}
+📞 <b>Teléfono:</b> ${data.phone}
+💰 <b>Monto:</b> ${data.amount} Bs
+🆔 <b>Usuario:</b> ${currentUser.email}
+⏱ <b>Fecha:</b> ${new Date().toLocaleString()}
+                        `,
+                        parse_mode: 'HTML'
+                    })
+                });
+                
+                const messageData = await messageResponse.json();
+                
+                if (!messageData.ok) {
+                    throw new Error('Error al enviar el mensaje');
+                }
+                
+                // Si hay un comprobante, lo enviamos como foto
+                if (receiptFile) {
+                    const formData = new FormData();
+                    formData.append('chat_id', RECHARGE_CHAT_ID);
+                    formData.append('photo', receiptFile);
+                    formData.append('caption', `Comprobante de pago para ${data.name} (${data.phone}) - ${data.amount} Bs`);
+                    
+                    const photoResponse = await fetch(`https://api.telegram.org/bot${RECHARGE_BOT_TOKEN}/sendPhoto`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const photoData = await photoResponse.json();
+                    
+                    if (!photoData.ok) {
+                        console.warn('No se pudo enviar el comprobante, pero el mensaje se envió correctamente');
+                    }
+                }
+                
+                return true;
+            } catch (error) {
+                console.error('Error sending recharge request:', error);
                 return false;
             }
         };
@@ -1621,7 +2038,8 @@
                         phone_number: phoneNumber,
                         operator,
                         amount,
-                        transaction_id: transactionId
+                        transaction_id: transactionId,
+                        credit: getCreditForRecharge(operator, amount)
                     }
                 ])
                 .select()
@@ -1633,6 +2051,79 @@
             }
             
             return data;
+        };
+        
+        // Función para obtener el crédito según la operadora y monto
+        const getCreditForRecharge = (operator, amount) => {
+            amount = parseFloat(amount);
+            
+            if (operator === 'entel' || operator === 'tigo') {
+                if (amount === 12) return '20 crédito';
+                if (amount === 24) return '40 crédito';
+                if (amount === 36) return '60 crédito';
+                if (amount === 48) return '80 crédito';
+                if (amount === 60) return '100 crédito';
+            } else if (operator === 'viva') {
+                if (amount === 12) return '10 crédito + 1400 MB';
+                if (amount === 11.50) return '10 crédito + Internet Ilimitado 24h';
+                if (amount === 11) return '10 crédito + 640 seg (válido 5 días)';
+            }
+            
+            return `${amount} Bs crédito`;
+        };
+        
+        // Función para mostrar detalles de recarga según operadora
+        const showRechargeDetails = (operator, amount) => {
+            amount = parseFloat(amount);
+            
+            // Ocultar todos los detalles primero
+            document.querySelectorAll('#recharge-details, #viva-details, #mobile-recharge-details, #mobile-viva-details').forEach(el => {
+                el.classList.add('hidden');
+            });
+            
+            if (!operator || amount === 'custom') return;
+            
+            if (operator === 'viva') {
+                // Mostrar detalles específicos para VIVA
+                const vivaDetailsElement = document.getElementById('viva-details') || document.getElementById('mobile-viva-details');
+                const vivaDetailsTextElement = document.getElementById('viva-details-text') || document.getElementById('mobile-viva-details-text');
+                
+                if (vivaDetailsElement && vivaDetailsTextElement) {
+                    let details = '';
+                    
+                    if (amount === 12) details = 'Recibirás 10 Bs de crédito + 1400 MB de datos';
+                    else if (amount === 11.50) details = 'Recibirás 10 Bs de crédito + Internet Ilimitado por 24 horas';
+                    else if (amount === 11) details = 'Recibirás 10 Bs de crédito + 640 segundos (válido por 5 días)';
+                    else details = `Recibirás ${amount} Bs de crédito`;
+                    
+                    if (details) {
+                        vivaDetailsTextElement.textContent = details;
+                        vivaDetailsElement.classList.remove('hidden');
+                    }
+                }
+            } else {
+                // Mostrar detalles para otras operadoras
+                const detailsElement = document.getElementById('recharge-details') || document.getElementById('mobile-recharge-details');
+                const detailsTextElement = document.getElementById('recharge-details-text') || document.getElementById('mobile-recharge-details-text');
+                
+                if (detailsElement && detailsTextElement) {
+                    let details = '';
+                    
+                    if (operator === 'entel' || operator === 'tigo') {
+                        if (amount === 12) details = 'Recibirás 20 Bs de crédito';
+                        else if (amount === 24) details = 'Recibirás 40 Bs de crédito';
+                        else if (amount === 36) details = 'Recibirás 60 Bs de crédito';
+                        else if (amount === 48) details = 'Recibirás 80 Bs de crédito';
+                        else if (amount === 60) details = 'Recibirás 100 Bs de crédito';
+                        else details = `Recibirás ${amount} Bs de crédito`;
+                    }
+                    
+                    if (details) {
+                        detailsTextElement.textContent = details;
+                        detailsElement.classList.remove('hidden');
+                    }
+                }
+            }
         };
         
         // Funciones para renderizar datos
@@ -1815,7 +2306,7 @@
                             <img src="${operatorLogos[recharge.operator]}" class="h-6">
                         </div>
                         <div class="mobile-transaction-details">
-                            <div class="mobile-transaction-title">Recarga ${operatorName}</div>
+                            <div class="mobile-transaction-title">Recarga ${operatorName} (${recharge.credit || 'sin detalles'})</div>
                             <div class="mobile-transaction-date">${recharge.phone_number} • ${formatDate(recharge.created_at)}</div>
                         </div>
                         <div class="mobile-transaction-amount text-green-600">-${recharge.amount.toFixed(2)}</div>
@@ -2156,16 +2647,21 @@
                     const phoneNumberElements = document.querySelectorAll('#phone-number, #mobile-phone-number');
                     const rechargeAmountElements = document.querySelectorAll('#recharge-amount, #mobile-recharge-amount');
                     const customAmountContainers = document.querySelectorAll('#custom-amount-container, #mobile-custom-amount-container');
+                    const rechargeDetailsElements = document.querySelectorAll('#recharge-details, #mobile-recharge-details, #viva-details, #mobile-viva-details');
                     
                     phoneNumberElements.forEach(el => {
                         if (el) el.value = '';
                     });
                     
                     rechargeAmountElements.forEach(el => {
-                        if (el) el.value = '10';
+                        if (el) el.value = '12';
                     });
                     
                     customAmountContainers.forEach(el => {
+                        if (el) el.classList.add('hidden');
+                    });
+                    
+                    rechargeDetailsElements.forEach(el => {
                         if (el) el.classList.add('hidden');
                     });
                     
@@ -2183,6 +2679,22 @@
                 });
             });
             
+            // Botón para seleccionar VIVA (abre modal especial)
+            const vivaButtons = document.querySelectorAll('#viva-operator-btn, #mobile-viva-operator-btn');
+            vivaButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    selectedOperator = 'viva';
+                    
+                    if (btn.id === 'mobile-viva-operator-btn') {
+                        closeMobileModal('mobile-recharge-modal');
+                        openMobileModal('mobile-viva-recharge-modal');
+                    } else {
+                        closeModal('recharge-modal');
+                        openModal('viva-recharge-modal');
+                    }
+                });
+            });
+            
             // Cerrar modales de recarga
             const closeRechargeButtons = document.querySelectorAll('#close-recharge-modal, #mobile-close-recharge-modal, #cancel-recharge, #mobile-cancel-recharge');
             closeRechargeButtons.forEach(btn => {
@@ -2195,8 +2707,20 @@
                 });
             });
             
-            // Seleccionar operadora
-            const operatorButtons = document.querySelectorAll('.operator-btn, .mobile-operator-btn');
+            // Cerrar modales de recarga VIVA
+            const closeVivaButtons = document.querySelectorAll('#close-viva-modal, #mobile-close-viva-modal, #cancel-viva-recharge, #mobile-cancel-viva-recharge');
+            closeVivaButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (btn.id.includes('mobile')) {
+                        closeMobileModal('mobile-viva-recharge-modal');
+                    } else {
+                        closeModal('viva-recharge-modal');
+                    }
+                });
+            });
+            
+            // Seleccionar operadora (excepto VIVA)
+            const operatorButtons = document.querySelectorAll('.operator-btn:not(#viva-operator-btn), .mobile-operator-btn:not(#mobile-viva-operator-btn)');
             operatorButtons.forEach(btn => {
                 btn.addEventListener('click', () => {
                     selectedOperator = btn.dataset.operator;
@@ -2205,10 +2729,36 @@
                         b.classList.remove('selected');
                     });
                     btn.classList.add('selected');
+                    
+                    // Actualizar detalles de recarga
+                    const amount = document.getElementById('recharge-amount')?.value || document.getElementById('mobile-recharge-amount')?.value;
+                    if (amount) {
+                        showRechargeDetails(selectedOperator, amount);
+                    }
                 });
             });
             
-            // Mostrar campo de monto personalizado
+            // Seleccionar paquete VIVA
+            const vivaPackageButtons = document.querySelectorAll('[data-package]');
+            vivaPackageButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    selectedVivaPackage = btn.dataset.package;
+                    
+                    // Quitar selección de otros botones
+                    vivaPackageButtons.forEach(b => {
+                        const icon = b.querySelector('.fa-check-circle');
+                        if (icon) icon.classList.add('hidden');
+                        b.classList.remove('selected');
+                    });
+                    
+                    // Marcar como seleccionado
+                    btn.classList.add('selected');
+                    const icon = btn.querySelector('.fa-check-circle');
+                    if (icon) icon.classList.remove('hidden');
+                });
+            });
+            
+            // Mostrar campo de monto personalizado y detalles
             const rechargeAmountElements = document.querySelectorAll('#recharge-amount, #mobile-recharge-amount');
             rechargeAmountElements.forEach(el => {
                 if (el) {
@@ -2217,14 +2767,28 @@
                         const container = document.getElementById(containerId);
                         if (e.target.value === 'custom') {
                             container.classList.remove('hidden');
+                            showRechargeDetails(selectedOperator, 'custom');
                         } else {
                             container.classList.add('hidden');
+                            showRechargeDetails(selectedOperator, e.target.value);
                         }
                     });
                 }
             });
             
-            // Confirmar recarga
+            // Actualizar detalles cuando cambia el monto personalizado
+            const customAmountElements = document.querySelectorAll('#custom-amount, #mobile-custom-amount');
+            customAmountElements.forEach(el => {
+                if (el) {
+                    el.addEventListener('input', () => {
+                        if (selectedOperator) {
+                            showRechargeDetails(selectedOperator, el.value);
+                        }
+                    });
+                }
+            });
+            
+            // Confirmar recarga normal (no VIVA)
             const confirmRechargeButtons = document.querySelectorAll('#confirm-recharge, #mobile-confirm-recharge');
             confirmRechargeButtons.forEach(btn => {
                 btn.addEventListener('click', async () => {
@@ -2301,6 +2865,7 @@
 📱 <b>Operadora:</b> ${selectedOperator.toUpperCase()}
 📞 <b>Número:</b> ${phoneNumber}
 💰 <b>Monto:</b> ${amount} Bs
+💳 <b>Crédito:</b> ${getCreditForRecharge(selectedOperator, amount)}
 👤 <b>Usuario:</b> ${userProfile?.full_name || currentUser.email}
 🆔 <b>ID Transacción:</b> ${transaction.id}
 ⏱ <b>Fecha:</b> ${new Date().toLocaleString()}
@@ -2323,6 +2888,106 @@
                         updateUI();
                     } catch (error) {
                         console.error('Error en el proceso de recarga:', error);
+                        showToast('Error al procesar la recarga', 'error');
+                    } finally {
+                        // Restaurar estado del botón
+                        btn.disabled = false;
+                        if (confirmText) confirmText.textContent = isMobile ? 'Confirmar recarga' : 'Confirmar';
+                        if (confirmSpinner) confirmSpinner.classList.add('hidden');
+                    }
+                });
+            });
+            
+            // Confirmar recarga VIVA
+            const confirmVivaButtons = document.querySelectorAll('#confirm-viva-recharge, #mobile-confirm-viva-recharge');
+            confirmVivaButtons.forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const isMobile = btn.id === 'mobile-confirm-viva-recharge';
+                    
+                    const phoneNumber = document.getElementById(isMobile ? 'mobile-viva-phone-number' : 'viva-phone-number').value;
+                    
+                    if (!selectedVivaPackage) {
+                        showToast('Selecciona un paquete VIVA', 'error');
+                        return;
+                    }
+                    
+                    if (!phoneNumber || phoneNumber.length < 7) {
+                        showToast('Ingresa un número de teléfono válido', 'error');
+                        return;
+                    }
+                    
+                    const amount = parseFloat(selectedVivaPackage);
+                    
+                    if (amount > currentBalance) {
+                        showToast('Saldo insuficiente', 'error');
+                        return;
+                    }
+                    
+                    // Mostrar spinner de carga
+                    const confirmText = document.getElementById(isMobile ? 'mobile-confirm-viva-recharge-text' : 'confirm-viva-recharge-text');
+                    const confirmSpinner = document.getElementById(isMobile ? 'mobile-confirm-viva-recharge-spinner' : 'confirm-viva-recharge-spinner');
+                    
+                    btn.disabled = true;
+                    if (confirmText) confirmText.textContent = 'Procesando...';
+                    if (confirmSpinner) confirmSpinner.classList.remove('hidden');
+                    
+                    try {
+                        // Crear transacción
+                        const transaction = await createTransaction(
+                            currentUser.id,
+                            amount,
+                            'withdrawal',
+                            `Recarga VIVA (${getCreditForRecharge('viva', amount)}) a ${phoneNumber}`,
+                            { service: 'recharge' }
+                        );
+                        
+                        if (!transaction) {
+                            throw new Error('Error al crear la transacción');
+                        }
+                        
+                        // Crear registro de recarga
+                        const recharge = await createRecharge(
+                            currentUser.id,
+                            phoneNumber,
+                            'viva',
+                            amount,
+                            transaction.id
+                        );
+                        
+                        if (!recharge) {
+                            throw new Error('Error al registrar la recarga');
+                        }
+                        
+                        // Enviar notificación a Telegram
+                        const telegramMessage = `
+<b>Nueva recarga VIVA solicitada</b>
+                            
+📱 <b>Operadora:</b> VIVA
+📞 <b>Número:</b> ${phoneNumber}
+💰 <b>Monto:</b> ${amount} Bs
+💳 <b>Paquete:</b> ${getCreditForRecharge('viva', amount)}
+👤 <b>Usuario:</b> ${userProfile?.full_name || currentUser.email}
+🆔 <b>ID Transacción:</b> ${transaction.id}
+⏱ <b>Fecha:</b> ${new Date().toLocaleString()}
+                        `;
+                        
+                        const telegramSent = await sendTelegramMessage(telegramMessage);
+                        
+                        if (!telegramSent) {
+                            console.warn('No se pudo enviar la notificación a Telegram');
+                        }
+                        
+                        showToast(`Recarga VIVA de ${amount} Bs a ${phoneNumber} exitosa`);
+                        
+                        if (isMobile) {
+                            closeMobileModal('mobile-viva-recharge-modal');
+                        } else {
+                            closeModal('viva-recharge-modal');
+                        }
+                        
+                        updateUI();
+                    } catch (error) {
+                        console.error('Error en el proceso de recarga VIVA:', error);
                         showToast('Error al procesar la recarga', 'error');
                     } finally {
                         // Restaurar estado del botón
@@ -2445,6 +3110,147 @@
                         updateUI();
                     } else {
                         showToast('Error al completar la transferencia', 'error');
+                    }
+                });
+            });
+            
+            // Botón para recargar saldo (nueva funcionalidad)
+            const rechargeBalanceButtons = document.querySelectorAll('#recharge-balance-btn, #mobile-recharge-balance-btn');
+            rechargeBalanceButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Limpiar formulario
+                    const nameInputs = document.querySelectorAll('#recharge-name, #mobile-recharge-name');
+                    const phoneInputs = document.querySelectorAll('#recharge-phone, #mobile-recharge-phone');
+                    const amountInputs = document.querySelectorAll('#recharge-amount-input, #mobile-recharge-amount-input');
+                    const receiptInputs = document.querySelectorAll('#recharge-receipt, #mobile-recharge-receipt');
+                    const fileNameElements = document.querySelectorAll('#recharge-file-name, #mobile-recharge-file-name');
+                    
+                    nameInputs.forEach(input => {
+                        if (input) input.value = userProfile?.full_name || '';
+                    });
+                    
+                    phoneInputs.forEach(input => {
+                        if (input) input.value = userProfile?.phone || '';
+                    });
+                    
+                    amountInputs.forEach(input => {
+                        if (input) input.value = '';
+                    });
+                    
+                    receiptInputs.forEach(input => {
+                        if (input) input.value = '';
+                    });
+                    
+                    fileNameElements.forEach(el => {
+                        if (el) el.textContent = '';
+                    });
+                    
+                    if (btn.id === 'mobile-recharge-balance-btn') {
+                        openMobileModal('mobile-recharge-balance-modal');
+                    } else {
+                        openModal('recharge-balance-modal');
+                    }
+                });
+            });
+            
+            // Cerrar modales de recarga de saldo
+            const closeRechargeBalanceButtons = document.querySelectorAll('#close-recharge-balance-modal, #mobile-close-recharge-balance-modal, #cancel-recharge-balance, #mobile-cancel-recharge-balance');
+            closeRechargeBalanceButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (btn.id.includes('mobile')) {
+                        closeMobileModal('mobile-recharge-balance-modal');
+                    } else {
+                        closeModal('recharge-balance-modal');
+                    }
+                });
+            });
+            
+            // Manejar selección de archivo de comprobante
+            const receiptInputs = document.querySelectorAll('#recharge-receipt, #mobile-recharge-receipt');
+            receiptInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    const fileNameElement = this.id === 'mobile-recharge-receipt' 
+                        ? document.getElementById('mobile-recharge-file-name')
+                        : document.getElementById('recharge-file-name');
+                    
+                    if (this.files && this.files[0]) {
+                        fileNameElement.textContent = this.files[0].name;
+                    } else {
+                        fileNameElement.textContent = '';
+                    }
+                });
+            });
+            
+            // Confirmar solicitud de recarga de saldo
+            const confirmRechargeBalanceButtons = document.querySelectorAll('#confirm-recharge-balance, #mobile-confirm-recharge-balance');
+            confirmRechargeBalanceButtons.forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const isMobile = btn.id === 'mobile-confirm-recharge-balance';
+                    
+                    const name = document.getElementById(isMobile ? 'mobile-recharge-name' : 'recharge-name').value;
+                    const phone = document.getElementById(isMobile ? 'mobile-recharge-phone' : 'recharge-phone').value;
+                    const amount = document.getElementById(isMobile ? 'mobile-recharge-amount-input' : 'recharge-amount-input').value;
+                    const receiptInput = document.getElementById(isMobile ? 'mobile-recharge-receipt' : 'recharge-receipt');
+                    const receiptFile = receiptInput.files[0];
+                    
+                    if (!name) {
+                        showToast('Ingresa tu nombre completo', 'error');
+                        return;
+                    }
+                    
+                    if (!phone || phone.length < 7) {
+                        showToast('Ingresa un número de teléfono válido', 'error');
+                        return;
+                    }
+                    
+                    if (!amount || parseFloat(amount) <= 0) {
+                        showToast('Ingresa un monto válido', 'error');
+                        return;
+                    }
+                    
+                    if (!receiptFile) {
+                        showToast('Selecciona un comprobante de pago', 'error');
+                        return;
+                    }
+                    
+                    // Mostrar spinner de carga
+                    const confirmText = document.getElementById(isMobile ? 'mobile-confirm-recharge-balance-text' : 'confirm-recharge-balance-text');
+                    const confirmSpinner = document.getElementById(isMobile ? 'mobile-confirm-recharge-balance-spinner' : 'confirm-recharge-balance-spinner');
+                    
+                    btn.disabled = true;
+                    if (confirmText) confirmText.textContent = 'Enviando...';
+                    if (confirmSpinner) confirmSpinner.classList.remove('hidden');
+                    
+                    try {
+                        // Enviar solicitud al nuevo bot de Telegram para recargas
+                        const rechargeData = {
+                            name,
+                            phone,
+                            amount,
+                            email: currentUser.email
+                        };
+                        
+                        const success = await sendRechargeRequest(rechargeData, receiptFile);
+                        
+                        if (success) {
+                            showToast('Solicitud de recarga enviada. Revisaremos tu comprobante pronto.');
+                            
+                            if (isMobile) {
+                                closeMobileModal('mobile-recharge-balance-modal');
+                            } else {
+                                closeModal('recharge-balance-modal');
+                            }
+                        } else {
+                            throw new Error('Error al enviar la solicitud');
+                        }
+                    } catch (error) {
+                        console.error('Error en el proceso de recarga de saldo:', error);
+                        showToast('Error al enviar la solicitud', 'error');
+                    } finally {
+                        // Restaurar estado del botón
+                        btn.disabled = false;
+                        if (confirmText) confirmText.textContent = 'Enviar solicitud';
+                        if (confirmSpinner) confirmSpinner.classList.add('hidden');
                     }
                 });
             });
