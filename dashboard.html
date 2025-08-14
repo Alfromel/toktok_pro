@@ -1123,25 +1123,25 @@
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Seleccione paquete</label>
                     <div class="space-y-2">
-                        <button data-package="12" class="mobile-operator-btn w-full text-left flex items-center justify-between">
+                        <button data-package="11" class="mobile-operator-btn w-full text-left flex items-center justify-between">
                             <div>
-                                <div class="font-medium">12 Bs</div>
+                                <div class="font-medium">11 Bs</div>
                                 <div class="text-xs text-gray-500">10 crédito + 1400 MB</div>
                             </div>
                             <i class="fas fa-check-circle text-purple-600 hidden"></i>
                         </button>
                         
-                        <button data-package="11.50" class="mobile-operator-btn w-full text-left flex items-center justify-between">
+                        <button data-package="11.01" class="mobile-operator-btn w-full text-left flex items-center justify-between">
                             <div>
-                                <div class="font-medium">11.50 Bs</div>
+                                <div class="font-medium">11.01 Bs</div>
                                 <div class="text-xs text-gray-500">10 crédito + Internet Ilimitado 24h</div>
                             </div>
                             <i class="fas fa-check-circle text-purple-600 hidden"></i>
                         </button>
                         
-                        <button data-package="11" class="mobile-operator-btn w-full text-left flex items-center justify-between">
+                        <button data-package="11.02" class="mobile-operator-btn w-full text-left flex items-center justify-between">
                             <div>
-                                <div class="font-medium">11 Bs</div>
+                                <div class="font-medium">11.02 Bs</div>
                                 <div class="text-xs text-gray-500">10 crédito + 640 seg (válido 5 días)</div>
                             </div>
                             <i class="fas fa-check-circle text-purple-600 hidden"></i>
@@ -1584,25 +1584,25 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Seleccione paquete</label>
                         <div class="space-y-3">
-                            <button data-package="12" class="operator-btn w-full text-left flex items-center justify-between p-4">
+                            <button data-package="11" class="operator-btn w-full text-left flex items-center justify-between p-4">
                                 <div>
-                                    <div class="font-medium">12 Bs</div>
+                                    <div class="font-medium">11 Bs</div>
                                     <div class="text-sm text-gray-500">10 crédito + 1400 MB</div>
                                 </div>
                                 <i class="fas fa-check-circle text-green-600 hidden"></i>
                             </button>
                             
-                            <button data-package="11.50" class="operator-btn w-full text-left flex items-center justify-between p-4">
+                            <button data-package="11.01" class="operator-btn w-full text-left flex items-center justify-between p-4">
                                 <div>
-                                    <div class="font-medium">11.50 Bs</div>
+                                    <div class="font-medium">11.01 Bs</div>
                                     <div class="text-sm text-gray-500">10 crédito + Internet Ilimitado 24h</div>
                                 </div>
                                 <i class="fas fa-check-circle text-green-600 hidden"></i>
                             </button>
                             
-                            <button data-package="11" class="operator-btn w-full text-left flex items-center justify-between p-4">
+                            <button data-package="11.02" class="operator-btn w-full text-left flex items-center justify-between p-4">
                                 <div>
-                                    <div class="font-medium">11 Bs</div>
+                                    <div class="font-medium">11.02 Bs</div>
                                     <div class="text-sm text-gray-500">10 crédito + 640 seg (válido 5 días)</div>
                                 </div>
                                 <i class="fas fa-check-circle text-green-600 hidden"></i>
@@ -2064,9 +2064,9 @@
                 if (amount === 48) return '80 crédito';
                 if (amount === 60) return '100 crédito';
             } else if (operator === 'viva') {
-                if (amount === 12) return '10 crédito + 1400 MB';
-                if (amount === 11.50) return '10 crédito + Internet Ilimitado 24h';
-                if (amount === 11) return '10 crédito + 640 seg (válido 5 días)';
+                if (amount === 11) return '10 crédito + 1400 MB';
+                if (amount === 11.01) return '10 crédito + Internet Ilimitado 24h';
+                if (amount === 11.02) return '10 crédito + 640 seg (válido 5 días)';
             }
             
             return `${amount} Bs crédito`;
@@ -2091,9 +2091,9 @@
                 if (vivaDetailsElement && vivaDetailsTextElement) {
                     let details = '';
                     
-                    if (amount === 12) details = 'Recibirás 10 Bs de crédito + 1400 MB de datos';
-                    else if (amount === 11.50) details = 'Recibirás 10 Bs de crédito + Internet Ilimitado por 24 horas';
-                    else if (amount === 11) details = 'Recibirás 10 Bs de crédito + 640 segundos (válido por 5 días)';
+                    if (amount === 11) details = 'Recibirás 10 Bs de crédito + 1400 MB de datos';
+                    else if (amount === 11.01) details = 'Recibirás 10 Bs de crédito + Internet Ilimitado por 24 horas';
+                    else if (amount === 11.02) details = 'Recibirás 10 Bs de crédito + 640 segundos (válido por 5 días)';
                     else details = `Recibirás ${amount} Bs de crédito`;
                     
                     if (details) {
@@ -3261,4 +3261,5 @@
     </script>
 </body>
 </html>
+
 
