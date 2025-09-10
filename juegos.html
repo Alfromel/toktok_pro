@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Recarga de Diamantes - Rápido y Seguro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #7E57C2;
+            --secondary: #FF7043;
+            --accent: #5E35B1;
+            --light: #FFFFFF;
+            --dark: #37474F;
+            --light-gray: #F5F5F5;
+            --gray: #9E9E9E;
+            --success: #4CAF50;
+            --danger: #F44336;
+            --warning: #FF9800;
+            --card-shadow: 0 8px 20px rgba(126, 87, 194, 0.12);
+            --hover-shadow: 0 10px 25px rgba(126, 87, 194, 0.2);
+        }
+
+        body {
+            background: linear-gradient(135deg, #F5F5F5, #EDE7F6);
+            color: var(--dark);
+            min-height: 100vh;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+            background: var(--light);
+            border-radius: 0;
+            padding: 20px;
+            box-shadow: none;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            overflow-y: auto;
+            padding: 5px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(126, 87, 194, 0.15);
+            position: relative;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--primary), transparent);
+        }
+
+        header h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: var(--primary);
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        header p {
+            color: var(--gray);
+            font-size: 14px;
+            margin-top: 10px;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.4;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite linear;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .tabs {
+            display: flex;
+            background: var(--light-gray);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 14px;
+            position: relative;
+            z-index: 1;
+            color: var(--gray);
+        }
+
+        .tab.active {
+            color: var(--primary);
+        }
+
+        .tab-slider {
+            position: absolute;
+            height: 100%;
+            background: var(--light);
+            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+            z-index: 0;
+            box-shadow: 0 3px 8px rgba(126, 87, 194, 0.2);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--dark);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group label i {
+            margin-right: 8px;
+            font-size: 16px;
+            color: var(--primary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 10px;
+            border: 1px solid #E0E0E0;
+            background: var(--light);
+            color: var(--dark);
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(126, 87, 194, 0.15);
+        }
+
+        .form-control::placeholder {
+            color: var(--gray);
+        }
+
+        .packages-container {
+            margin: 25px 0;
+        }
+
+        .packages-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 18px;
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0 15px;
+        }
+
+        .packages-title::before, .packages-title::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--primary));
+        }
+
+        .packages-title::before {
+            right: 100%;
+        }
+
+        .packages-title::after {
+            left: 100%;
+            background: linear-gradient(to left, transparent, var(--primary));
+        }
+
+        .packages {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            max-height: 280px;
+            overflow-y: auto;
+            padding: 5px;
+        }
+
+        .package {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 15px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #EEEEEE;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 90px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .package::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary);
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .package:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--hover-shadow);
+            border-color: rgba(126, 87, 194, 0.3);
+        }
+
+        .package:hover::before {
+            transform: translateY(0);
+        }
+
+        .package.selected {
+            border-color: var(--primary);
+            background: rgba(126, 87, 194, 0.05);
+            box-shadow: 0 5px 15px rgba(126, 87, 194, 0.15);
+            transform: scale(1.03);
+        }
+
+        .package.selected::before {
+            transform: translateY(0);
+        }
+
+        .package h3 {
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: var(--primary);
+        }
+
+        .package p {
+            font-size: 13px;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .package .popular {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--secondary);
+            color: white;
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 8px;
+            transform: rotate(5deg);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Modal de pago tipo app nativa */
+        .payment-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+            overflow: hidden;
+        }
+
+        .payment-modal.active {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--light);
+            border-bottom: 1px solid #EEEEEE;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--dark);
+            font-size: 24px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .modal-close:hover {
+            background: rgba(126, 87, 194, 0.1);
+        }
+
+        .modal-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            -webkit-overflow-scrolling: touch;
+            background: var(--light-gray);
+        }
+
+        .summary {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0 25px;
+            border: 1px solid #EEEEEE;
+            animation: scaleIn 0.5s ease forwards;
+            box-shadow: var(--card-shadow);
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .summary-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #EEEEEE;
+        }
+
+        .summary-item:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding-top: 12px;
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 17px;
+        }
+
+        .qr-container {
+            text-align: center;
+            margin: 25px 0;
+            padding: 20px;
+            background: var(--light);
+            border-radius: 12px;
+            border: 1px solid #EEEEEE;
+            animation: fadeIn 0.7s ease forwards;
+            box-shadow: var(--card-shadow);
+        }
+
+        .qr-title {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #EEEEEE;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .qr-message {
+            margin-top: 15px;
+            font-size: 14px;
+            color: var(--dark);
+            line-height: 1.5;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .upload-area {
+            border: 2px dashed #E0E0E0;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            margin: 25px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--light);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.8s ease forwards;
+            box-shadow: var(--card-shadow);
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(126, 87, 194, 0.03);
+        }
+
+        .upload-area.dragover {
+            border-color: var(--primary);
+            background: rgba(126, 87, 194, 0.05);
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 42px;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .upload-text {
+            font-size: 16px;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .upload-subtext {
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0 8px 20px rgba(126, 87, 194, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(126, 87, 194, 0.4);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: var(--light-gray);
+            color: var(--dark);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-secondary:hover {
+            background: #E0E0E0;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            left: 20px;
+            padding: 16px 20px;
+            background: var(--success);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-100px);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+        }
+
+        .notification.error {
+            background: var(--danger);
+        }
+
+        .notification.warning {
+            background: var(--warning);
+        }
+
+        .notification i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            animation: progress 3s linear forwards;
+            transform-origin: left;
+        }
+
+        @keyframes progress {
+            0% { transform: scaleX(0); }
+            100% { transform: scaleX(1); }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Scrollbar personalizado */
+        .packages::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .packages::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+        }
+
+        .packages::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .content-wrapper::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .content-wrapper::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+        }
+
+        .content-wrapper::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .confirmation-section {
+            margin-top: 25px;
+            animation: fadeIn 0.5s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content-wrapper">
+            <header>
+                <div class="logo">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <h1>Recarga de Diamantes</h1>
+            </header>
+
+            <div class="tabs">
+                <div class="tab active" data-tab="freefire">Free Fire</div>
+                <div class="tab" data-tab="mobilelegends">Mobile Legends</div>
+                <div class="tab-slider"></div>
+            </div>
+
+            <div class="tab-content active" id="freefire-content">
+                <div class="form-group">
+                    <label for="ff-id"><i class="fas fa-id-card"></i> ID de Free Fire</label>
+                    <input type="text" id="ff-id" class="form-control" placeholder="Ingresa tu ID de jugador (ej: 123456789)">
+                </div>
+
+                <div class="form-group">
+                    <label for="ff-name"><i class="fas fa-user"></i> Nombre en el Juego</label>
+                    <input type="text" id="ff-name" class="form-control" placeholder="Ingresa tu nombre en el juego">
+                </div>
+
+                <div class="packages-container">
+                    <h3 class="packages-title">Paquetes de Diamantes</h3>
+                    <div class="packages">
+                        <div class="package" data-amount="110" data-price="8.5">
+                            <h3>110 Diamantes</h3>
+                            <p>8,5 Bs</p>
+                        </div>
+                        <div class="package" data-amount="220" data-price="17">
+                            <h3>220 Diamantes</h3>
+                            <p>17 Bs</p>
+                        </div>
+                        <div class="package" data-amount="341" data-price="25">
+                            <h3>341 Diamantes</h3>
+                            <p>25 Bs</p>
+                        </div>
+                        <div class="package" data-amount="451" data-price="33">
+                            <h3>451 Diamantes</h3>
+                            <p>33 Bs</p>
+                        </div>
+                        <div class="package" data-amount="572" data-price="40">
+                            <h3>572 Diamantes</h3>
+                            <p>40 Bs</p>
+                        </div>
+                        <div class="package" data-amount="913" data-price="65">
+                            <span class="popular">Popular</span>
+                            <h3>913 Diamantes</h3>
+                            <p>65 Bs</p>
+                        </div>
+                        <div class="package" data-amount="1150" data-price="79">
+                            <h3>1150 Diamantes</h3>
+                            <p>79 Bs</p>
+                        </div>
+                        <div class="package" data-amount="1507" data-price="104">
+                            <h3>1507 Diamantes</h3>
+                            <p>104 Bs</p>
+                        </div>
+                        <div class="package" data-amount="1738" data-price="119">
+                            <h3>1738 Diamantes</h3>
+                            <p>119 Bs</p>
+                        </div>
+                        <div class="package" data-amount="2376" data-price="163">
+                            <h3>2376 Diamantes</h3>
+                            <p>163 Bs</p>
+                        </div>
+                        <div class="package" data-amount="3564" data-price="240">
+                            <h3>3564 Diamantes</h3>
+                            <p>240 Bs</p>
+                        </div>
+                        <div class="package" data-amount="4796" data-price="325">
+                            <h3>4796 Diamantes</h3>
+                            <p>325 Bs</p>
+                        </div>
+                        <div class="package" data-amount="6138" data-price="380">
+                            <span class="popular">Mejor oferta</span>
+                            <h3>6138 Diamantes</h3>
+                            <p>380 Bs</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="mobilelegends-content">
+                <div class="form-group">
+                    <label for="ml-id"><i class="fas fa-id-card"></i> ID de Mobile Legends</label>
+                    <input type="text" id="ml-id" class="form-control" placeholder="Ingresa tu ID de jugador (ej: 123456789)">
+                </div>
+
+                <div class="form-group">
+                    <label for="ml-name"><i class="fas fa-user"></i> Nombre en el Juego</label>
+                    <input type="text" id="ml-name" class="form-control" placeholder="Ingresa tu nombre en el juego">
+                </div>
+
+                <div class="form-group">
+                    <label for="ml-region"><i class="fas fa-globe"></i> Región</label>
+                    <select id="ml-region" class="form-control">
+                        <option value="">Selecciona tu región</option>
+                        <option value="northamerica">América del Norte</option>
+                        <option value="southamerica">América del Sur</option>
+                        <option value="europe">Europa</option>
+                        <option value="asia">Asia</option>
+                        <option value="middleeast">Medio Oriente</option>
+                    </select>
+                </div>
+
+                <div class="packages-container">
+                    <h3 class="packages-title">Paquetes de Diamantes</h3>
+                    <div class="packages">
+                        <div class="package" data-amount="86" data-price="21">
+                            <h3>86 Diamantes</h3>
+                            <p>21 Bs</p>
+                        </div>
+                        <div class="package" data-amount="172" data-price="39">
+                            <h3>172 Diamantes</h3>
+                            <p>39 Bs</p>
+                        </div>
+                        <div class="package" data-amount="257" data-price="57">
+                            <h3>257 Diamantes</h3>
+                            <p>57 Bs</p>
+                        </div>
+                        <div class="package" data-amount="706" data-price="157">
+                            <span class="popular">Popular</span>
+                            <h3>706 Diamantes</h3>
+                            <p>157 Bs</p>
+                        </div>
+                        <div class="package" data-amount="2195" data-price="455">
+                            <span class="popular">Mejor oferta</span>
+                            <h3>2195 Diamantes</h3>
+                            <p>455 Bs</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn" id="continue-btn">Continuar con el Pago</button>
+        </div>
+
+        <!-- Modal de pago tipo app nativa -->
+        <div class="payment-modal" id="payment-modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Proceso de Pago</h3>
+                <button class="modal-close" id="modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-content">
+                <div class="summary" id="payment-summary">
+                    <h3 class="summary-title">Resumen de tu pedido</h3>
+                    <div class="summary-item">
+                        <span>Juego:</span>
+                        <span id="summary-game">Free Fire</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>ID:</span>
+                        <span id="summary-id">123456789</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Nombre:</span>
+                        <span id="summary-name">Jugador123</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Región:</span>
+                        <span id="summary-region">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Paquete:</span>
+                        <span id="summary-package">110 Diamantes</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Total a pagar:</span>
+                        <span id="summary-total">8,5 Bs</span>
+                    </div>
+                </div>
+
+                <div class="qr-container" id="qr-container">
+                    <h3 class="qr-title">Escanea el código QR para realizar el pago</h3>
+                    <div class="qr-code">
+                        <img src="imagenes/qr.jpg" alt="Código QR para pago">
+                    </div>
+                    <p class="qr-message">La recarga se aplicará en un plazo máximo de 15 minutos después de la verificación.</p>
+                </div>
+
+                <div class="upload-area" id="upload-area">
+                    <i class="fas fa-cloud-upload-alt upload-icon" id="upload-icon"></i>
+                    <p class="upload-text" id="upload-text">Sube tu comprobante de pago</p>
+                    <p class="upload-subtext" id="upload-subtext">Haz clic o arrastra una imagen aquí (Formatos: JPG, PNG)</p>
+                    <input type="file" id="receipt-upload" accept="image/*" style="display: none;">
+                </div>
+
+                <div class="confirmation-section" id="confirmation-section">
+                    <button class="btn" id="confirm-btn"><i class="fas fa-paper-plane"></i> Confirmar y Enviar</button>
+                    <button class="btn btn-secondary" id="back-btn"><i class="fas fa-arrow-left"></i> Volver atrás</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="notification" id="notification">
+            <i class="fas fa-check-circle"></i>
+            <span id="notification-text">Solicitud enviada correctamente</span>
+            <div class="progress-bar"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Variables globales
+            let selectedGame = 'freefire';
+            let selectedPackage = null;
+            let receiptFile = null;
+
+            // Configuración de Telegram (reemplaza con tus propios valores)
+            const TELEGRAM_BOT_TOKEN = '7948138428:AAEpxfyGY2vpgQaSeW9ID_S8LZP6wKojDB8'; // Reemplaza con tu token de bot de Telegram
+            const TELEGRAM_CHAT_ID = '7100840475'; // Reemplaza con tu ID de chat de Telegram
+
+            // Elementos del DOM
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const tabSlider = document.querySelector('.tab-slider');
+            const packages = document.querySelectorAll('.package');
+            const continueBtn = document.getElementById('continue-btn');
+            const confirmBtn = document.getElementById('confirm-btn');
+            const backBtn = document.getElementById('back-btn');
+            const paymentModal = document.getElementById('payment-modal');
+            const modalClose = document.getElementById('modal-close');
+            const paymentSummary = document.getElementById('payment-summary');
+            const qrContainer = document.getElementById('qr-container');
+            const uploadArea = document.getElementById('upload-area');
+            const confirmationSection = document.getElementById('confirmation-section');
+            const notification = document.getElementById('notification');
+            const receiptUpload = document.getElementById('receipt-upload');
+            const uploadIcon = document.getElementById('upload-icon');
+            const uploadText = document.getElementById('upload-text');
+            const uploadSubtext = document.getElementById('upload-subtext');
+
+            // Inicializar el slider de pestañas
+            function initTabSlider() {
+                const activeTab = document.querySelector('.tab.active');
+                if (activeTab) {
+                    const tabWidth = activeTab.offsetWidth;
+                    const tabLeft = activeTab.offsetLeft;
+                    tabSlider.style.width = `${tabWidth}px`;
+                    tabSlider.style.left = `${tabLeft}px`;
+                }
+            }
+
+            // Cambio de pestañas
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    
+                    // Actualizar pestañas activas
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(tc => tc.classList.remove('active'));
+                    
+                    tab.classList.add('active');
+                    document.getElementById(`${tabId}-content`).classList.add('active');
+                    
+                    // Mover el slider
+                    const tabWidth = tab.offsetWidth;
+                    const tabLeft = tab.offsetLeft;
+                    tabSlider.style.width = `${tabWidth}px`;
+                    tabSlider.style.left = `${tabLeft}px`;
+                    
+                    selectedGame = tabId;
+                    resetSelection();
+                });
+            });
+
+            // Selección de paquetes
+            packages.forEach(pkg => {
+                pkg.addEventListener('click', () => {
+                    packages.forEach(p => p.classList.remove('selected'));
+                    pkg.classList.add('selected');
+                    selectedPackage = {
+                        amount: pkg.getAttribute('data-amount'),
+                        price: pkg.getAttribute('data-price')
+                    };
+                });
+            });
+
+            // Continuar al resumen
+            continueBtn.addEventListener('click', () => {
+                if (!validateForm()) {
+                    showNotification('Por favor, completa todos los campos requeridos', 'error');
+                    return;
+                }
+
+                if (!selectedPackage) {
+                    showNotification('Por favor, selecciona un paquete de diamantes', 'error');
+                    return;
+                }
+
+                updateSummary();
+                paymentModal.classList.add('active');
+            });
+
+            // Cerrar modal
+            modalClose.addEventListener('click', () => {
+                paymentModal.classList.remove('active');
+                resetUploadArea();
+            });
+
+            // Volver atrás
+            backBtn.addEventListener('click', () => {
+                paymentModal.classList.remove('active');
+                resetUploadArea();
+            });
+
+            // Subir comprobante - Click
+            uploadArea.addEventListener('click', () => {
+                receiptUpload.click();
+            });
+
+            // Subir comprobante - Drag and Drop
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                
+                if (e.dataTransfer.files.length) {
+                    handleFileUpload(e.dataTransfer.files[0]);
+                }
+            });
+
+            // Subir comprobante - Change
+            receiptUpload.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    handleFileUpload(e.target.files[0]);
+                }
+            });
+
+            // Confirmar y enviar
+            confirmBtn.addEventListener('click', () => {
+                if (!receiptFile) {
+                    showNotification('Por favor, sube tu comprobante de pago', 'error');
+                    return;
+                }
+
+                // Cambiar texto del botón a "Procesando..."
+                confirmBtn.innerHTML = '<span class="loading"></span> Procesando...';
+                confirmBtn.disabled = true;
+
+                // Enviar a Telegram
+                sendToTelegram();
+                
+                // Simular envío
+                setTimeout(() => {
+                    showNotification('¡Recarga exitosa! Tu solicitud ha sido procesada. Los diamantes se acreditarán en tu cuenta en los próximos 15 minutos.', 'success');
+                    
+                    // Resetear formulario después de 3 segundos
+                    setTimeout(() => {
+                        resetForm();
+                        paymentModal.classList.remove('active');
+                        confirmBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Confirmar y Enviar';
+                        confirmBtn.disabled = false;
+                    }, 3000);
+                }, 2000);
+            });
+
+            // Funciones auxiliares
+            function validateForm() {
+                let isValid = true;
+                
+                if (selectedGame === 'freefire') {
+                    const ffId = document.getElementById('ff-id').value.trim();
+                    const ffName = document.getElementById('ff-name').value.trim();
+                    
+                    if (!ffId) {
+                        highlightField(document.getElementById('ff-id'), 'error');
+                        isValid = false;
+                    } else {
+                        highlightField(document.getElementById('ff-id'), 'success');
+                    }
+                    
+                    if (!ffName) {
+                        highlightField(document.getElementById('ff-name'), 'error');
+                        isValid = false;
+                    } else {
+                        highlightField(document.getElementById('ff-name'), 'success');
+                    }
+                } else {
+                    const mlId = document.getElementById('ml-id').value.trim();
+                    const mlName = document.getElementById('ml-name').value.trim();
+                    const mlRegion = document.getElementById('ml-region').value;
+                    
+                    if (!mlId) {
+                        highlightField(document.getElementById('ml-id'), 'error');
+                        isValid = false;
+                    } else {
+                        highlightField(document.getElementById('ml-id'), 'success');
+                    }
+                    
+                    if (!mlName) {
+                        highlightField(document.getElementById('ml-name'), 'error');
+                        isValid = false;
+                    } else {
+                        highlightField(document.getElementById('ml-name'), 'success');
+                    }
+                    
+                    if (!mlRegion) {
+                        highlightField(document.getElementById('ml-region'), 'error');
+                        isValid = false;
+                    } else {
+                        highlightField(document.getElementById('ml-region'), 'success');
+                    }
+                }
+                
+                return isValid;
+            }
+
+            function highlightField(field, status) {
+                if (status === 'error') {
+                    field.style.borderColor = '#F44336';
+                    field.style.boxShadow = '0 0 0 3px rgba(244, 67, 54, 0.2)';
+                } else {
+                    field.style.borderColor = '#4CAF50';
+                    field.style.boxShadow = '0 0 0 3px rgba(76, 175, 80, 0.2)';
+                    
+                    // Quitar el resaltado después de 2 segundos
+                    setTimeout(() => {
+                        field.style.borderColor = '#E0E0E0';
+                        field.style.boxShadow = 'none';
+                    }, 2000);
+                }
+            }
+
+            function updateSummary() {
+                const gameName = selectedGame === 'freefire' ? 'Free Fire' : 'Mobile Legends';
+                const gameId = selectedGame === 'freefire' ? 
+                    document.getElementById('ff-id').value : 
+                    document.getElementById('ml-id').value;
+                const playerName = selectedGame === 'freefire' ? 
+                    document.getElementById('ff-name').value : 
+                    document.getElementById('ml-name').value;
+                const region = selectedGame === 'freefire' ? 
+                    'No aplica' : 
+                    document.getElementById('ml-region').options[document.getElementById('ml-region').selectedIndex].text;
+
+                document.getElementById('summary-game').textContent = gameName;
+                document.getElementById('summary-id').textContent = gameId;
+                document.getElementById('summary-name').textContent = playerName;
+                document.getElementById('summary-region').textContent = region;
+                document.getElementById('summary-package').textContent = `${selectedPackage.amount} Diamantes`;
+                document.getElementById('summary-total').textContent = `${selectedPackage.price} Bs`;
+            }
+
+            function handleFileUpload(file) {
+                if (!file.type.match('image.*')) {
+                    showNotification('Por favor, sube solo imágenes (JPG, PNG)', 'error');
+                    return;
+                }
+
+                if (file.size > 5 * 1024 * 1024) {
+                    showNotification('La imagen es demasiado grande. Máximo 5MB', 'error');
+                    return;
+                }
+
+                receiptFile = file;
+                
+                // Cambiar la apariencia del área de carga
+                uploadIcon.className = 'fas fa-check-circle upload-icon';
+                uploadIcon.style.color = '#4CAF50';
+                uploadText.textContent = 'Comprobante subido correctamente';
+                uploadText.style.color = '#4CAF50';
+                uploadSubtext.textContent = 'Haz clic para cambiar la imagen';
+                
+                showNotification('Comprobante subido correctamente', 'success');
+            }
+
+            function resetUploadArea() {
+                receiptFile = null;
+                uploadIcon.className = 'fas fa-cloud-upload-alt upload-icon';
+                uploadIcon.style.color = '';
+                uploadText.textContent = 'Sube tu comprobante de pago';
+                uploadText.style.color = '';
+                uploadSubtext.textContent = 'Haz clic o arrastra una imagen aquí (Formatos: JPG, PNG)';
+                receiptUpload.value = '';
+            }
+
+            function resetSelection() {
+                packages.forEach(p => p.classList.remove('selected'));
+                selectedPackage = null;
+            }
+
+            function resetForm() {
+                // Resetear campos
+                document.getElementById('ff-id').value = '';
+                document.getElementById('ff-name').value = '';
+                document.getElementById('ml-id').value = '';
+                document.getElementById('ml-name').value = '';
+                document.getElementById('ml-region').value = '';
+                
+                // Resetear selección
+                resetSelection();
+                resetUploadArea();
+            }
+
+            function showNotification(message, type) {
+                const icon = type === 'success' ? 'fa-check-circle' : 
+                            type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+                
+                notification.innerHTML = `
+                    <i class="fas ${icon}"></i>
+                    <span id="notification-text">${message}</span>
+                    <div class="progress-bar"></div>
+                `;
+                
+                notification.className = `notification ${type} show`;
+                
+                // Ocultar notificación después de 5 segundos
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 5000);
+            }
+
+            function sendToTelegram() {
+                // Validar que se hayan configurado los datos de Telegram
+                if (TELEGRAM_BOT_TOKEN === 'TU_BOT_TOKEN' || TELEGRAM_CHAT_ID === 'TU_CHAT_ID') {
+                    console.error('Por favor, configura tu token y chat ID de Telegram en el código.');
+                    showNotification('Error de configuración. Contacta al administrador.', 'error');
+                    return;
+                }
+
+                const game = selectedGame === 'freefire' ? 'Free Fire' : 'Mobile Legends';
+                const id = selectedGame === 'freefire' ? 
+                    document.getElementById('ff-id').value : 
+                    document.getElementById('ml-id').value;
+                const name = selectedGame === 'freefire' ? 
+                    document.getElementById('ff-name').value : 
+                    document.getElementById('ml-name').value;
+                const region = selectedGame === 'freefire' ? 
+                    'N/A' : 
+                    document.getElementById('ml-region').options[document.getElementById('ml-region').selectedIndex].text;
+                const packageText = `${selectedPackage.amount} Diamantes`;
+                const amount = `${selectedPackage.price} Bs`;
+                
+                const message = `🔄 NUEVA SOLICITUD DE RECARGA 🔄
+                
+🎮 Juego: ${game}
+🔢 ID: ${id}
+👤 Nombre: ${name}
+🌎 Región: ${region}
+💎 Paquete: ${packageText}
+💰 Monto: ${amount}
+                
+⏰ Fecha: ${new Date().toLocaleString()}`;
+
+                // Enviar mensaje a Telegram
+                const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+                
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: message,
+                        parse_mode: 'HTML'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Mensaje enviado a Telegram:', data);
+                    
+                    // Si hay un comprobante, enviarlo también
+                    if (receiptFile) {
+                        sendImageToTelegram(receiptFile);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error enviando a Telegram:', error);
+                    showNotification('Error al enviar la solicitud. Intenta nuevamente.', 'error');
+                });
+            }
+
+            function sendImageToTelegram(file) {
+                const formData = new FormData();
+                formData.append('chat_id', TELEGRAM_CHAT_ID);
+                formData.append('photo', file);
+                formData.append('caption', 'Comprobante de pago enviado desde la web');
+                
+                const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`;
+                
+                fetch(url, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Imagen enviada a Telegram:', data);
+                })
+                .catch(error => {
+                    console.error('Error enviando imagen a Telegram:', error);
+                });
+            }
+
+            // Inicializar
+            initTabSlider();
+            window.addEventListener('resize', initTabSlider);
+        });
+    </script>
+</body>
+</html>
