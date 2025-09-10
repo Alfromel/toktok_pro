@@ -46,7 +46,7 @@
             margin: 0;
             background: var(--light);
             border-radius: 0;
-            padding: 20px;
+            padding: 15px;
             box-shadow: none;
             position: relative;
             overflow: hidden;
@@ -59,12 +59,19 @@
             overflow-y: auto;
             padding: 5px;
             -webkit-overflow-scrolling: touch;
+            /* Eliminar scrollbar */
+            scrollbar-width: none; /* Firefox */
+        }
+
+        /* Ocultar scrollbar en Chrome, Safari y Edge */
+        .content-wrapper::-webkit-scrollbar {
+            display: none;
         }
 
         header {
             text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
             border-bottom: 1px solid rgba(126, 87, 194, 0.15);
             position: relative;
         }
@@ -75,39 +82,39 @@
             bottom: -1px;
             left: 50%;
             transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
+            width: 80px;
+            height: 2px;
             background: linear-gradient(to right, transparent, var(--primary), transparent);
         }
 
         header h1 {
-            font-size: 24px;
-            margin-bottom: 8px;
+            font-size: 20px; /* Reducido de 24px */
+            margin-bottom: 5px; /* Reducido de 8px */
             color: var(--primary);
-            letter-spacing: 1px;
+            letter-spacing: 0.5px; /* Reducido de 1px */
             font-weight: 600;
         }
 
         header p {
             color: var(--gray);
-            font-size: 14px;
-            margin-top: 10px;
+            font-size: 12px; /* Reducido de 14px */
+            margin-top: 8px; /* Reducido de 10px */
             max-width: 90%;
             margin-left: auto;
             margin-right: auto;
-            line-height: 1.4;
+            line-height: 1.3; /* Reducido de 1.4 */
         }
 
         .logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 15px;
+            width: 60px; /* Reducido de 80px */
+            height: 60px; /* Reducido de 80px */
+            margin: 0 auto 10px; /* Reducido de 15px */
             background: linear-gradient(135deg, var(--primary), var(--accent));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
+            font-size: 24px; /* Reducido de 32px */
             color: white;
             box-shadow: var(--card-shadow);
             position: relative;
@@ -117,10 +124,10 @@
         .logo::after {
             content: '';
             position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
+            top: -8px; /* Reducido de -10px */
+            left: -8px; /* Reducido de -10px */
+            right: -8px; /* Reducido de -10px */
+            bottom: -8px; /* Reducido de -10px */
             background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
             transform: rotate(45deg);
             animation: shine 3s infinite linear;
@@ -135,7 +142,7 @@
             display: flex;
             background: var(--light-gray);
             border-radius: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 15px; /* Reducido de 20px */
             overflow: hidden;
             position: relative;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
@@ -143,12 +150,12 @@
 
         .tab {
             flex: 1;
-            padding: 14px;
+            padding: 12px; /* Reducido de 14px */
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px; /* Reducido de 14px */
             position: relative;
             z-index: 1;
             color: var(--gray);
@@ -183,14 +190,14 @@
         }
 
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 15px; /* Reducido de 18px */
             position: relative;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
+            margin-bottom: 6px; /* Reducido de 8px */
+            font-size: 13px; /* Reducido de 14px */
             color: var(--dark);
             font-weight: 500;
             display: flex;
@@ -198,19 +205,19 @@
         }
 
         .form-group label i {
-            margin-right: 8px;
-            font-size: 16px;
+            margin-right: 6px; /* Reducido de 8px */
+            font-size: 14px; /* Reducido de 16px */
             color: var(--primary);
         }
 
         .form-control {
             width: 100%;
-            padding: 14px 16px;
+            padding: 12px 14px; /* Reducido de 14px 16px */
             border-radius: 10px;
             border: 1px solid #E0E0E0;
             background: var(--light);
             color: var(--dark);
-            font-size: 15px;
+            font-size: 14px; /* Reducido de 15px */
             transition: all 0.3s ease;
         }
 
@@ -225,27 +232,27 @@
         }
 
         .packages-container {
-            margin: 25px 0;
+            margin: 20px 0; /* Reducido de 25px 0 */
         }
 
         .packages-title {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px; /* Reducido de 20px */
             color: var(--primary);
-            font-size: 18px;
+            font-size: 16px; /* Reducido de 18px */
             font-weight: 600;
             position: relative;
             display: inline-block;
             left: 50%;
             transform: translateX(-50%);
-            padding: 0 15px;
+            padding: 0 12px; /* Reducido de 15px */
         }
 
         .packages-title::before, .packages-title::after {
             content: '';
             position: absolute;
             top: 50%;
-            width: 40px;
+            width: 30px; /* Reducido de 40px */
             height: 2px;
             background: linear-gradient(to right, transparent, var(--primary));
         }
@@ -262,8 +269,8 @@
         .packages {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            max-height: 280px;
+            gap: 10px; /* Reducido de 12px */
+            max-height: 250px; /* Reducido de 280px */
             overflow-y: auto;
             padding: 5px;
         }
@@ -271,7 +278,7 @@
         .package {
             background: var(--light);
             border-radius: 10px;
-            padding: 15px 8px;
+            padding: 12px 6px; /* Reducido de 15px 8px */
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -279,7 +286,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            min-height: 90px;
+            min-height: 80px; /* Reducido de 90px */
             position: relative;
             overflow: hidden;
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
@@ -291,7 +298,7 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
+            height: 2px; /* Reducido de 3px */
             background: var(--primary);
             transform: translateY(-100%);
             transition: transform 0.3s ease;
@@ -319,13 +326,13 @@
         }
 
         .package h3 {
-            font-size: 14px;
-            margin-bottom: 6px;
+            font-size: 13px; /* Reducido de 14px */
+            margin-bottom: 5px; /* Reducido de 6px */
             color: var(--primary);
         }
 
         .package p {
-            font-size: 13px;
+            font-size: 12px; /* Reducido de 13px */
             color: var(--dark);
             font-weight: 500;
         }
@@ -336,14 +343,71 @@
             right: -5px;
             background: var(--secondary);
             color: white;
-            font-size: 10px;
-            padding: 3px 8px;
+            font-size: 9px; /* Reducido de 10px */
+            padding: 2px 6px; /* Reducido de 3px 8px */
             border-radius: 8px;
             transform: rotate(5deg);
             box-shadow: 0 3px 8px rgba(0,0,0,0.1);
         }
 
-        /* Modal de pago tipo app nativa */
+        /* Botón reposicionado más arriba */
+        #continue-btn {
+            margin-top: 5px; /* Reducido significativamente de 10px */
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px; /* Reducido de 16px */
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            color: white;
+            font-size: 15px; /* Reducido de 16px */
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(126, 87, 194, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(126, 87, 194, 0.4);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: var(--light-gray);
+            color: var(--dark);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-secondary:hover {
+            background: #E0E0E0;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Resto del CSS se mantiene igual */
         .payment-modal {
             position: fixed;
             top: 0;
@@ -540,58 +604,6 @@
             color: var(--gray);
         }
 
-        .btn {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 12px;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-            box-shadow: 0 8px 20px rgba(126, 87, 194, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: 0.5s;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(126, 87, 194, 0.4);
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn-secondary {
-            background: var(--light-gray);
-            color: var(--dark);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .btn-secondary:hover {
-            background: #E0E0E0;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-
         .hidden {
             display: none;
         }
@@ -686,20 +698,6 @@
         }
 
         .packages::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-
-        .content-wrapper::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        .content-wrapper::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.05);
-            border-radius: 10px;
-        }
-
-        .content-wrapper::-webkit-scrollbar-thumb {
             background: var(--primary);
             border-radius: 10px;
         }
