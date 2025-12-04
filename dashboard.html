@@ -1275,24 +1275,16 @@
                 <!-- Acciones rápidas -->
                 <div class="mobile-section-title">Acciones rápidas</div>
                 <div class="grid grid-cols-4 gap-3 mx-4 mb-4">
-                    <button id="mobile-send-money-btn" class="mobile-action-btn">
-                        <i class="fas fa-paper-plane" style="background: var(--christmas-red);"></i>
-                        <span>Enviar</span>
-                    </button>
                     <button id="mobile-recharge-btn" class="mobile-action-btn">
                         <i class="fas fa-mobile-alt" style="background: var(--christmas-green);"></i>
                         <span>Recargar</span>
                     </button>
-              
-                    <button class="mobile-action-btn">
-                        <i class="fas fa-history" style="background: #64748b;"></i>
-                        <span>Historial</span>
-                        </button>
-                        <a href="juegos.html" class="mobile-action-btn">
-                            <i class="fas fa-gamepad" style="background: #f59e0b;"></i>
-                            <span>Juegos</span>
-                        </a
-                    </button>
+
+                    <a href="juegos.html" class="mobile-action-btn">
+                        <i class="fas fa-gamepad" style="background: #f59e0b;"></i>
+                        <span>Juegos</span>
+                    </a>
+               
                 </div>
                 
                 <!-- Últimas transacciones -->
@@ -1324,7 +1316,6 @@
                                 <option value="all">Todas</option>
                                 <option value="deposit">Ingresos</option>
                                 <option value="withdrawal">Retiros</option>
-                                <option value="transfer">Transferencias</option>
                             </select>
                         </div>
                         <div id="mobile-transactions-full-list">
@@ -1489,10 +1480,10 @@
                     <label for="mobile-recharge-amount" class="block text-sm font-medium text-gray-700 mb-1">Monto</label>
                     <select id="mobile-recharge-amount" class="mobile-input">
                         <option value="11">11 Bs (20 crédito)</option>
-                        <option value="24">24 Bs (40 crédito)</option>
-                        <option value="36">36 Bs (60 crédito)</option>
-                        <option value="48">48 Bs (80 crédito)</option>
-                        <option value="60">60 Bs (100 crédito)</option>
+                        <option value="22">22 Bs (40 crédito)</option>
+                        <option value="33">33 Bs (60 crédito)</option>
+                        <option value="44">44 Bs (80 crédito)</option>
+                        <option value="55">55 Bs (100 crédito)</option>
                         <option value="custom">Recarga Normal</option>
                     </select>
                 </div>
@@ -1591,40 +1582,6 @@
                     <div id="mobile-confirm-viva-recharge-spinner" class="loading-spinner ml-2 hidden"></div>
                 </button>
                 <button id="mobile-cancel-viva-recharge" class="mobile-btn mobile-btn-secondary">
-                    Cancelar
-                </button>
-            </div>
-        </div>
-        
-        <!-- Modal para enviar dinero (mobile) -->
-        <div id="mobile-send-money-modal" class="mobile-modal">
-            <div class="mobile-modal-content">
-                <div class="mobile-modal-header">
-                    <div class="mobile-modal-title">Enviar dinero</div>
-                    <button id="mobile-close-send-modal" class="mobile-modal-close">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                
-                <div class="mb-4">
-                    <label for="mobile-recipient-phone" class="block text-sm font-medium text-gray-700 mb-1">Teléfono del destinatario</label>
-                    <input type="tel" id="mobile-recipient-phone" class="mobile-input" placeholder="Ej: 77712345">
-                </div>
-                
-                <div class="mb-4">
-                    <label for="mobile-send-amount" class="block text-sm font-medium text-gray-700 mb-1">Monto</label>
-                    <input type="number" id="mobile-send-amount" class="mobile-input" min="1">
-                </div>
-                
-                <div class="mb-4">
-                    <label for="mobile-send-description" class="block text-sm font-medium text-gray-700 mb-1">Descripción (opcional)</label>
-                    <textarea id="mobile-send-description" rows="2" class="mobile-input"></textarea>
-                </div>
-                
-                <button id="mobile-confirm-send" class="mobile-btn mobile-btn-primary">
-                    Enviar dinero
-                </button>
-                <button id="mobile-cancel-send" class="mobile-btn mobile-btn-secondary">
                     Cancelar
                 </button>
             </div>
@@ -1789,19 +1746,6 @@
                     <div class="space-y-4">
                         <h3 class="text-lg font-semibold text-gray-800 px-2">Acciones rápidas</h3>
                         
-                        <button id="send-money-btn" class="action-card btn-primary w-full p-5 flex items-center justify-between text-white">
-                            <div class="flex items-center space-x-4">
-                                <div class="action-icon bg-white bg-opacity-20">
-                                    <i class="fas fa-paper-plane"></i>
-                                </div>
-                                <div class="text-left">
-                                    <p class="text-sm font-medium">Enviar dinero</p>
-                                    <p class="text-xs text-white text-opacity-80">Transferencias rápidas</p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right text-white text-opacity-70"></i>
-                        </button>
-                        
                         <button id="recharge-btn" class="action-card btn-secondary w-full p-5 flex items-center justify-between text-white">
                             <div class="flex items-center space-x-4">
                                 <div class="action-icon bg-white bg-opacity-20">
@@ -1826,6 +1770,19 @@
                                 </div>
                                 <i class="fas fa-chevron-right text-white text-opacity-70"></i>
                             </a>
+                            
+                        <button class="action-card w-full p-5 flex items-center justify-between text-white" style="background: #8b5cf6;">
+                            <div class="flex items-center space-x-4">
+                                <div class="action-icon bg-white bg-opacity-20">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="text-left">
+                                    <p class="text-sm font-medium">Wallet</p>
+                                    <p class="text-xs text-white text-opacity-80">Gestión de saldo</p>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-right text-white text-opacity-70"></i>
+                        </button>
                     </div>
                 </div>
                 
@@ -1855,7 +1812,6 @@
                                             <option value="all">Todas</option>
                                             <option value="deposit">Ingresos</option>
                                             <option value="withdrawal">Retiros</option>
-                                            <option value="transfer">Transferencias</option>
                                         </select>
                                     </div>
                                 </div>
@@ -1997,10 +1953,10 @@
                         <label for="recharge-amount" class="block text-sm font-medium text-gray-700 mb-1">Monto</label>
                         <select id="recharge-amount" class="input-field select-field w-full">
                             <option value="11">11 Bs (20 crédito)</option>
-                            <option value="24">24 Bs (40 crédito)</option>
-                            <option value="36">36 Bs (60 crédito)</option>
-                            <option value="48">48 Bs (80 crédito)</option>
-                            <option value="60">60 Bs (100 crédito)</option>
+                            <option value="22">22 Bs (40 crédito)</option>
+                            <option value="33">33 Bs (60 crédito)</option>
+                            <option value="44">44 Bs (80 crédito)</option>
+                            <option value="55">55 Bs (100 crédito)</option>
                             <option value="custom">Recarga Normal</option>
                         </select>
                     </div>
@@ -2103,45 +2059,6 @@
                         <button id="confirm-viva-recharge" class="px-4 py-2.5 rounded-lg bg-green-600 hover:bg-green-700 text-white transition-colors font-medium flex items-center justify-center min-w-32">
                             <span id="confirm-viva-recharge-text">Confirmar</span>
                             <div id="confirm-viva-recharge-spinner" class="loading-spinner ml-2 hidden"></div>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Modal para enviar dinero -->
-        <div id="send-money-modal" class="modal fixed inset-0 z-50 flex items-center justify-center opacity-0 invisible transition-all duration-300">
-            <div class="modal-overlay absolute inset-0"></div>
-            <div class="modal-content w-full max-w-md p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800">Enviar dinero</h3>
-                    <button id="close-send-modal" class="text-gray-400 hover:text-gray-500">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                
-                <div class="space-y-4">
-                    <div>
-                        <label for="recipient-phone" class="block text-sm font-medium text-gray-700 mb-1">Teléfono del destinatario</label>
-                        <input type="tel" id="recipient-phone" class="input-field w-full" placeholder="Ej: 77712345">
-                    </div>
-                    
-                    <div>
-                        <label for="send-amount" class="block text-sm font-medium text-gray-700 mb-1">Monto</label>
-                        <input type="number" id="send-amount" class="input-field w-full" min="1">
-                    </div>
-                    
-                    <div>
-                        <label for="send-description" class="block text-sm font-medium text-gray-700 mb-1">Descripción (opcional)</label>
-                        <textarea id="send-description" rows="2" class="input-field w-full"></textarea>
-                    </div>
-                    
-                    <div class="pt-4 flex justify-end space-x-3">
-                        <button id="cancel-send" class="px-4 py-2.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-800 transition-colors font-medium">
-                            Cancelar
-                        </button>
-                        <button id="confirm-send" class="px-4 py-2.5 rounded-lg bg-red-600 hover:bg-red-700 text-white transition-colors font-medium">
-                            Enviar dinero
                         </button>
                     </div>
                 </div>
@@ -2547,7 +2464,6 @@
             const typeNames = {
                 'deposit': 'Ingreso',
                 'withdrawal': 'Retiro', 
-                'transfer': 'Transferencia',
                 'recharge': 'Recarga Móvil'
             };
             const transactionTypeName = typeNames[transaction.type] || transaction.type;
@@ -2556,8 +2472,6 @@
             let invoiceTitle = 'COMPROBANTE DE TRANSACCIÓN';
             if (transactionType === 'recharge') {
                 invoiceTitle = 'COMPROBANTE DE RECARGA';
-            } else if (transactionType === 'transfer') {
-                invoiceTitle = 'COMPROBANTE DE TRANSFERENCIA';
             }
             
            // Crear contenido horizontal compacto de la factura
@@ -2923,10 +2837,10 @@ const invoiceHTML = `
             
             if (operator === 'entel' || operator === 'tigo') {
                 if (amount === 11) return '20 crédito';
-                if (amount === 24) return '40 crédito';
-                if (amount === 36) return '60 crédito';
-                if (amount === 48) return '80 crédito';
-                if (amount === 60) return '100 crédito';
+                if (amount === 22) return '40 crédito';
+                if (amount === 33) return '60 crédito';
+                if (amount === 44) return '80 crédito';
+                if (amount === 55) return '100 crédito';
             } else if (operator === 'viva') {
                 if (amount === 11) return '10 crédito + 1400 MB';
                 if (amount === 11.01) return '10 crédito + Internet Ilimitado 24h';
@@ -2975,10 +2889,10 @@ const invoiceHTML = `
                     
                     if (operator === 'entel' || operator === 'tigo') {
                         if (amount === 11) details = 'Recibirás 20 Bs de crédito';
-                        else if (amount === 24) details = 'Recibirás 40 Bs de crédito';
-                        else if (amount === 36) details = 'Recibirás 60 Bs de crédito';
-                        else if (amount === 48) details = 'Recibirás 80 Bs de crédito';
-                        else if (amount === 60) details = 'Recibirás 100 Bs de crédito';
+                        else if (amount === 22) details = 'Recibirás 40 Bs de crédito';
+                        else if (amount === 33) details = 'Recibirás 60 Bs de crédito';
+                        else if (amount === 44) details = 'Recibirás 80 Bs de crédito';
+                        else if (amount === 55) details = 'Recibirás 100 Bs de crédito';
                         else details = `Recibirás ${amount} Bs de crédito`;
                     }
                     
@@ -3029,8 +2943,7 @@ const invoiceHTML = `
                 const sign = isPositive ? '+' : '-';
                 const typeNames = {
                     'deposit': 'Ingreso',
-                    'withdrawal': 'Retiro',
-                    'transfer': 'Transferencia'
+                    'withdrawal': 'Retiro'
                 };
                 
                 return `
@@ -3055,8 +2968,7 @@ const invoiceHTML = `
                 const sign = isPositive ? '+' : '-';
                 const typeNames = {
                     'deposit': 'Ingreso',
-                    'withdrawal': 'Retiro',
-                    'transfer': 'Transferencia'
+                    'withdrawal': 'Retiro'
                 };
                 
                 return `
@@ -3080,8 +2992,7 @@ const invoiceHTML = `
                 const sign = isPositive ? '+' : '-';
                 const typeNames = {
                     'deposit': 'Ingreso',
-                    'withdrawal': 'Retiro',
-                    'transfer': 'Transferencia'
+                    'withdrawal': 'Retiro'
                 };
                 
                 return `
@@ -3467,89 +3378,6 @@ const invoiceHTML = `
                 btn.disabled = false;
                 if (confirmText) confirmText.textContent = isMobile ? 'Confirmar recarga' : 'Confirmar';
                 if (confirmSpinner) confirmSpinner.classList.add('hidden');
-            }
-        };
-
-        // Sobrescribir la función de confirmar envío de dinero para mostrar factura
-        const originalConfirmSend = async function(btn) {
-            const isMobile = btn.id === 'mobile-confirm-send';
-            
-            const recipientPhone = document.getElementById(isMobile ? 'mobile-recipient-phone' : 'recipient-phone').value;
-            const amount = parseFloat(document.getElementById(isMobile ? 'mobile-send-amount' : 'send-amount').value);
-            const description = document.getElementById(isMobile ? 'mobile-send-description' : 'send-description').value;
-            
-            if (!recipientPhone || recipientPhone.length < 7) {
-                showToast('Ingresa un número de teléfono válido', 'error');
-                return false;
-            }
-            
-            if (!amount || amount <= 0) {
-                showToast('Ingresa un monto válido', 'error');
-                return false;
-            }
-            
-            if (amount > currentBalance) {
-                showToast('Saldo insuficiente', 'error');
-                return false;
-            }
-            
-            // Verificar si el destinatario existe por teléfono
-            const { data: recipientUser, error: recipientError } = await supabase
-                .from('user_profiles')
-                .select('id')
-                .eq('phone', recipientPhone)
-                .single();
-            
-            if (recipientError || !recipientUser) {
-                showToast('El destinatario no está registrado', 'error');
-                return false;
-            }
-            
-            // Crear transacción de envío
-            const sendTransaction = await createTransaction(
-                currentUser.id,
-                amount,
-                'transfer',
-                description || `Transferencia a ${recipientPhone}`,
-                { recipient: recipientPhone, type: 'send' }
-            );
-            
-            if (!sendTransaction) {
-                showToast('Error al procesar la transferencia', 'error');
-                return false;
-            }
-            
-            // Crear transacción de recepción para el destinatario
-            const receiveTransaction = await createTransaction(
-                recipientUser.id,
-                amount,
-                'deposit',
-                description || `Transferencia de ${currentUser.email}`,
-                { sender: currentUser.email, type: 'receive' }
-            );
-            
-            if (receiveTransaction) {
-                showToast(`Transferencia de ${amount} Bs enviada`);
-                
-                // MOSTRAR FACTURA AUTOMÁTICAMENTE
-                const invoiceTransaction = {
-                    ...sendTransaction,
-                    recipient_phone: recipientPhone,
-                    description: description || `Transferencia a ${recipientPhone}`
-                };
-                showTransactionInvoice(invoiceTransaction, 'transfer');
-                
-                if (isMobile) {
-                    closeMobileModal('mobile-send-money-modal');
-                } else {
-                    closeModal('send-money-modal');
-                }
-                
-                updateUI();
-                return true;
-            } else {
-                showToast('Error al completar la transferencia', 'error');
-                return false;
             }
         };
 
@@ -3998,54 +3826,6 @@ const invoiceHTML = `
             confirmVivaButtons.forEach(btn => {
                 btn.addEventListener('click', async function() {
                     await originalConfirmVivaRecharge(this);
-                });
-            });
-            
-            // Modal para enviar dinero
-            const sendMoneyButtons = document.querySelectorAll('#send-money-btn, #mobile-send-money-btn');
-            sendMoneyButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const recipientPhoneElements = document.querySelectorAll('#recipient-phone, #mobile-recipient-phone');
-                    const sendAmountElements = document.querySelectorAll('#send-amount, #mobile-send-amount');
-                    const sendDescriptionElements = document.querySelectorAll('#send-description, #mobile-send-description');
-                    
-                    recipientPhoneElements.forEach(el => {
-                        if (el) el.value = '';
-                    });
-                    
-                    sendAmountElements.forEach(el => {
-                        if (el) el.value = '';
-                    });
-                    
-                    sendDescriptionElements.forEach(el => {
-                        if (el) el.value = '';
-                    });
-                    
-                    if (btn.id === 'mobile-send-money-btn') {
-                        openMobileModal('mobile-send-money-modal');
-                    } else {
-                        openModal('send-money-modal');
-                    }
-                });
-            });
-            
-            // Cerrar modales de envío
-            const closeSendButtons = document.querySelectorAll('#close-send-modal, #mobile-close-send-modal, #cancel-send, #mobile-cancel-send');
-            closeSendButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    if (btn.id.includes('mobile')) {
-                        closeMobileModal('mobile-send-money-modal');
-                    } else {
-                        closeModal('send-money-modal');
-                    }
-                });
-            });
-            
-            // Confirmar envío de dinero - USANDO LA NUEVA FUNCIÓN CON FACTURA
-            const confirmSendButtons = document.querySelectorAll('#confirm-send, #mobile-confirm-send');
-            confirmSendButtons.forEach(btn => {
-                btn.addEventListener('click', async function() {
-                    await originalConfirmSend(this);
                 });
             });
             
