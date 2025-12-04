@@ -984,6 +984,7 @@
                     z-index: 999;
                 }
             }
+        
     </style>
 </head>
 <body class="min-h-screen bg-gray-50">
@@ -1990,44 +1991,46 @@
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script>
         // Configuración con tus credenciales
-        const supabaseUrl = 'https://aleadadisazocjovibeh.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsZWFkYWRpc2F6b2Nqb3ZpYmVoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0NDE5NjMsImV4cCI6MjA3NTAxNzk2M30.z82tP0C-UiiNuzP_jqrQf4LBusFqrDi1WYbdnuTh47E';
+        const supabaseUrl = 'https://mticcojnogcvzlbzteew.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10aWNjb2pub2djdnpsYnp0ZWV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ1OTIwNTEsImV4cCI6MjA4MDE2ODA1MX0.f1IvIkOEHtUnwETkRKDe_ybc1hI7s3RA-GoJ1vPhTXs';
         window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
       
         // Configuración de bots de Telegram para cada operadora
-        // 5 GRUPOS DE TELEGRAM PARA ENTEL (se distribuirán aleatoriamente)
+        // 10 GRUPOS DE TELEGRAM PARA ENTEL
         const TELEGRAM_BOTS_ENTEL = [
-            {
-                token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', // token de bot de Telegram para Entel Grupo 1
-                chatId: '-5097260004' // ID del grupo de Telegram para Entel Grupo 1
-            },
-            {
-                token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', // token de bot de Telegram para Entel Grupo 2
-                chatId: '-5095663519' // ID del grupo de Telegram para Entel Grupo 2
-            },
-            {
-                token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', // token de bot de Telegram para Entel Grupo 3
-                chatId: '-5016577571' // ID del grupo de Telegram para Entel Grupo 3
-            },
-            {
-                token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', // token de bot de Telegram para Entel Grupo 4
-                chatId: '-5029645589' // ID del grupo de Telegram para Entel Grupo 4
-            },
-            {
-                token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', // token de bot de Telegram para Entel Grupo 5
-                chatId: '-4990977767' // ID del grupo de Telegram para Entel Grupo 5
-            }
+            { token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', chatId: '-5097260004' },
+            { token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', chatId: '-5095663519' },
+            { token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', chatId: '-5016577571' },
+            { token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', chatId: '-5029645589' },
+            { token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', chatId: '-4990977767' },
+            { token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', chatId: '-5041775747' },
+            { token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', chatId: '-5065354897' },
+            { token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', chatId: '-5091393285' },
+            { token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', chatId: '-5058697299' },
+            { token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', chatId: '-4890816539' }
         ];
         
-        const TELEGRAM_BOT_TOKEN_TIGO = '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY'; // token de bot de Telegram para Tigo
-        const TELEGRAM_CHAT_ID_TIGO = '-4843757881'; // ID del grupo de Telegram para Tigo
+        // 5 GRUPOS DE TELEGRAM PARA TIGO
+        const TELEGRAM_BOTS_TIGO = [
+            { token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', chatId: '-4843757881' },
+            { token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', chatId: '-5077788894' },
+            { token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', chatId: '-5041267123' },
+            { token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', chatId: '-5021211004' },
+            { token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', chatId: '-5085496619' }
+        ];
         
-        const TELEGRAM_BOT_TOKEN_VIVA = '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY'; // token de bot de Telegram para Viva
-        const TELEGRAM_CHAT_ID_VIVA = '-5059040889'; // ID del grupo de Telegram para Viva
+        // 5 GRUPOS DE TELEGRAM PARA VIVA
+        const TELEGRAM_BOTS_VIVA = [
+            { token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', chatId: '-5059040889' },
+            { token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', chatId: '-5037389529' },
+            { token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', chatId: '-5084989527' },
+            { token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', chatId: '-5010950916' },
+            { token: '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY', chatId: '-5084926883' }
+        ];
         
-        // Configuración del bot de Telegram para recargas (nuevo bot independiente)
-        const RECHARGE_BOT_TOKEN = '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY'; // Reemplaza con el token de tu nuevo bot de recargas
-        const RECHARGE_CHAT_ID = '-4851584355'; // ID del grupo de Telegram para recargas
+        // Configuración del bot de Telegram para (SALDO TOKTOK)
+        const RECHARGE_BOT_TOKEN = '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY';
+        const RECHARGE_CHAT_ID = '-4851584355';
         
         // Variables globales
         let currentUser = null;
@@ -2075,25 +2078,40 @@
         // Función para enviar mensaje a Telegram según la operadora
         const sendTelegramMessage = async (message, operator) => {
             let botToken, chatId;
+            let groupNumber = 0;
             
-            // Seleccionar bot y chat según la operadora
+            // Seleccionar bot y chat según la operadora de forma aleatoria
             switch(operator) {
                 case 'entel':
-                    // Para ENTEL: seleccionar aleatoriamente uno de los 5 grupos
-                    const randomIndex = Math.floor(Math.random() * TELEGRAM_BOTS_ENTEL.length);
-                    const selectedBot = TELEGRAM_BOTS_ENTEL[randomIndex];
-                    botToken = selectedBot.token;
-                    chatId = selectedBot.chatId;
-                    console.log(`Enviando a grupo ENTEL #${randomIndex + 1}`);
+                    // Para ENTEL: seleccionar aleatoriamente uno de los 10 grupos
+                    const randomIndexEntel = Math.floor(Math.random() * TELEGRAM_BOTS_ENTEL.length);
+                    const selectedBotEntel = TELEGRAM_BOTS_ENTEL[randomIndexEntel];
+                    botToken = selectedBotEntel.token;
+                    chatId = selectedBotEntel.chatId;
+                    groupNumber = randomIndexEntel + 1;
+                    console.log(`Enviando a grupo ENTEL #${groupNumber} de 10`);
                     break;
+                    
                 case 'tigo':
-                    botToken = TELEGRAM_BOT_TOKEN_TIGO;
-                    chatId = TELEGRAM_CHAT_ID_TIGO;
+                    // Para TIGO: seleccionar aleatoriamente uno de los 5 grupos
+                    const randomIndexTigo = Math.floor(Math.random() * TELEGRAM_BOTS_TIGO.length);
+                    const selectedBotTigo = TELEGRAM_BOTS_TIGO[randomIndexTigo];
+                    botToken = selectedBotTigo.token;
+                    chatId = selectedBotTigo.chatId;
+                    groupNumber = randomIndexTigo + 1;
+                    console.log(`Enviando a grupo TIGO #${groupNumber} de 5`);
                     break;
+                    
                 case 'viva':
-                    botToken = TELEGRAM_BOT_TOKEN_VIVA;
-                    chatId = TELEGRAM_CHAT_ID_VIVA;
+                    // Para VIVA: seleccionar aleatoriamente uno de los 5 grupos
+                    const randomIndexViva = Math.floor(Math.random() * TELEGRAM_BOTS_VIVA.length);
+                    const selectedBotViva = TELEGRAM_BOTS_VIVA[randomIndexViva];
+                    botToken = selectedBotViva.token;
+                    chatId = selectedBotViva.chatId;
+                    groupNumber = randomIndexViva + 1;
+                    console.log(`Enviando a grupo VIVA #${groupNumber} de 5`);
                     break;
+                    
                 default:
                     console.error('Operadora no válida');
                     return false;
@@ -2113,9 +2131,16 @@
                 });
                 
                 const data = await response.json();
-                return data.ok;
+                
+                if (data.ok) {
+                    console.log(`✅ Mensaje enviado exitosamente al grupo ${operator.toUpperCase()} #${groupNumber}`);
+                    return true;
+                } else {
+                    console.error(`❌ Error al enviar mensaje al grupo ${operator.toUpperCase()} #${groupNumber}:`, data);
+                    return false;
+                }
             } catch (error) {
-                console.error('Error sending Telegram message:', error);
+                console.error(`❌ Error de red al enviar mensaje al grupo ${operator.toUpperCase()}:`, error);
                 return false;
             }
         };
@@ -3309,7 +3334,7 @@ const invoiceHTML = `
                         if (initialsElement) initialsElement.textContent = '';
                     } else {
                         const initials = getInitials(userProfile?.full_name || currentUser.email);
-                        if (initialsElement) initialsElement.textContent = initials;
+                        if (initialsElements[index]) initialsElements[index].textContent = initials;
                     }
                 }
             });
