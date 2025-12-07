@@ -91,6 +91,13 @@
             margin-bottom: 5px;
         }
         
+        .app-title-img {
+            max-width: 200px;
+            height: auto;
+            display: block;
+            margin: 0 auto 20px;
+        }
+        
         .app-slogan {
             font-size: 14px;
             color: #64748b;
@@ -150,17 +157,11 @@
             text-align: center;
         }
         
-        .developer-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #64748b;
-            margin-bottom: 5px;
-        }
-        
-        .developer-name {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--primary);
+        .developer-img {
+            max-width: 200px;
+            height: auto;
+            margin: 0 auto;
+            display: block;
         }
         
         .version-info {
@@ -185,13 +186,10 @@
         
         <!-- Contenido principal -->
         <div class="mobile-content">
-            <div class="about-card">
-                <div class="app-icon">
-                    <i class="fas fa-bolt"></i>
-                </div>
+            <div class="about-card">            
+                <!-- Logo TokTok como imagen en el medio -->
+                <img src="icons/l.png" alt="TokTok" class="app-title-img">
                 
-                <h1 class="app-title">TokTok</h1>
-                <p class="app-slogan">Tu billetera digital rápida y segura</p>
                 
                 <div class="about-section">
                     <h2 class="about-section-title">
@@ -211,9 +209,7 @@
                     </h2>
                     <ul class="feature-list">
                         <li>Recargas móviles para todas las operadoras (Tigo, Entel, Viva)</li>
-                        <li>Sistema de balance para gestionar tu saldo</li>
                         <li>Recargas para juegos como Free Fire y Mobile Legends</li>
-                        <li>Transferencias rápidas y seguras entre usuarios</li>
                         <li>Historial detallado de transacciones</li>
                         <li>Promociones exclusivas y precios especiales</li>
                         <li>Interfaz intuitiva y fácil de usar</li>
@@ -234,10 +230,9 @@
                     </ul>
                 </div>
                 
+                <!-- Imagen del desarrollador en lugar del texto -->
                 <div class="developer-info">
-                    <div class="developer-title">Desarrollado por</div>
-                    <div class="developer-name">GC Dream Core</div>
-                    <div class="developer-name">Desarrollador: RMGC</div>
+                    <img src="icons/gc.jpg" alt="GC Dream Core" class="developer-img">
                 </div>
                 
                 <div class="version-info">
