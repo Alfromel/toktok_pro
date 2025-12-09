@@ -487,18 +487,18 @@
                             </div>
                             
                             <!-- PAQUETE SEMANAL AGREGADO -->
-                            <div class="package-item" data-diamonds="semanal" data-price="18">
+                            <div class="package-item" data-diamonds="250" data-price="18">
                                 <div>
-                                    <div class="font-medium">Semanal</div>
+                                    <div class="font-medium">Semanal - 250 Diamantes</div>
                                     <div class="text-xs text-gray-500">Paquete especial semanal</div>
                                 </div>
                                 <div class="font-semibold text-purple-600">18 Bs</div>
                             </div>
                             
                             <!-- PAQUETE MENSUAL AGREGADO -->
-                            <div class="package-item" data-diamonds="mensual" data-price="90">
+                            <div class="package-item" data-diamonds="1200" data-price="90">
                                 <div>
-                                    <div class="font-medium">Mensual</div>
+                                    <div class="font-medium">Mensual - 1200 Diamantes</div>
                                     <div class="text-xs text-gray-500">Paquete especial mensual</div>
                                 </div>
                                 <div class="font-semibold text-purple-600">90 Bs</div>
@@ -1144,6 +1144,13 @@
                 playerName = document.getElementById('freefire-name').value;
                 region = null;
                 
+                // Convertir diamonds a número si es posible
+                let diamondsValue = selectedPackage.diamonds;
+                const diamondsNum = parseInt(diamondsValue);
+                if (!isNaN(diamondsNum)) {
+                    diamondsValue = diamondsNum;
+                }
+                
                 // Crear transacción de débito
                 const transaction = await createTransaction(
                     currentUser.id,
@@ -1156,7 +1163,7 @@
                         game_id: gameId,
                         player_name: playerName,
                         region: region,
-                        diamonds: selectedPackage.diamonds
+                        diamonds: diamondsValue
                     }
                 );
                 
@@ -1171,7 +1178,7 @@
                     gameId,
                     playerName,
                     region,
-                    selectedPackage.diamonds,
+                    diamondsValue,
                     selectedPackage.price,
                     transaction.id
                 );
