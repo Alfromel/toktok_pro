@@ -485,6 +485,24 @@
                                 </div>
                                 <div class="font-semibold text-purple-600">430 Bs</div>
                             </div>
+                            
+                            <!-- PAQUETE SEMANAL AGREGADO -->
+                            <div class="package-item" data-diamonds="semanal" data-price="18">
+                                <div>
+                                    <div class="font-medium">Semanal</div>
+                                    <div class="text-xs text-gray-500">Paquete especial semanal</div>
+                                </div>
+                                <div class="font-semibold text-purple-600">18 Bs</div>
+                            </div>
+                            
+                            <!-- PAQUETE MENSUAL AGREGADO -->
+                            <div class="package-item" data-diamonds="mensual" data-price="90">
+                                <div>
+                                    <div class="font-medium">Mensual</div>
+                                    <div class="text-xs text-gray-500">Paquete especial mensual</div>
+                                </div>
+                                <div class="font-semibold text-purple-600">90 Bs</div>
+                            </div>
                         </div>
                     </div>
                     
@@ -1153,7 +1171,7 @@
                     gameId,
                     playerName,
                     region,
-                    parseInt(selectedPackage.diamonds),
+                    selectedPackage.diamonds,
                     selectedPackage.price,
                     transaction.id
                 );
