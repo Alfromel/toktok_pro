@@ -1066,7 +1066,7 @@
             openModal('confirmation-modal');
         }
         
-        // Procesar la recarga
+        // FUNCIÓN MODIFICADA: Procesar la recarga CON VALIDACIÓN DE TELEGRAM
         async function processRecharge() {
             const confirmBtn = document.getElementById('confirm-recharge');
             const confirmText = document.getElementById('confirm-recharge-text');
@@ -1084,7 +1084,35 @@
                 playerName = document.getElementById('ml-name').value;
                 region = document.getElementById('ml-region').value;
                 
-                // Crear transacción de débito
+                // PRIMERO ENVIAR A TELEGRAM - SI FALLA, NO CONTINUAR
+                const telegramMessage = `
+<b>Nueva recarga de Mobile Legends solicitada</b>
+
+🎮 <b>Juego:</b> Mobile Legends
+💎 <b>Diamantes:</b> ${selectedPackage.diamonds}
+💰 <b>Monto:</b> ${selectedPackage.price} Bs
+🆔 <b>ID Juego:</b> ${gameId}
+👤 <b>Jugador:</b> ${playerName}
+🌍 <b>Región:</b> ${region}
+👤 <b>Usuario:</b> ${userProfile?.full_name || currentUser.email}
+🆔 <b>ID Usuario:</b> ${currentUser.id}
+⏱ <b>Fecha:</b> ${new Date().toLocaleString()}
+                `;
+                
+                // INTENTAR ENVIAR A TELEGRAM - SI FALLA, NO CREAR TRANSACCIÓN
+                const telegramSent = await sendTelegramMessage(telegramMessage);
+                
+                if (!telegramSent) {
+                    showToast('❌ Error de conexión. No se pudo enviar la solicitud a Telegram. Verifica tu conexión a internet o activa modo avión y desactívalo, luego intenta nuevamente.', 'error');
+                    
+                    // Restaurar estado del botón
+                    confirmBtn.disabled = false;
+                    confirmText.textContent = 'Confirmar';
+                    confirmSpinner.classList.add('hidden');
+                    return false;
+                }
+                
+                // SOLO SI TELEGRAM RESPONDE OK, CREAR TRANSACCIÓN
                 const transaction = await createTransaction(
                     currentUser.id,
                     selectedPackage.price,
@@ -1118,27 +1146,6 @@
                 
                 if (!gameRecharge) {
                     throw new Error('Error al registrar la recarga de juego');
-                }
-                
-                // Enviar notificación a Telegram
-                const telegramMessage = `
-<b>Nueva recarga de Mobile Legends solicitada</b>
-
-🎮 <b>Juego:</b> Mobile Legends
-💎 <b>Diamantes:</b> ${selectedPackage.diamonds}
-💰 <b>Monto:</b> ${selectedPackage.price} Bs
-🆔 <b>ID Juego:</b> ${gameId}
-👤 <b>Jugador:</b> ${playerName}
-🌍 <b>Región:</b> ${region}
-👤 <b>Usuario:</b> ${userProfile?.full_name || currentUser.email}
-🆔 <b>ID Transacción:</b> ${transaction.id}
-⏱ <b>Fecha:</b> ${new Date().toLocaleString()}
-                `;
-                
-                const telegramSent = await sendTelegramMessage(telegramMessage);
-                
-                if (!telegramSent) {
-                    console.warn('No se pudo enviar la notificación a Telegram');
                 }
                 
                 // Mostrar modal de éxito
