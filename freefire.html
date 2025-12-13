@@ -641,9 +641,9 @@
         let currentGame = 'freefire';
         let currentInvoiceData = null;
         
-        // CONFIGURACIÓN DEL BOT DE TELEGRAM (TÚ AGREGARÁS TUS PROPIOS DATOS)
-        const TELEGRAM_BOT_TOKEN = '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY'; // Reemplaza con tu token
-        const TELEGRAM_CHAT_ID = '-4968186416'; // Reemplaza con tu chat ID
+        // CONFIGURACIÓN DEL BOT DE TELEGRAM
+        const TELEGRAM_BOT_TOKEN = '7596286871:AAGFe3sHy-GhykyM_xsFwDU8qrt6SWXSWHY';
+        const TELEGRAM_CHAT_ID = '-4968186416';
         
         // Funciones de utilidad
         const formatCurrency = (amount) => {
@@ -666,7 +666,6 @@
         // Función para enviar mensaje a Telegram
         const sendTelegramMessage = async (message) => {
             try {
-                // Usamos las constantes definidas arriba
                 const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
                     headers: {
@@ -1212,7 +1211,7 @@
             openModal('confirmation-modal');
         }
         
-        // Procesar la recarga
+        // FUNCIÓN MODIFICADA: Procesar la recarga CON VALIDACIÓN DE TELEGRAM
         async function processRecharge() {
             const confirmBtn = document.getElementById('confirm-recharge');
             const confirmText = document.getElementById('confirm-recharge-text');
@@ -1230,7 +1229,43 @@
                 playerName = document.getElementById('freefire-name').value;
                 region = null;
                 
-                // Crear transacción de débito
+                // PRIMERO ENVIAR A TELEGRAM - SI FALLA, NO CONTINUAR
+                let telegramDiamonds = '';
+                if (selectedPackage.diamonds === 'semanal') {
+                    telegramDiamonds = '340 Diamantes (Paquete Semanal: 60 instant + 40 diarios x 7 días)';
+                } else if (selectedPackage.diamonds === 'mensual') {
+                    telegramDiamonds = '1800 Diamantes (Paquete Mensual: 300 instant + 50 diarios x 30 días)';
+                } else {
+                    telegramDiamonds = `${selectedPackage.diamonds} Diamantes`;
+                }
+                
+                const telegramMessage = `
+<b>Nueva recarga de juego solicitada</b>
+
+🎮 <b>Juego:</b> Free Fire
+💎 <b>Diamantes:</b> ${telegramDiamonds}
+💰 <b>Monto:</b> ${selectedPackage.price} Bs
+🆔 <b>ID Juego:</b> ${gameId}
+👤 <b>Jugador:</b> ${playerName}
+👤 <b>Usuario:</b> ${userProfile?.full_name || currentUser.email}
+🆔 <b>ID Usuario:</b> ${currentUser.id}
+⏱ <b>Fecha:</b> ${new Date().toLocaleString()}
+                `;
+                
+                // INTENTAR ENVIAR A TELEGRAM - SI FALLA, NO CREAR TRANSACCIÓN
+                const telegramSent = await sendTelegramMessage(telegramMessage);
+                
+                if (!telegramSent) {
+                    showToast('❌ Error de conexión. No se pudo enviar la solicitud a Telegram. Verifica tu conexión a internet o activa modo avión y desactívalo, luego intenta nuevamente.', 'error');
+                    
+                    // Restaurar estado del botón
+                    confirmBtn.disabled = false;
+                    confirmText.textContent = 'Confirmar';
+                    confirmSpinner.classList.add('hidden');
+                    return false;
+                }
+                
+                // SOLO SI TELEGRAM RESPONDE OK, CREAR TRANSACCIÓN
                 const transaction = await createTransaction(
                     currentUser.id,
                     selectedPackage.price,
@@ -1264,35 +1299,6 @@
                 
                 if (!gameRecharge) {
                     throw new Error('Error al registrar la recarga de juego');
-                }
-                
-                // Enviar notificación a Telegram
-                let telegramDiamonds = '';
-                if (selectedPackage.diamonds === 'semanal') {
-                    telegramDiamonds = '340 Diamantes (Paquete Semanal: 60 instant + 40 diarios x 7 días)';
-                } else if (selectedPackage.diamonds === 'mensual') {
-                    telegramDiamonds = '1800 Diamantes (Paquete Mensual: 300 instant + 50 diarios x 30 días)';
-                } else {
-                    telegramDiamonds = `${selectedPackage.diamonds} Diamantes`;
-                }
-                
-                const telegramMessage = `
-<b>Nueva recarga de juego solicitada</b>
-
-🎮 <b>Juego:</b> Free Fire
-💎 <b>Diamantes:</b> ${telegramDiamonds}
-💰 <b>Monto:</b> ${selectedPackage.price} Bs
-🆔 <b>ID Juego:</b> ${gameId}
-👤 <b>Jugador:</b> ${playerName}
-👤 <b>Usuario:</b> ${userProfile?.full_name || currentUser.email}
-🆔 <b>ID Transacción:</b> ${transaction.id}
-⏱ <b>Fecha:</b> ${new Date().toLocaleString()}
-                `;
-                
-                const telegramSent = await sendTelegramMessage(telegramMessage);
-                
-                if (!telegramSent) {
-                    console.warn('No se pudo enviar la notificación a Telegram');
                 }
                 
                 // Mostrar modal de éxito
