@@ -935,7 +935,7 @@
             
             .select-field {
                 appearance: none;
-                background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+                background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
                 background-repeat: no-repeat;
                 background-position: right 1rem center;
                 background-size: 1em;
@@ -3142,7 +3142,7 @@ const invoiceHTML = `
             }
         };
         
-        // Sobrescribir la función de confirmar recarga normal para mostrar factura
+        // FUNCIÓN MODIFICADA: Confirmar recarga normal con validación de Telegram
         const originalConfirmRecharge = async function(btn) {
             const isMobile = btn.id === 'mobile-confirm-recharge';
             
@@ -3184,7 +3184,28 @@ const invoiceHTML = `
             if (confirmSpinner) confirmSpinner.classList.remove('hidden');
             
             try {
-                // Crear transacción
+                // PRIMERO ENVIAR A TELEGRAM
+                const telegramMessage = `
+<b>Nueva recarga solicitada</b>
+                    
+📱 <b>Operadora:</b> ${selectedOperator.toUpperCase()}
+📞 <b>Número:</b> ${phoneNumber}
+💰 <b>Monto:</b> ${amount} Bs
+💳 <b>Crédito:</b> ${getCreditForRecharge(selectedOperator, amount)}
+👤 <b>Usuario:</b> ${userProfile?.full_name || currentUser.email}
+🆔 <b>ID Usuario:</b> ${currentUser.id}
+⏱ <b>Fecha:</b> ${new Date().toLocaleString()}
+                `;
+                
+                // INTENTAR ENVIAR A TELEGRAM - SI FALLA, NO CONTINUAR
+                const telegramSent = await sendTelegramMessage(telegramMessage, selectedOperator);
+                
+                if (!telegramSent) {
+                    showToast('❌ Error de conexión. No se pudo enviar la solicitud a Telegram. Verifica tu conexión a internet o activa modo avión y desactívalo, luego intenta nuevamente.', 'error');
+                    return false;
+                }
+                
+                // SOLO SI TELEGRAM RESPONDE OK, CREAR TRANSACCIÓN
                 const transaction = await createTransaction(
                     currentUser.id,
                     amount,
@@ -3210,26 +3231,7 @@ const invoiceHTML = `
                     throw new Error('Error al registrar la recarga');
                 }
                 
-                // Enviar notificación a Telegram según la operadora
-                const telegramMessage = `
-<b>Nueva recarga solicitada</b>
-                    
-📱 <b>Operadora:</b> ${selectedOperator.toUpperCase()}
-📞 <b>Número:</b> ${phoneNumber}
-💰 <b>Monto:</b> ${amount} Bs
-💳 <b>Crédito:</b> ${getCreditForRecharge(selectedOperator, amount)}
-👤 <b>Usuario:</b> ${userProfile?.full_name || currentUser.email}
-🆔 <b>ID Transacción:</b> ${transaction.id}
-⏱ <b>Fecha:</b> ${new Date().toLocaleString()}
-                `;
-                
-                const telegramSent = await sendTelegramMessage(telegramMessage, selectedOperator);
-                
-                if (!telegramSent) {
-                    console.warn('No se pudo enviar la notificación a Telegram');
-                }
-                
-                showToast(`Recarga de ${amount} Bs a ${phoneNumber} exitosa`);
+                showToast(`✅ Recarga de ${amount} Bs a ${phoneNumber} exitosa`);
                 
                 // MOSTRAR FACTURA AUTOMÁTICAMENTE
                 const invoiceTransaction = {
@@ -3251,7 +3253,7 @@ const invoiceHTML = `
                 return true;
             } catch (error) {
                 console.error('Error en el proceso de recarga:', error);
-                showToast('Error al procesar la recarga', 'error');
+                showToast('❌ Error al procesar la recarga. Intenta nuevamente más tarde.', 'error');
                 return false;
             } finally {
                 // Restaurar estado del botón
@@ -3261,7 +3263,7 @@ const invoiceHTML = `
             }
         };
 
-        // Sobrescribir la función de confirmar recarga VIVA para mostrar factura
+        // FUNCIÓN MODIFICADA: Confirmar recarga VIVA con validación de Telegram
         const originalConfirmVivaRecharge = async function(btn) {
             const isMobile = btn.id === 'mobile-confirm-viva-recharge';
             
@@ -3304,7 +3306,28 @@ const invoiceHTML = `
             if (confirmSpinner) confirmSpinner.classList.remove('hidden');
             
             try {
-                // Crear transacción
+                // PRIMERO ENVIAR A TELEGRAM
+                const telegramMessage = `
+<b>Nueva recarga VIVA solicitada</b>
+                    
+📱 <b>Operadora:</b> VIVA
+📞 <b>Número:</b> ${phoneNumber}
+💰 <b>Monto:</b> ${amount} Bs
+💳 <b>Paquete:</b> ${getCreditForRecharge('viva', amount)}
+👤 <b>Usuario:</b> ${userProfile?.full_name || currentUser.email}
+🆔 <b>ID Usuario:</b> ${currentUser.id}
+⏱ <b>Fecha:</b> ${new Date().toLocaleString()}
+                `;
+                
+                // INTENTAR ENVIAR A TELEGRAM - SI FALLA, NO CONTINUAR
+                const telegramSent = await sendTelegramMessage(telegramMessage, 'viva');
+                
+                if (!telegramSent) {
+                    showToast('❌ Error de conexión. No se pudo enviar la solicitud a Telegram. Verifica tu conexión a internet o activa modo avión y desactívalo, luego intenta nuevamente.', 'error');
+                    return false;
+                }
+                
+                // SOLO SI TELEGRAM RESPONDE OK, CREAR TRANSACCIÓN
                 const transaction = await createTransaction(
                     currentUser.id,
                     amount,
@@ -3330,26 +3353,7 @@ const invoiceHTML = `
                     throw new Error('Error al registrar la recarga');
                 }
                 
-                // Enviar notificación a Telegram para VIVA
-                const telegramMessage = `
-<b>Nueva recarga VIVA solicitada</b>
-                    
-📱 <b>Operadora:</b> VIVA
-📞 <b>Número:</b> ${phoneNumber}
-💰 <b>Monto:</b> ${amount} Bs
-💳 <b>Paquete:</b> ${getCreditForRecharge('viva', amount)}
-👤 <b>Usuario:</b> ${userProfile?.full_name || currentUser.email}
-🆔 <b>ID Transacción:</b> ${transaction.id}
-⏱ <b>Fecha:</b> ${new Date().toLocaleString()}
-                `;
-                
-                const telegramSent = await sendTelegramMessage(telegramMessage, 'viva');
-                
-                if (!telegramSent) {
-                    console.warn('No se pudo enviar la notificación a Telegram');
-                }
-                
-                showToast(`Recarga VIVA de ${amount} Bs a ${phoneNumber} exitosa`);
+                showToast(`✅ Recarga VIVA de ${amount} Bs a ${phoneNumber} exitosa`);
                 
                 // MOSTRAR FACTURA AUTOMÁTICAMENTE
                 const invoiceTransaction = {
@@ -3371,7 +3375,7 @@ const invoiceHTML = `
                 return true;
             } catch (error) {
                 console.error('Error en el proceso de recarga VIVA:', error);
-                showToast('Error al procesar la recarga', 'error');
+                showToast('❌ Error al procesar la recarga. Intenta nuevamente más tarde.', 'error');
                 return false;
             } finally {
                 // Restaurar estado del botón
@@ -3813,7 +3817,7 @@ const invoiceHTML = `
                 }
             });
             
-            // Confirmar recarga normal (no VIVA) - USANDO LA NUEVA FUNCIÓN CON FACTURA
+            // Confirmar recarga normal (no VIVA) - USANDO LA NUEVA FUNCIÓN CON VALIDACIÓN DE TELEGRAM
             const confirmRechargeButtons = document.querySelectorAll('#confirm-recharge, #mobile-confirm-recharge');
             confirmRechargeButtons.forEach(btn => {
                 btn.addEventListener('click', async function() {
@@ -3821,7 +3825,7 @@ const invoiceHTML = `
                 });
             });
             
-            // Confirmar recarga VIVA - USANDO LA NUEVA FUNCIÓN CON FACTURA
+            // Confirmar recarga VIVA - USANDO LA NUEVA FUNCIÓN CON VALIDACIÓN DE TELEGRAM
             const confirmVivaButtons = document.querySelectorAll('#confirm-viva-recharge, #mobile-confirm-viva-recharge');
             confirmVivaButtons.forEach(btn => {
                 btn.addEventListener('click', async function() {
