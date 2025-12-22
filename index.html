@@ -199,7 +199,7 @@
             transform: translateX(2px);
         }
 
-        /* MODAL DE RECUPERACIÓN */
+        /* MODAL DE RECUPERACIÓN - SOLO ESTO ES NUEVO */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -461,19 +461,6 @@
             color: white;
             font-size: 28px;
         }
-        
-        /* Mensaje de confirmación de registro */
-        .registration-success-message {
-            background-color: #10b981;
-            color: white;
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-top: 16px;
-            text-align: center;
-            font-size: 14px;
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
@@ -486,7 +473,7 @@
     <!-- Toast Notifications Container -->
     <div id="toast-container"></div>
 
-    <!-- Modal de Recuperación de Contraseña -->
+    <!-- Modal de Recuperación de Contraseña - ESTO ES LO NUEVO -->
     <div id="password-recovery-modal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
@@ -659,7 +646,7 @@
         </div>
     </div>
 
-    <!-- Main Auth Card -->
+    <!-- Main Auth Card - ESTO SE MANTIENE IGUAL -->
     <div class="auth-card w-full max-w-md animate-fade-in-up" style="display: none;">
         <div class="p-8">
             <div class="text-center mb-8">
@@ -736,13 +723,6 @@
                         </button>
                     </form>
                     
-                    <!-- Mensaje de confirmación de registro (NUEVO) -->
-                    <div id="registration-success-message" class="registration-success-message">
-                        <i class="fas fa-envelope mr-2"></i>
-                        <strong>¡Cuenta creada exitosamente!</strong><br>
-                        Te hemos enviado un correo de confirmación. Por favor, revisa tu bandeja de entrada y confirma tu cuenta.
-                    </div>
-                    
                     <div class="mt-6 text-center text-sm text-gray-500">
                         ¿Ya tienes cuenta? <button id="switch-to-login" class="text-blue-500 hover:underline">Inicia sesión</button>
                     </div>
@@ -756,12 +736,12 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Configuración de Supabase
+        // Configuración de Supabase (SIN CAMBIOS - EXACTO COMO TENÍAS)
         const supabaseUrl = 'https://aleadadisazocjovibeh.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsZWFkYWRpc2F6b2Nqb3ZpYmVoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0NDE5NjMsImV4cCI6MjA3NTAxNzk2M30.z82tP0C-UiiNuzP_jqrQf4LBusFqrDi1WYbdnuTh47E';
         window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
         
-        // Mostrar pantalla de inicio y luego ocultarla
+        // Mostrar pantalla de inicio y luego ocultarla (EXACTO COMO TENÍAS)
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 const splashScreen = document.getElementById('splash-screen');
@@ -774,7 +754,7 @@
                 }, 500);
             }, 1500);
             
-            // Lógica para cambiar entre pestañas
+            // Lógica para cambiar entre pestañas (EXACTO COMO TENÍAS)
             const loginTab = document.getElementById('login-tab');
             const signupTab = document.getElementById('signup-tab');
             const loginForm = document.getElementById('login-form-container');
@@ -789,8 +769,6 @@
                 signupTab.classList.add('text-gray-500');
                 loginForm.classList.remove('hidden');
                 signupForm.classList.add('hidden');
-                // Ocultar mensaje de éxito al cambiar a login
-                document.getElementById('registration-success-message').style.display = 'none';
             }
             
             function showSignup() {
@@ -807,7 +785,7 @@
             switchToSignup.addEventListener('click', showSignup);
             switchToLogin.addEventListener('click', showLogin);
             
-            // Toggle para mostrar/ocultar contraseña
+            // Toggle para mostrar/ocultar contraseña (EXACTO COMO TENÍAS)
             const toggleLoginPassword = document.getElementById('toggle-login-password');
             const loginPassword = document.getElementById('login-password');
             const toggleSignupPassword = document.getElementById('toggle-signup-password');
@@ -827,7 +805,8 @@
                 this.classList.toggle('fa-eye-slash');
             });
             
-            // Modal de recuperación de contraseña
+            // ========== INICIO DEL NUEVO CÓDIGO PARA EL MODAL ==========
+            // Modal de recuperación de contraseña (SOLO ESTO ES NUEVO)
             const forgotPasswordBtn = document.getElementById('forgot-password-btn');
             const recoveryModal = document.getElementById('password-recovery-modal');
             const closeModalBtn = document.getElementById('close-recovery-modal');
@@ -921,8 +900,10 @@
                     document.getElementById('selected-department').value = selectedDepartment;
                 });
             });
+            // ========== FIN DEL NUEVO CÓDIGO PARA EL MODAL ==========
             
-            // Login form submission
+            // ========== CÓDIGO ORIGINAL PARA LOGIN Y SIGNUP ==========
+            // Login form submission (EXACTO COMO TENÍAS)
             document.getElementById('login-form').addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
@@ -956,7 +937,7 @@
                 }
             });
             
-            // Signup form submission - SOLO MODIFICADO ESTA PARTE
+            // Signup form submission (EXACTO COMO TENÍAS)
             document.getElementById('signup-form').addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
@@ -996,35 +977,26 @@
                     
                     if (dbError) throw dbError;
                     
-                    // Mostrar mensaje de éxito en español (NUEVO)
-                    const successMessage = document.getElementById('registration-success-message');
-                    successMessage.style.display = 'block';
-                    
-                    // Mantener el mensaje visible por 1 minuto
-                    setTimeout(() => {
-                        successMessage.style.display = 'none';
-                    }, 60000); // 60 segundos = 1 minuto
-                    
-                    // Limpiar el formulario
-                    document.getElementById('signup-email').value = '';
-                    document.getElementById('signup-phone').value = '';
-                    document.getElementById('signup-password').value = '';
+                    showToast('success', '¡Éxito!', 'Cuenta creada exitosamente. Verifica tu correo.');
                     
                     // Cambiar a login después de 2 segundos
                     setTimeout(() => {
                         showLogin();
                         document.getElementById('login-email').value = email;
+                        showToast('info', 'Listo', 'Ahora puedes iniciar sesión con tus credenciales');
                     }, 2000);
                     
                 } catch (error) {
                     showToast('error', 'Error', error.message || 'Error al crear la cuenta');
+                } finally {
                     submitBtn.textContent = originalText;
                     submitBtn.disabled = false;
                 }
             });
+            // ========== FIN DEL CÓDIGO ORIGINAL ==========
         });
         
-        // Funciones para el modal de recuperación
+        // Funciones para el modal de recuperación (SOLO ESTAS SON NUEVAS)
         function closeRecoveryModal() {
             const recoveryModal = document.getElementById('password-recovery-modal');
             recoveryModal.classList.remove('active');
@@ -1123,7 +1095,7 @@
             return departments[code] || 'Desconocido';
         }
         
-        // Función para mostrar notificaciones toast
+        // Función para mostrar notificaciones toast (EXACTO COMO TENÍAS)
         function showToast(type, title, message) {
             const toastContainer = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -1149,7 +1121,7 @@
             }, 5000);
         }
         
-        // Registra el Service Worker
+        // Registra el Service Worker (EXACTO COMO TENÍAS)
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
@@ -1158,7 +1130,7 @@
             });
         }
 
-        // Botón de instalación
+        // Botón de instalación (EXACTO COMO TENÍAS)
         let deferredPrompt;
         const installButton = document.createElement('button');
         installButton.textContent = 'Instalar TokTok';
