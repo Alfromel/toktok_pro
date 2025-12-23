@@ -461,127 +461,6 @@
             color: white;
             font-size: 28px;
         }
-
-        /* Modal Biometría */
-        .biometric-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10001;
-            display: none;
-        }
-
-        .biometric-modal.active {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .biometric-content {
-            background: white;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            padding: 40px 30px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-        }
-
-        .biometric-icon {
-            font-size: 64px;
-            color: #0066FF;
-            margin-bottom: 20px;
-        }
-
-        .biometric-loader {
-            width: 60px;
-            height: 60px;
-            border: 4px solid #e2e8f0;
-            border-top: 4px solid #0066FF;
-            border-radius: 50%;
-            margin: 20px auto;
-            animation: spin 1s linear infinite;
-        }
-
-        .biometric-buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 25px;
-        }
-
-        .biometric-btn {
-            flex: 1;
-            padding: 12px;
-            border-radius: 12px;
-            border: none;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .biometric-btn.primary {
-            background: #0066FF;
-            color: white;
-        }
-
-        .biometric-btn.secondary {
-            background: #f1f5f9;
-            color: #475569;
-        }
-
-        .biometric-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Opciones de recordar sesión */
-        .remember-options {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin: 15px 0;
-            padding: 10px 15px;
-            background: #f8fafc;
-            border-radius: 10px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .remember-checkbox {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .remember-checkbox input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .remember-checkbox label {
-            cursor: pointer;
-            font-size: 14px;
-            color: #475569;
-        }
-
-        .biometric-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            color: #0066FF;
-            cursor: pointer;
-        }
-
-        .biometric-option i {
-            font-size: 18px;
-        }
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
@@ -589,31 +468,6 @@
     <div id="splash-screen" class="splash-screen">
         <div class="splash-logo animate-logo">TokTok</div>
         <div class="splash-spinner"></div>
-    </div>
-
-    <!-- Modal de Autenticación Biométrica -->
-    <div id="biometric-modal" class="biometric-modal">
-        <div class="biometric-content">
-            <div class="biometric-icon">
-                <i class="fas fa-fingerprint"></i>
-            </div>
-            <h2 class="text-2xl font-bold text-gray-800 mb-3">Autenticación Biométrica</h2>
-            <p class="text-gray-600 mb-6">Usa tu huella digital, rostro o patrón para acceder rápidamente a tu cuenta</p>
-            
-            <div id="biometric-loader" class="biometric-loader" style="display: none;"></div>
-            
-            <div id="biometric-actions">
-                <p class="text-gray-500 text-sm mb-4">Selecciona tu método preferido:</p>
-                <div class="biometric-buttons">
-                    <button id="use-biometric" class="biometric-btn primary">
-                        <i class="fas fa-fingerprint mr-2"></i>Usar Biometría
-                    </button>
-                    <button id="use-password" class="biometric-btn secondary">
-                        <i class="fas fa-key mr-2"></i>Usar Contraseña
-                    </button>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- Toast Notifications Container -->
@@ -827,26 +681,16 @@
                             <input type="password" id="login-password" required 
                                    class="input-field w-full rounded-lg py-3 px-4 text-gray-800 focus:outline-none pr-10">
                             <i class="password-toggle fas fa-eye" id="toggle-login-password"></i>
-                        </div>
-                        
-                        <!-- Opciones de Recordar Sesión y Biometría -->
-                        <div class="remember-options">
-                            <div class="remember-checkbox">
-                                <input type="checkbox" id="remember-session">
-                                <label for="remember-session">Recordar sesión</label>
-                            </div>
-                            <div class="biometric-option" id="setup-biometric">
-                                <i class="fas fa-fingerprint"></i>
-                                <span>Configurar biometría</span>
+                            <div class="flex justify-end mt-1">
+                                <button type="button" id="forgot-password-btn" class="forgot-password-btn text-sm text-blue-500">
+                                    <i class="fas fa-question-circle"></i> ¿Olvidaste tu contraseña?
+                                </button>
                             </div>
                         </div>
-                        
-                        <div class="flex justify-between items-center">
-                            <button type="button" id="forgot-password-btn" class="forgot-password-btn text-sm text-blue-500">
-                                <i class="fas fa-question-circle"></i> ¿Olvidaste tu contraseña?
-                            </button>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="remember-session" class="mr-2">
+                            <label for="remember-session" class="text-sm text-gray-700">Mantener sesión iniciada</label>
                         </div>
-                        
                         <button type="submit" class="btn-primary w-full text-white py-3 px-4 rounded-lg font-medium">
                             Iniciar Sesión
                         </button>
@@ -910,23 +754,47 @@
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsZWFkYWRpc2F6b2Nqb3ZpYmVoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0NDE5NjMsImV4cCI6MjA3NTAxNzk2M30.z82tP0C-UiiNuzP_jqrQf4LBusFqrDi1WYbdnuTh47E';
         window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
         
-        // Constantes para almacenamiento
-        const STORAGE_KEYS = {
-            REMEMBER_ME: 'toktok_remember_me',
-            USER_EMAIL: 'toktok_user_email',
-            BIOMETRIC_ENABLED: 'toktok_biometric_enabled',
-            SESSION_TOKEN: 'toktok_session_token'
-        };
-
-        // Inicialización de variables
-        let isBiometricSupported = false;
-        let publicKeyCredential = null;
-
+        // Verificar sesión al cargar la página
+        async function checkSession() {
+            try {
+                // Verificar si hay una sesión activa
+                const { data: { session }, error } = await window.supabase.auth.getSession();
+                
+                if (error) {
+                    console.error('Error al verificar sesión:', error);
+                    return false;
+                }
+                
+                if (session) {
+                    // Hay una sesión activa, redirigir al dashboard
+                    console.log('Sesión activa encontrada, redirigiendo al dashboard...');
+                    showToast('info', 'Sesión activa', 'Redirigiendo al dashboard...');
+                    
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1000);
+                    
+                    return true;
+                }
+                
+                return false;
+            } catch (error) {
+                console.error('Error inesperado al verificar sesión:', error);
+                return false;
+            }
+        }
+        
         // Mostrar pantalla de inicio y luego ocultarla
         document.addEventListener('DOMContentLoaded', async function() {
-            // Primero verificar si hay sesión guardada
-            await checkStoredSession();
+            // Primero verificar si hay sesión activa
+            const hasActiveSession = await checkSession();
             
+            if (hasActiveSession) {
+                // Si hay sesión activa, mantener el splash screen hasta la redirección
+                return;
+            }
+            
+            // Si no hay sesión activa, proceder normalmente
             setTimeout(() => {
                 const splashScreen = document.getElementById('splash-screen');
                 const authCard = document.querySelector('.auth-card');
@@ -937,12 +805,6 @@
                     authCard.style.display = 'block';
                 }, 500);
             }, 1500);
-            
-            // Verificar soporte de biometría
-            checkBiometricSupport();
-            
-            // Cargar datos guardados
-            loadSavedCredentials();
             
             // Lógica para cambiar entre pestañas
             const loginTab = document.getElementById('login-tab');
@@ -1090,29 +952,13 @@
                 });
             });
             
-            // Configurar biometría
-            document.getElementById('setup-biometric').addEventListener('click', function() {
-                if (!isBiometricSupported) {
-                    showToast('warning', 'No compatible', 'Tu dispositivo no soporta autenticación biométrica.');
-                    return;
-                }
-                
-                const email = document.getElementById('login-email').value;
-                if (!email) {
-                    showToast('warning', 'Email requerido', 'Primero ingresa tu correo electrónico.');
-                    return;
-                }
-                
-                setupBiometricAuthentication(email);
-            });
-            
             // Login form submission
             document.getElementById('login-form').addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 const email = document.getElementById('login-email').value;
                 const password = document.getElementById('login-password').value;
-                const rememberMe = document.getElementById('remember-session').checked;
+                const rememberSession = document.getElementById('remember-session').checked;
                 
                 const submitBtn = this.querySelector('button[type="submit"]');
                 const originalText = submitBtn.textContent;
@@ -1120,6 +966,10 @@
                 submitBtn.disabled = true;
                 
                 try {
+                    // Configurar la persistencia de sesión
+                    const persistence = rememberSession ? 'local' : 'session';
+                    
+                    // Iniciar sesión con Supabase
                     const { data, error } = await window.supabase.auth.signInWithPassword({
                         email: email,
                         password: password
@@ -1127,11 +977,11 @@
                     
                     if (error) throw error;
                     
-                    // Guardar sesión si el usuario lo solicitó
-                    if (rememberMe) {
-                        saveSession(email, data.session.access_token);
+                    // Guardar preferencia de persistencia en localStorage
+                    if (rememberSession) {
+                        localStorage.setItem('toktok_remember_session', 'true');
                     } else {
-                        clearSavedSession();
+                        localStorage.setItem('toktok_remember_session', 'false');
                     }
                     
                     showToast('success', '¡Éxito!', 'Inicio de sesión exitoso');
@@ -1217,246 +1067,9 @@
                     submitBtn.disabled = false;
                 }
             });
-            
-            // Event listeners para modal biométrico
-            document.getElementById('use-biometric').addEventListener('click', authenticateWithBiometric);
-            document.getElementById('use-password').addEventListener('click', function() {
-                closeBiometricModal();
-            });
         });
         
-        // ===== FUNCIONES DE SESIÓN PERSISTENTE =====
-        
-        async function checkStoredSession() {
-            try {
-                const rememberMe = localStorage.getItem(STORAGE_KEYS.REMEMBER_ME);
-                const sessionToken = localStorage.getItem(STORAGE_KEYS.SESSION_TOKEN);
-                
-                if (rememberMe === 'true' && sessionToken) {
-                    // Verificar si la sesión es válida
-                    const { data: { user }, error } = await window.supabase.auth.getUser(sessionToken);
-                    
-                    if (!error && user) {
-                        // Redirigir directamente al dashboard
-                        window.location.href = 'dashboard.html';
-                        return true;
-                    } else {
-                        // Sesión inválida, limpiar datos
-                        clearSavedSession();
-                    }
-                }
-                
-                // Verificar si hay biometría habilitada
-                const biometricEnabled = localStorage.getItem(STORAGE_KEYS.BIOMETRIC_ENABLED);
-                const storedEmail = localStorage.getItem(STORAGE_KEYS.USER_EMAIL);
-                
-                if (biometricEnabled === 'true' && storedEmail) {
-                    // Mostrar modal de autenticación biométrica
-                    setTimeout(() => {
-                        showBiometricModal();
-                    }, 500);
-                }
-                
-                return false;
-            } catch (error) {
-                console.error('Error verificando sesión:', error);
-                return false;
-            }
-        }
-        
-        function saveSession(email, token) {
-            try {
-                localStorage.setItem(STORAGE_KEYS.REMEMBER_ME, 'true');
-                localStorage.setItem(STORAGE_KEYS.USER_EMAIL, email);
-                localStorage.setItem(STORAGE_KEYS.SESSION_TOKEN, token);
-            } catch (error) {
-                console.error('Error guardando sesión:', error);
-            }
-        }
-        
-        function clearSavedSession() {
-            try {
-                localStorage.removeItem(STORAGE_KEYS.REMEMBER_ME);
-                localStorage.removeItem(STORAGE_KEYS.USER_EMAIL);
-                localStorage.removeItem(STORAGE_KEYS.SESSION_TOKEN);
-            } catch (error) {
-                console.error('Error limpiando sesión:', error);
-            }
-        }
-        
-        function loadSavedCredentials() {
-            try {
-                const rememberMe = localStorage.getItem(STORAGE_KEYS.REMEMBER_ME);
-                const storedEmail = localStorage.getItem(STORAGE_KEYS.USER_EMAIL);
-                
-                if (rememberMe === 'true' && storedEmail) {
-                    document.getElementById('login-email').value = storedEmail;
-                    document.getElementById('remember-session').checked = true;
-                }
-            } catch (error) {
-                console.error('Error cargando credenciales:', error);
-            }
-        }
-        
-        // ===== FUNCIONES DE BIOMETRÍA =====
-        
-        function checkBiometricSupport() {
-            try {
-                // Verificar soporte de WebAuthn
-                if (window.PublicKeyCredential &&
-                    typeof window.PublicKeyCredential === 'function' &&
-                    window.isSecureContext) {
-                    isBiometricSupported = true;
-                    
-                    // También verificar credenciales de contraseña
-                    if (window.PasswordCredential) {
-                        console.log('PasswordCredential API soportada');
-                    }
-                    
-                    return true;
-                }
-                
-                // Verificar soporte de iOS/macOS Touch ID/Face ID
-                if (typeof window.TouchID !== 'undefined') {
-                    isBiometricSupported = true;
-                    return true;
-                }
-                
-                // Verificar soporte de Android
-                if (typeof window.fingerprint !== 'undefined') {
-                    isBiometricSupported = true;
-                    return true;
-                }
-                
-                console.log('Biometría no soportada en este dispositivo');
-                return false;
-            } catch (error) {
-                console.error('Error verificando soporte de biometría:', error);
-                return false;
-            }
-        }
-        
-        async function setupBiometricAuthentication(email) {
-            try {
-                showToast('info', 'Configuración', 'Preparando autenticación biométrica...');
-                
-                // Crear credencial pública (simplificado para demostración)
-                // En un entorno real, esto se integraría con un servidor
-                const options = {
-                    challenge: new Uint8Array(32),
-                    rp: {
-                        name: "TokTok Wallet",
-                        id: window.location.hostname
-                    },
-                    user: {
-                        id: new Uint8Array(16),
-                        name: email,
-                        displayName: email
-                    },
-                    pubKeyCredParams: [
-                        { type: "public-key", alg: -7 },  // ES256
-                        { type: "public-key", alg: -257 } // RS256
-                    ],
-                    timeout: 60000,
-                    attestation: "direct"
-                };
-                
-                // Solicitar al navegador crear una nueva credencial
-                const credential = await navigator.credentials.create({
-                    publicKey: options
-                }).catch(err => {
-                    console.warn('Error creando credencial:', err);
-                    return null;
-                });
-                
-                if (credential) {
-                    // Guardar que la biometría está habilitada
-                    localStorage.setItem(STORAGE_KEYS.BIOMETRIC_ENABLED, 'true');
-                    localStorage.setItem(STORAGE_KEYS.USER_EMAIL, email);
-                    
-                    publicKeyCredential = credential;
-                    showToast('success', '¡Configurado!', 'Autenticación biométrica configurada correctamente.');
-                } else {
-                    showToast('warning', 'Configuración cancelada', 'No se pudo configurar la autenticación biométrica.');
-                }
-                
-            } catch (error) {
-                console.error('Error configurando biometría:', error);
-                showToast('error', 'Error', 'No se pudo configurar la autenticación biométrica.');
-            }
-        }
-        
-        function showBiometricModal() {
-            const modal = document.getElementById('biometric-modal');
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeBiometricModal() {
-            const modal = document.getElementById('biometric-modal');
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-        
-        async function authenticateWithBiometric() {
-            try {
-                const loader = document.getElementById('biometric-loader');
-                const actions = document.getElementById('biometric-actions');
-                
-                loader.style.display = 'block';
-                actions.style.display = 'none';
-                
-                // Simulación de autenticación biométrica
-                // En un entorno real, esto usaría la API de WebAuthn
-                setTimeout(async () => {
-                    loader.style.display = 'none';
-                    actions.style.display = 'block';
-                    
-                    const storedEmail = localStorage.getItem(STORAGE_KEYS.USER_EMAIL);
-                    
-                    if (!storedEmail) {
-                        showToast('error', 'Error', 'No se encontró información de usuario.');
-                        closeBiometricModal();
-                        return;
-                    }
-                    
-                    // Intentar autenticar automáticamente con Supabase
-                    // En un caso real, aquí se usaría el token almacenado
-                    try {
-                        const sessionToken = localStorage.getItem(STORAGE_KEYS.SESSION_TOKEN);
-                        
-                        if (sessionToken) {
-                            const { data: { user }, error } = await window.supabase.auth.getUser(sessionToken);
-                            
-                            if (!error && user) {
-                                showToast('success', '¡Autenticado!', 'Acceso biométrico exitoso.');
-                                setTimeout(() => {
-                                    window.location.href = 'dashboard.html';
-                                }, 1000);
-                                return;
-                            }
-                        }
-                        
-                        // Si no hay token válido, pedir credenciales
-                        showToast('info', 'Sesión expirada', 'Por favor, inicia sesión nuevamente.');
-                        closeBiometricModal();
-                        
-                    } catch (error) {
-                        console.error('Error en autenticación biométrica:', error);
-                        showToast('error', 'Error', 'Falló la autenticación biométrica.');
-                        closeBiometricModal();
-                    }
-                }, 2000);
-                
-            } catch (error) {
-                console.error('Error en autenticación biométrica:', error);
-                showToast('error', 'Error', 'Falló la autenticación biométrica.');
-                closeBiometricModal();
-            }
-        }
-        
-        // ===== FUNCIONES EXISTENTES (sin cambios) =====
-        
+        // Funciones para el modal de recuperación
         function closeRecoveryModal() {
             const recoveryModal = document.getElementById('password-recovery-modal');
             recoveryModal.classList.remove('active');
