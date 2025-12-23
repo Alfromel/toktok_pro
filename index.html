@@ -461,155 +461,6 @@
             color: white;
             font-size: 28px;
         }
-
-        /* Modal de Huella */
-        .fingerprint-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10001;
-            display: none;
-        }
-
-        .fingerprint-modal.active {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .fingerprint-content {
-            background: white;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            padding: 40px 30px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-        }
-
-        .fingerprint-icon {
-            font-size: 64px;
-            color: #0066FF;
-            margin-bottom: 20px;
-        }
-
-        .fingerprint-loader {
-            width: 60px;
-            height: 60px;
-            border: 4px solid #e2e8f0;
-            border-top: 4px solid #0066FF;
-            border-radius: 50%;
-            margin: 20px auto;
-            animation: spin 1s linear infinite;
-        }
-
-        .fingerprint-buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 25px;
-        }
-
-        .fingerprint-btn {
-            flex: 1;
-            padding: 12px;
-            border-radius: 12px;
-            border: none;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .fingerprint-btn.primary {
-            background: #0066FF;
-            color: white;
-        }
-
-        .fingerprint-btn.secondary {
-            background: #f1f5f9;
-            color: #475569;
-        }
-
-        .fingerprint-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Modal Configurar Huella */
-        .setup-fingerprint-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10002;
-            display: none;
-        }
-
-        .setup-fingerprint-modal.active {
-            display: flex;
-        }
-
-        .setup-fingerprint-content {
-            background: white;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            padding: 40px 30px;
-        }
-
-        /* Opciones de recordar sesión */
-        .remember-options {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin: 15px 0;
-            padding: 10px 15px;
-            background: #f8fafc;
-            border-radius: 10px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .remember-checkbox {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .remember-checkbox input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .remember-checkbox label {
-            cursor: pointer;
-            font-size: 14px;
-            color: #475569;
-        }
-
-        .setup-fingerprint-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            color: #0066FF;
-            cursor: pointer;
-        }
-
-        .setup-fingerprint-option i {
-            font-size: 18px;
-        }
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
@@ -617,48 +468,6 @@
     <div id="splash-screen" class="splash-screen">
         <div class="splash-logo animate-logo">TokTok</div>
         <div class="splash-spinner"></div>
-    </div>
-
-    <!-- Modal de Huella (SE MUESTRA AL ENTRAR SI TIENE HUELA CONFIGURADA) -->
-    <div id="fingerprint-modal" class="fingerprint-modal">
-        <div class="fingerprint-content">
-            <div class="fingerprint-icon">
-                <i class="fas fa-fingerprint"></i>
-            </div>
-            <h2 class="text-2xl font-bold text-gray-800 mb-3">Autenticación con Huella</h2>
-            <p class="text-gray-600 mb-6">Coloca tu dedo en el sensor para acceder</p>
-            
-            <div id="fingerprint-loader" class="fingerprint-loader" style="display: none;"></div>
-            
-            <div id="fingerprint-actions">
-                <p class="text-gray-500 text-sm mb-4">Toca el sensor de huellas</p>
-                <div class="fingerprint-buttons">
-                    <button id="use-password-instead" class="fingerprint-btn secondary">
-                        <i class="fas fa-key mr-2"></i>Usar Contraseña
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal para Configurar Huella (SE MUESTRA DESPUÉS DE LOGIN EXITOSO) -->
-    <div id="setup-fingerprint-modal" class="setup-fingerprint-modal">
-        <div class="setup-fingerprint-content">
-            <div class="fingerprint-icon">
-                <i class="fas fa-fingerprint"></i>
-            </div>
-            <h2 class="text-2xl font-bold text-gray-800 mb-3">¿Configurar Huella Digital?</h2>
-            <p class="text-gray-600 mb-6">Configura tu huella para acceder más rápido la próxima vez</p>
-            
-            <div class="fingerprint-buttons">
-                <button id="skip-fingerprint" class="fingerprint-btn secondary">
-                    <i class="fas fa-times mr-2"></i>No, gracias
-                </button>
-                <button id="setup-fingerprint-now" class="fingerprint-btn primary">
-                    <i class="fas fa-fingerprint mr-2"></i>Sí, configurar
-                </button>
-            </div>
-        </div>
     </div>
 
     <!-- Toast Notifications Container -->
@@ -837,7 +646,7 @@
         </div>
     </div>
 
-    <!-- Main Auth Card (SOLO SE MUESTRA SI NO HAY SESIÓN O EL USUARIO ELIGE USAR CONTRASEÑA) -->
+    <!-- Main Auth Card -->
     <div class="auth-card w-full max-w-md animate-fade-in-up" style="display: none;">
         <div class="p-8">
             <div class="text-center mb-8">
@@ -872,22 +681,12 @@
                             <input type="password" id="login-password" required 
                                    class="input-field w-full rounded-lg py-3 px-4 text-gray-800 focus:outline-none pr-10">
                             <i class="password-toggle fas fa-eye" id="toggle-login-password"></i>
-                        </div>
-                        
-                        <!-- Opciones de Recordar Sesión -->
-                        <div class="remember-options">
-                            <div class="remember-checkbox">
-                                <input type="checkbox" id="remember-session" checked>
-                                <label for="remember-session">Recordar sesión</label>
+                            <div class="flex justify-end mt-1">
+                                <button type="button" id="forgot-password-btn" class="forgot-password-btn text-sm text-blue-500">
+                                    <i class="fas fa-question-circle"></i> ¿Olvidaste tu contraseña?
+                                </button>
                             </div>
                         </div>
-                        
-                        <div class="flex justify-between items-center">
-                            <button type="button" id="forgot-password-btn" class="forgot-password-btn text-sm text-blue-500">
-                                <i class="fas fa-question-circle"></i> ¿Olvidaste tu contraseña?
-                            </button>
-                        </div>
-                        
                         <button type="submit" class="btn-primary w-full text-white py-3 px-4 rounded-lg font-medium">
                             Iniciar Sesión
                         </button>
@@ -948,410 +747,100 @@
     <script>
         // Configuración de Supabase
         const supabaseUrl = 'https://aleadadisazocjovibeh.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsZWFkYWRpc2F6b2Nqb3ZpYmVoIiwicm9sIjoiYW5vbiIsImlhdCI6MTc1OTQ0MTk2MywiZXhwIjoyMDc1MDE3OTYzfQ.z82tP0C-UiiNuzP_jqrQf4LBusFqrDi1WYbdnuTh47E';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsZWFkYWRpc2F6b2Nqb3ZpYmVoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0NDE5NjMsImV4cCI6MjA3NTAxNzk2M30.z82tP0C-UiiNuzP_jqrQf4LBusFqrDi1WYbdnuTh47E';
         window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
         
-        // Constantes para almacenamiento
-        const STORAGE_KEYS = {
-            REMEMBER_ME: 'toktok_remember_me',
-            USER_EMAIL: 'toktok_user_email',
-            SESSION_TOKEN: 'toktok_session_token',
-            FINGERPRINT_ENABLED: 'toktok_fingerprint_enabled'
-        };
-
-        // Función principal al cargar
-        document.addEventListener('DOMContentLoaded', async function() {
-            // Primero verificar si hay sesión con huella
-            await checkSessionAndRedirect();
-            
-            // Mostrar splash screen
+        // Mostrar pantalla de inicio y luego ocultarla
+        document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 const splashScreen = document.getElementById('splash-screen');
+                const authCard = document.querySelector('.auth-card');
+                
                 splashScreen.style.opacity = '0';
                 setTimeout(() => {
                     splashScreen.style.display = 'none';
+                    authCard.style.display = 'block';
                 }, 500);
             }, 1500);
             
-            // Inicializar componentes
-            initializeComponents();
-        });
-
-        // ===== VERIFICAR SESIÓN Y REDIRIGIR =====
-        async function checkSessionAndRedirect() {
-            try {
-                const fingerprintEnabled = localStorage.getItem(STORAGE_KEYS.FINGERPRINT_ENABLED);
-                const sessionToken = localStorage.getItem(STORAGE_KEYS.SESSION_TOKEN);
-                const rememberMe = localStorage.getItem(STORAGE_KEYS.REMEMBER_ME);
-                
-                console.log('Verificando sesión:', { fingerprintEnabled, sessionToken, rememberMe });
-                
-                // CASO 1: Usuario tiene huella configurada
-                if (fingerprintEnabled === 'true' && sessionToken) {
-                    console.log('Usuario tiene huella configurada, mostrando modal de huella');
-                    // Mostrar modal de huella inmediatamente
-                    showFingerprintModal();
-                    return;
-                }
-                
-                // CASO 2: Usuario tiene sesión recordada (sin huella)
-                if (rememberMe === 'true' && sessionToken) {
-                    console.log('Usuario tiene sesión recordada sin huella');
-                    const { data: { user }, error } = await window.supabase.auth.getUser(sessionToken);
-                    
-                    if (!error && user) {
-                        console.log('Sesión válida, redirigiendo al dashboard');
-                        // Redirigir directamente al dashboard
-                        window.location.href = 'dashboard.html';
-                        return;
-                    } else {
-                        console.log('Sesión inválida, limpiando');
-                        // Sesión inválida, limpiar
-                        clearSavedSession();
-                    }
-                }
-                
-                // CASO 3: No hay sesión, mostrar formulario normal
-                console.log('No hay sesión, mostrando formulario');
-                setTimeout(() => {
-                    document.querySelector('.auth-card').style.display = 'block';
-                }, 600);
-                
-            } catch (error) {
-                console.error('Error verificando sesión:', error);
-                clearSavedSession();
-                setTimeout(() => {
-                    document.querySelector('.auth-card').style.display = 'block';
-                }, 600);
-            }
-        }
-
-        // ===== INICIALIZAR COMPONENTES =====
-        function initializeComponents() {
-            // Cargar email guardado si existe
-            const savedEmail = localStorage.getItem(STORAGE_KEYS.USER_EMAIL);
-            if (savedEmail) {
-                document.getElementById('login-email').value = savedEmail;
-                document.getElementById('remember-session').checked = true;
+            // Lógica para cambiar entre pestañas
+            const loginTab = document.getElementById('login-tab');
+            const signupTab = document.getElementById('signup-tab');
+            const loginForm = document.getElementById('login-form-container');
+            const signupForm = document.getElementById('signup-form-container');
+            const switchToSignup = document.getElementById('switch-to-signup');
+            const switchToLogin = document.getElementById('switch-to-login');
+            
+            function showLogin() {
+                loginTab.classList.add('active');
+                loginTab.classList.remove('text-gray-500');
+                signupTab.classList.remove('active');
+                signupTab.classList.add('text-gray-500');
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
             }
             
-            // Configurar event listeners
-            setupEventListeners();
-        }
-
-        function setupEventListeners() {
-            // Tabs de login/registro
-            document.getElementById('login-tab').addEventListener('click', showLogin);
-            document.getElementById('signup-tab').addEventListener('click', showSignup);
-            document.getElementById('switch-to-signup').addEventListener('click', showSignup);
-            document.getElementById('switch-to-login').addEventListener('click', showLogin);
-            
-            // Toggle contraseñas
-            document.getElementById('toggle-login-password').addEventListener('click', function() {
-                togglePasswordVisibility('login-password', this);
-            });
-            document.getElementById('toggle-signup-password').addEventListener('click', function() {
-                togglePasswordVisibility('signup-password', this);
-            });
-            
-            // Login form
-            document.getElementById('login-form').addEventListener('submit', handleLogin);
-            
-            // Signup form
-            document.getElementById('signup-form').addEventListener('submit', handleSignup);
-            
-            // Modal de recuperación
-            document.getElementById('forgot-password-btn').addEventListener('click', showRecoveryModal);
-            document.getElementById('close-recovery-modal').addEventListener('click', closeRecoveryModal);
-            
-            // Modal de huella
-            document.getElementById('use-password-instead').addEventListener('click', function() {
-                closeFingerprintModal();
-                document.querySelector('.auth-card').style.display = 'block';
-            });
-            
-            // Modal de configuración de huella
-            document.getElementById('skip-fingerprint').addEventListener('click', function() {
-                closeSetupFingerprintModal();
-                redirectToDashboard();
-            });
-            
-            document.getElementById('setup-fingerprint-now').addEventListener('click', setupFingerprint);
-            
-            // Navegación del modal de recuperación
-            setupRecoveryModalNavigation();
-            
-            // Cerrar modales al hacer clic fuera
-            setupModalCloseListeners();
-        }
-
-        function setupModalCloseListeners() {
-            // Cerrar modal de huella al hacer clic fuera
-            document.getElementById('fingerprint-modal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeFingerprintModal();
-                    document.querySelector('.auth-card').style.display = 'block';
-                }
-            });
-            
-            // Cerrar modal de configuración al hacer clic fuera
-            document.getElementById('setup-fingerprint-modal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeSetupFingerprintModal();
-                    redirectToDashboard();
-                }
-            });
-            
-            // Cerrar modal de recuperación al hacer clic fuera
-            document.getElementById('password-recovery-modal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeRecoveryModal();
-                }
-            });
-        }
-
-        // ===== MANEJO DE LOGIN =====
-        async function handleLogin(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            const rememberMe = document.getElementById('remember-session').checked;
-            
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Iniciando...';
-            submitBtn.disabled = true;
-            
-            try {
-                const { data, error } = await window.supabase.auth.signInWithPassword({
-                    email: email,
-                    password: password
-                });
-                
-                if (error) throw error;
-                
-                // Guardar sesión si el usuario lo solicitó
-                if (rememberMe) {
-                    saveSession(email, data.session.access_token);
-                    
-                    // Verificar si ya tiene huella configurada
-                    const fingerprintEnabled = localStorage.getItem(STORAGE_KEYS.FINGERPRINT_ENABLED);
-                    
-                    if (fingerprintEnabled !== 'true') {
-                        // Mostrar modal para configurar huella
-                        showSetupFingerprintModal();
-                    } else {
-                        // Si ya tiene huella, redirigir directamente
-                        redirectToDashboard();
-                    }
-                } else {
-                    // No recordar sesión, solo redirigir
-                    clearSavedSession();
-                    redirectToDashboard();
-                }
-                
-            } catch (error) {
-                showToast('error', 'Error', error.message || 'Error al iniciar sesión');
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
+            function showSignup() {
+                signupTab.classList.add('active');
+                signupTab.classList.remove('text-gray-500');
+                loginTab.classList.remove('active');
+                loginTab.classList.add('text-gray-500');
+                signupForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
             }
-        }
-
-        // ===== MANEJO DE REGISTRO =====
-        async function handleSignup(e) {
-            e.preventDefault();
             
-            const name = document.getElementById('signup-name').value;
-            const email = document.getElementById('signup-email').value;
-            const phone = document.getElementById('signup-phone').value;
-            const password = document.getElementById('signup-password').value;
+            loginTab.addEventListener('click', showLogin);
+            signupTab.addEventListener('click', showSignup);
+            switchToSignup.addEventListener('click', showSignup);
+            switchToLogin.addEventListener('click', showLogin);
             
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Creando cuenta...';
-            submitBtn.disabled = true;
+            // Toggle para mostrar/ocultar contraseña
+            const toggleLoginPassword = document.getElementById('toggle-login-password');
+            const loginPassword = document.getElementById('login-password');
+            const toggleSignupPassword = document.getElementById('toggle-signup-password');
+            const signupPassword = document.getElementById('signup-password');
             
-            try {
-                const { data: authData, error: authError } = await window.supabase.auth.signUp({
-                    email: email,
-                    password: password,
-                    options: {
-                        data: {
-                            phone: phone,
-                            full_name: name
-                        }
-                    }
-                });
-                
-                if (authError) throw authError;
-                
-                // Guardar perfil del usuario
-                const userId = authData.user?.id;
-                if (userId) {
-                    await window.supabase
-                        .from('user_profiles')
-                        .insert([{
-                            id: userId,
-                            full_name: name,
-                            email: email,
-                            phone: phone,
-                            avatar_url: null
-                        }]);
-                }
-                
-                showToast('success', '¡Éxito!', 'Cuenta creada exitosamente.');
-                
-                // Auto-login y redirigir
-                setTimeout(() => {
-                    document.getElementById('login-email').value = email;
-                    document.getElementById('login-password').value = password;
-                    document.getElementById('remember-session').checked = true;
-                    document.getElementById('login-form').dispatchEvent(new Event('submit'));
-                }, 1000);
-                
-            } catch (error) {
-                showToast('error', 'Error', error.message || 'Error al crear la cuenta');
-            } finally {
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            }
-        }
-
-        // ===== FUNCIONES DE SESIÓN =====
-        function saveSession(email, token) {
-            localStorage.setItem(STORAGE_KEYS.REMEMBER_ME, 'true');
-            localStorage.setItem(STORAGE_KEYS.USER_EMAIL, email);
-            localStorage.setItem(STORAGE_KEYS.SESSION_TOKEN, token);
-        }
-
-        function clearSavedSession() {
-            Object.values(STORAGE_KEYS).forEach(key => {
-                localStorage.removeItem(key);
+            toggleLoginPassword.addEventListener('click', function() {
+                const type = loginPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+                loginPassword.setAttribute('type', type);
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
             });
-        }
-
-        function redirectToDashboard() {
-            showToast('success', '¡Éxito!', 'Inicio de sesión exitoso');
-            setTimeout(() => {
-                window.location.href = 'dashboard.html';
-            }, 1000);
-        }
-
-        // ===== FUNCIONES DE HUELLA DIGITAL =====
-        function showFingerprintModal() {
-            const modal = document.getElementById('fingerprint-modal');
-            modal.classList.add('active');
             
-            // Simular autenticación con huella después de 1 segundo
-            setTimeout(() => {
-                simulateFingerprintAuthentication();
-            }, 1000);
-        }
-
-        function closeFingerprintModal() {
-            const modal = document.getElementById('fingerprint-modal');
-            modal.classList.remove('active');
-        }
-
-        function showSetupFingerprintModal() {
-            const modal = document.getElementById('setup-fingerprint-modal');
-            modal.classList.add('active');
-        }
-
-        function closeSetupFingerprintModal() {
-            const modal = document.getElementById('setup-fingerprint-modal');
-            modal.classList.remove('active');
-        }
-
-        function setupFingerprint() {
-            closeSetupFingerprintModal();
+            toggleSignupPassword.addEventListener('click', function() {
+                const type = signupPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+                signupPassword.setAttribute('type', type);
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
             
-            // Simular configuración de huella
-            showToast('info', 'Configurando', 'Configurando huella digital...');
+            // Modal de recuperación de contraseña
+            const forgotPasswordBtn = document.getElementById('forgot-password-btn');
+            const recoveryModal = document.getElementById('password-recovery-modal');
+            const closeModalBtn = document.getElementById('close-recovery-modal');
             
-            setTimeout(() => {
-                // Marcar huella como habilitada
-                localStorage.setItem(STORAGE_KEYS.FINGERPRINT_ENABLED, 'true');
-                showToast('success', '¡Configurado!', 'Huella digital configurada correctamente.');
-                
-                // Redirigir al dashboard
-                redirectToDashboard();
-            }, 2000);
-        }
-
-        function simulateFingerprintAuthentication() {
-            const loader = document.getElementById('fingerprint-loader');
-            const actions = document.getElementById('fingerprint-actions');
-            
-            loader.style.display = 'block';
-            actions.style.display = 'none';
-            
-            setTimeout(() => {
-                loader.style.display = 'none';
-                actions.style.display = 'block';
-                
-                // Verificar token de sesión
-                const sessionToken = localStorage.getItem(STORAGE_KEYS.SESSION_TOKEN);
-                
-                if (sessionToken) {
-                    showToast('success', '¡Autenticado!', 'Huella verificada correctamente.');
-                    
-                    // Redirigir al dashboard
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 1000);
-                } else {
-                    showToast('error', 'Error', 'Sesión no válida. Usa contraseña.');
-                    closeFingerprintModal();
-                    document.querySelector('.auth-card').style.display = 'block';
-                }
-            }, 2000);
-        }
-
-        // ===== FUNCIONES DE UI =====
-        function showLogin() {
-            document.getElementById('login-tab').classList.add('active');
-            document.getElementById('login-tab').classList.remove('text-gray-500');
-            document.getElementById('signup-tab').classList.remove('active');
-            document.getElementById('signup-tab').classList.add('text-gray-500');
-            document.getElementById('login-form-container').classList.remove('hidden');
-            document.getElementById('signup-form-container').classList.add('hidden');
-        }
-
-        function showSignup() {
-            document.getElementById('signup-tab').classList.add('active');
-            document.getElementById('signup-tab').classList.remove('text-gray-500');
-            document.getElementById('login-tab').classList.remove('active');
-            document.getElementById('login-tab').classList.add('text-gray-500');
-            document.getElementById('signup-form-container').classList.remove('hidden');
-            document.getElementById('login-form-container').classList.add('hidden');
-        }
-
-        function togglePasswordVisibility(inputId, icon) {
-            const input = document.getElementById(inputId);
-            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
-            
-            input.setAttribute('type', type);
-            icon.classList.toggle('fa-eye');
-            icon.classList.toggle('fa-eye-slash');
-        }
-
-        // ===== FUNCIONES DEL MODAL DE RECUPERACIÓN =====
-        function showRecoveryModal() {
-            document.getElementById('password-recovery-modal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeRecoveryModal() {
-            document.getElementById('password-recovery-modal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        function setupRecoveryModalNavigation() {
+            // Variables para el modal
             let currentStep = 1;
             let selectedDepartment = '';
             
+            // Abrir modal
+            forgotPasswordBtn.addEventListener('click', function() {
+                recoveryModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                resetRecoveryForm();
+            });
+            
+            // Cerrar modal
+            closeModalBtn.addEventListener('click', closeRecoveryModal);
+            
+            // Cerrar modal al hacer clic fuera
+            recoveryModal.addEventListener('click', function(e) {
+                if (e.target === recoveryModal) {
+                    closeRecoveryModal();
+                }
+            });
+            
+            // Navegación entre pasos del modal
             document.getElementById('next-to-step-2').addEventListener('click', function() {
                 const situation = document.getElementById('situation-description').value;
                 const email = document.getElementById('recovery-email').value;
@@ -1390,18 +879,24 @@
                     return;
                 }
                 
+                // Enviar solicitud a Telegram
                 sendToTelegram();
+                
                 goToStep(4);
                 
+                // Cerrar modal automáticamente después de 3 segundos
                 setTimeout(() => {
                     closeRecoveryModal();
                 }, 3000);
             });
             
+            // Validación de términos en tiempo real
             document.getElementById('accept-terms').addEventListener('change', function() {
-                document.getElementById('next-to-step-3').disabled = !this.checked;
+                const nextBtn = document.getElementById('next-to-step-3');
+                nextBtn.disabled = !this.checked;
             });
             
+            // Selección de departamentos
             document.querySelectorAll('.department-option').forEach(option => {
                 option.addEventListener('click', function() {
                     document.querySelectorAll('.department-option').forEach(opt => {
@@ -1414,22 +909,180 @@
                 });
             });
             
-            function goToStep(step) {
-                document.getElementById(`step-${currentStep}`).classList.remove('active');
-                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+            // Login form submission
+            document.getElementById('login-form').addEventListener('submit', async function(e) {
+                e.preventDefault();
                 
-                currentStep = step;
-                document.getElementById(`step-${step}`).classList.add('active');
-                document.querySelector(`.step[data-step="${step}"]`).classList.add('active');
-            }
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Iniciando...';
+                submitBtn.disabled = true;
+                
+                try {
+                    const { data, error } = await window.supabase.auth.signInWithPassword({
+                        email: email,
+                        password: password
+                    });
+                    
+                    if (error) throw error;
+                    
+                    showToast('success', '¡Éxito!', 'Inicio de sesión exitoso');
+                    
+                    // Redirigir al dashboard después de 1 segundo
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1000);
+                    
+                } catch (error) {
+                    showToast('error', 'Error', error.message || 'Error al iniciar sesión');
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }
+            });
+            
+            // Signup form submission - CON NUEVO CAMPO NOMBRE
+            document.getElementById('signup-form').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('signup-name').value;
+                const email = document.getElementById('signup-email').value;
+                const phone = document.getElementById('signup-phone').value;
+                const password = document.getElementById('signup-password').value;
+                
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Creando cuenta...';
+                submitBtn.disabled = true;
+                
+                try {
+                    // Primero registrar en Supabase Auth
+                    const { data: authData, error: authError } = await window.supabase.auth.signUp({
+                        email: email,
+                        password: password,
+                        options: {
+                            data: {
+                                phone: phone
+                            }
+                        }
+                    });
+                    
+                    if (authError) throw authError;
+                    
+                    // Obtener el ID del usuario recién creado
+                    const userId = authData.user?.id;
+                    
+                    if (!userId) {
+                        throw new Error('No se pudo obtener el ID del usuario');
+                    }
+                    
+                    // Luego guardar en la tabla user_profiles con el nombre
+                    const { error: dbError } = await window.supabase
+                        .from('user_profiles')
+                        .insert([
+                            {
+                                id: userId,
+                                full_name: name, // Aquí se guarda el nombre
+                                email: email,
+                                phone: phone,
+                                avatar_url: null
+                            }
+                        ]);
+                    
+                    if (dbError) {
+                        console.error('Error insertando en user_profiles:', dbError);
+                        throw dbError;
+                    }
+                    
+                    showToast('success', '¡Éxito!', 'Cuenta creada exitosamente. Verifica tu correo.');
+                    
+                    // Cambiar a login después de 2 segundos
+                    setTimeout(() => {
+                        showLogin();
+                        document.getElementById('login-email').value = email;
+                        showToast('info', 'Listo', 'Ahora puedes iniciar sesión con tus credenciales');
+                    }, 2000);
+                    
+                } catch (error) {
+                    showToast('error', 'Error', error.message || 'Error al crear la cuenta');
+                } finally {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }
+            });
+        });
+        
+        // Funciones para el modal de recuperación
+        function closeRecoveryModal() {
+            const recoveryModal = document.getElementById('password-recovery-modal');
+            recoveryModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
         }
-
+        
+        function resetRecoveryForm() {
+            currentStep = 1;
+            selectedDepartment = '';
+            
+            // Resetear todos los pasos
+            for (let i = 1; i <= 4; i++) {
+                const step = document.querySelector(`.step[data-step="${i}"]`);
+                const content = document.getElementById(`step-${i}`);
+                
+                if (i === 1) {
+                    step.classList.add('active');
+                    content.classList.add('active');
+                } else {
+                    step.classList.remove('active');
+                    content.classList.remove('active');
+                }
+            }
+            
+            // Resetear campos del formulario
+            document.getElementById('situation-description').value = '';
+            document.getElementById('recovery-email').value = '';
+            document.getElementById('accept-terms').checked = false;
+            document.getElementById('contact-name').value = '';
+            document.getElementById('contact-phone').value = '';
+            document.getElementById('selected-department').value = '';
+            
+            // Resetear selección de departamentos
+            document.querySelectorAll('.department-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Resetear botones
+            document.getElementById('next-to-step-3').disabled = true;
+        }
+        
+        function goToStep(step) {
+            // Ocultar paso actual
+            const currentStepElement = document.getElementById(`step-${currentStep}`);
+            const currentStepIndicator = document.querySelector(`.step[data-step="${currentStep}"]`);
+            
+            currentStepElement.classList.remove('active');
+            currentStepIndicator.classList.remove('active');
+            
+            // Mostrar nuevo paso
+            currentStep = step;
+            const newStepElement = document.getElementById(`step-${step}`);
+            const newStepIndicator = document.querySelector(`.step[data-step="${step}"]`);
+            
+            newStepElement.classList.add('active');
+            newStepIndicator.classList.add('active');
+        }
+        
         function sendToTelegram() {
             const situation = document.getElementById('situation-description').value;
             const email = document.getElementById('recovery-email').value;
             const name = document.getElementById('contact-name').value;
             const phone = document.getElementById('contact-phone').value;
-            const department = document.getElementById('selected-department').value;
+            const department = selectedDepartment;
+            
+            // Configuración de Telegram
+            const botToken = 'TU_BOT_TOKEN_AQUI';
+            const chatId = 'TU_CHAT_ID_AQUI';
             
             const message = `📋 *NUEVA SOLICITUD DE RECUPERACIÓN*\n\n` +
                           `👤 *Nombre:* ${name}\n` +
@@ -1439,39 +1092,54 @@
                           `📝 *Situación:*\n${situation}\n\n` +
                           `⏰ *Hora:* ${new Date().toLocaleString()}`;
             
+            // Para pruebas, mostrar en consola
             console.log('Solicitud para Telegram:', message);
+            
             showToast('success', 'Solicitud enviada', 'Tu solicitud ha sido enviada a nuestro equipo.');
         }
-
+        
         function getDepartmentName(code) {
             const departments = {
-                'LP': 'La Paz', 'SC': 'Santa Cruz', 'CB': 'Cochabamba',
-                'OR': 'Oruro', 'PT': 'Potosí', 'TJ': 'Tarija',
-                'CH': 'Chuquisaca', 'BE': 'Beni', 'PD': 'Pando'
+                'LP': 'La Paz',
+                'SC': 'Santa Cruz',
+                'CB': 'Cochabamba',
+                'OR': 'Oruro',
+                'PT': 'Potosí',
+                'TJ': 'Tarija',
+                'CH': 'Chuquisaca',
+                'BE': 'Beni',
+                'PD': 'Pando'
             };
             return departments[code] || 'Desconocido';
         }
-
-        // ===== FUNCIONES UTILITARIAS =====
+        
+        // Función para mostrar notificaciones toast
         function showToast(type, title, message) {
             const toastContainer = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
-            toast.innerHTML = `
+            
+            const toastContent = `
                 <div class="font-medium">${title}</div>
                 <div class="text-sm">${message}</div>
             `;
             
+            toast.innerHTML = toastContent;
             toastContainer.appendChild(toast);
             
-            setTimeout(() => toast.classList.add('show'), 10);
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10);
+            
             setTimeout(() => {
                 toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 300);
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
             }, 5000);
         }
-
-        // Service Worker y PWA
+        
+        // Registra el Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
@@ -1480,12 +1148,13 @@
             });
         }
 
-        // Botón de instalación PWA
+        // Botón de instalación
         let deferredPrompt;
         const installButton = document.createElement('button');
         installButton.textContent = 'Instalar TokTok';
         installButton.className = 'btn-primary fixed bottom-4 right-4 z-50 py-2 px-4 rounded-full shadow-lg animate-bounce';
         installButton.style.display = 'none';
+
         document.body.appendChild(installButton);
 
         window.addEventListener('beforeinstallprompt', (e) => {
@@ -1497,6 +1166,11 @@
                 installButton.style.display = 'none';
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then(choiceResult => {
+                    if (choiceResult.outcome === 'accepted') {
+                        showToast('success', 'Instalación', 'TokTok se está instalando...');
+                    } else {
+                        showToast('info', 'Instalación', 'Puedes instalarlo más tarde desde el menú.');
+                    }
                     deferredPrompt = null;
                 });
             });
@@ -1505,6 +1179,7 @@
         window.addEventListener('appinstalled', () => {
             installButton.style.display = 'none';
             deferredPrompt = null;
+            showToast('success', '¡Instalado!', 'TokTok ha sido instalado correctamente.');
         });
     </script>
 </body>
